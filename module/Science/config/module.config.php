@@ -24,20 +24,70 @@ return [
                     ],
                 ],
             ],
+            'login' => [
+                'type' => Literal::class,
+                'options' => [
+                    'route'    => '/login',
+                    'defaults' => [
+                        'controller' => Controller\AuthController::class,
+                        'action'     => 'login',
+                    ],
+                ],
+            ],
+            'logout' => [
+                'type' => Literal::class,
+                'options' => [
+                    'route'    => '/logout',
+                    'defaults' => [
+                        'controller' => Controller\AuthController::class,
+                        'action'     => 'logout',
+                    ],
+                ],
+            ],
+            'register' => [
+                'type' => Literal::class,
+                'options' => [
+                    'route'    => '/register',
+                    'defaults' => [
+                        'controller' => Controller\AuthController::class,
+                        'action'     => 'register',
+                    ],
+                ],
+            ],
+            'reset-password' => [
+                'type' => Literal::class,
+                'options' => [
+                    'route'    => '/reset-password',
+                    'defaults' => [
+                        'controller' => Controller\AuthController::class,
+                        'action'     => 'resetPassword',
+                    ],
+                ],
+            ],
+            'set-password' => [
+                'type' => Literal::class,
+                'options' => [
+                    'route'    => '/set-password',
+                    'defaults' => [
+                        'controller' => Controller\AuthController::class,
+                        'action'     => 'setPassword',
+                    ],
+                ],
+            ],
         ],
     ],
     'controllers' => [
         'factories' => [
-            //Controller\AuthController::class => Controller\Factory\AuthControllerFactory::class,
+            Controller\AuthController::class => Controller\Factory\AuthControllerFactory::class,
             Controller\ScienceController::class => Controller\Factory\ScienceControllerFactory::class,
         ],
     ],
 
     'service_manager' => [
         'factories' => [
-            //\Zend\Authentication\AuthenticationService::class => Service\Factory\AuthenticationServiceFactory::class,
-            //Service\AuthAdapter::class => Service\Factory\AuthAdapterFactory::class,
-            //Service\AuthManager::class => Service\Factory\AuthManagerFactory::class,
+            \Zend\Authentication\AuthenticationService::class => Service\Factory\AuthenticationServiceFactory::class,
+            Service\AuthAdapter::class => Service\Factory\AuthAdapterFactory::class,
+            Service\AuthManager::class => Service\Factory\AuthManagerFactory::class,
             //Service\UserManager::class => Service\Factory\UserManagerFactory::class,
         ],
     ],

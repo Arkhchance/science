@@ -42,25 +42,19 @@ class NavManager
             'label' => 'Home',
             'link'  => $url('home')
         ];
-        
+
         if (!$this->authService->hasIdentity()) {
-            $items[] = [
-                'dir' => 'left',
-                'id' => 'level',
-                'label' => 'Post new level !',
-                'link'  => $url('manage', ['action' => 'new'])
-            ];
             $items[] = [
                 'dir' => 'right',
                 'id' => 'login',
                 'label' => 'Login',
-                'link'  => $url('auth', ['action' => 'login'])
+                'link'  => $url('login')
             ];
             $items[] = [
                 'dir' => 'right',
                 'id' => 'register',
                 'label' => 'Register',
-                'link'  => $url('auth', ['action' => 'register'])
+                'link'  => $url('register')
             ];
 
         } else {
@@ -68,37 +62,13 @@ class NavManager
                 'dir' => 'left',
                 'id' => 'identity',
                 'label' => 'Welcome '.$this->authService->getIdentity(),
-                'link'  => $url('auth', ['action' => 'colors'])
-            ];
-            $items[] = [
-                'dir' => 'left',
-                'id' => 'level',
-                'label' => 'Post new level !',
-                'link'  => $url('manage', ['action' => 'new'])
-            ];
-            $items[] = [
-                'dir' => 'left',
-                'id' => 'tricks',
-                'label' => 'Manage Level',
-                'link'  => $url('manage',['action' => 'dashboard'])
-            ];
-            $items[] = [
-                'dir' => 'left',
-                'id' => 'tricks',
-                'label' => 'Manage Tricks',
-                'link'  => $url('tricks')
-            ];
-            $items[] = [
-                'dir' => 'right',
-                'id' => 'settings',
-                'label' => 'Settings',
-                'link'  => $url('auth', ['action' => 'settings'])
+                'link'  => $url('home')
             ];
             $items[] = [
                 'dir' => 'right',
                 'id' => 'logout',
                 'label' => 'Logout',
-                'link'  => $url('auth', ['action' => 'logout'])
+                'link'  => $url('logout')
             ];
         }
 

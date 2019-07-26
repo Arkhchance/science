@@ -6,6 +6,7 @@
  */
 
 namespace Application;
+use Zend\Mvc\MvcEvent;
 use Zend\Session\SessionManager;
 
 class Module

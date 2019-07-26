@@ -22,7 +22,7 @@ class Module
         }
         return $config;
     }
-    /*
+
     public function onBootstrap(MvcEvent $event)
     {
         // Get event manager.
@@ -58,7 +58,6 @@ class Module
      * is not authorized and is not allowed to see the page, we redirect the user
      * to the login page.
      */
-     /* ===================================================================================
     public function onDispatch(MvcEvent $event)
     {
         // Get controller and action to which the HTTP request was dispatched.
@@ -93,5 +92,5 @@ class Module
             return $controller->redirect()->toRoute('auth', ['action' => 'login'],
                     ['query'=>['redirectUrl'=>$redirectUrl]]);
         }
-    } */
+    }
 }

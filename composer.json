@@ -23,7 +23,8 @@
         "zendframework/zend-hydrator": "2.4.x-dev",
         "doctrine/doctrine-orm-module": "^2.1",
         "google/apiclient": "~2.0",
-        "zendframework/zend-mail": "^2.10"
+        "zendframework/zend-mail": "^2.10",
+        "zendframework/zend-math": "^3.2"
     },
     "autoload": {
         "psr-4": {

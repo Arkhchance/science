@@ -21,7 +21,7 @@ return [
                 'options' => [
                     'route'    => '/',
                     'defaults' => [
-                        'controller' => Controller\ScienceController::class,
+                        'controller' => ScienceController::class,
                         'action'     => 'index',
                     ],
                 ],
