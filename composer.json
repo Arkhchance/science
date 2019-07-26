@@ -19,13 +19,16 @@
         "zendframework/zend-mvc-form": "^1.0",
         "zendframework/zend-json": "^3.0",
         "zendframework/zend-mvc-plugins": "^1.0.1",
-        "zendframework/zend-session": "^2.7.1",
+        "zendframework/zend-session": "^2.8",
         "zendframework/zend-hydrator": "2.4.x-dev",
-        "doctrine/doctrine-orm-module": "^2.1"
+        "doctrine/doctrine-orm-module": "^2.1",
+        "google/apiclient": "~2.0",
+        "zendframework/zend-mail": "^2.10"
     },
     "autoload": {
         "psr-4": {
-            "Application\\": "module/Application/src/"
+            "Application\\": "module/Application/src/",
+            "Science\\": "module/Science/src/"
         }
     },
     "autoload-dev": {

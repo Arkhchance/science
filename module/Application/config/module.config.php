@@ -7,9 +7,11 @@
 
 namespace Application;
 
+use Science\Controller\ScienceController;
 use Zend\Router\Http\Literal;
 use Zend\Router\Http\Segment;
 use Zend\ServiceManager\Factory\InvokableFactory;
+
 
 return [
     'router' => [
@@ -19,17 +21,7 @@ return [
                 'options' => [
                     'route'    => '/',
                     'defaults' => [
-                        'controller' => Controller\IndexController::class,
-                        'action'     => 'index',
-                    ],
-                ],
-            ],
-            'application' => [
-                'type'    => Segment::class,
-                'options' => [
-                    'route'    => '/application[/:action]',
-                    'defaults' => [
-                        'controller' => Controller\IndexController::class,
+                        'controller' => Controller\ScienceController::class,
                         'action'     => 'index',
                     ],
                 ],
@@ -39,6 +31,19 @@ return [
     'controllers' => [
         'factories' => [
             Controller\IndexController::class => InvokableFactory::class,
+        ],
+    ],
+    'service_manager' => [
+    'factories' => [
+        Service\NavManager::class => Service\Factory\NavManagerFactory::class,
+    ],
+    ],
+    'view_helpers' => [
+        'factories' => [
+            Helper\Menu::class => Helper\Factory\MenuFactory::class,
+        ],
+        'aliases' => [
+            'mainMenu' => Helper\Menu::class,
         ],
     ],
     'view_manager' => [

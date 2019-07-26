@@ -11,7 +11,7 @@
         ?>
 
         <!-- Le styles -->
-        <?= $this->prependStylesheet($this->basePath('css/bootstrap.min.css'))
+        <?= $this->headLink()->prependStylesheet($this->basePath('css/bootstrap.min.css'))
         ?>
 
         <!-- Scripts -->
@@ -21,12 +21,19 @@
             ->prependFile($this->basePath('js/popper.min.js'))
         ?>
     </head>
-
+    <body>
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+            <a class="navbar-brand" href="<?= $this->url('home') ?>"><img src="<?= $this->basePath('img/stats.png') ?>" height="28" alt="stats"/></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#contentcollapse" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <?= $this->mainMenu()->render(); ?>
+        </nav>
         <div class="container">
             <?= $this->content ?>
             <hr>
             <footer>
-                <p>&copy; 2005 - <?= date('Y') ?> by Zend Technologies Ltd. All rights reserved.</p>
+                <p>&copy; 2019 - <?= date('Y') ?> by Arkhchance. All rights reserved.</p>
             </footer>
         </div>
         <?= $this->inlineScript() ?>
