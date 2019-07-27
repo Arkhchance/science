@@ -210,7 +210,7 @@ class UserManager
         $user = $this->entityManager->getRepository(User::class)
                 ->findOneByEmail($email);
 
-        if ($user==null || $user->getStatus() != User::STATUS_ACTIVE) {
+        if ($user==null) {
             return false;
         }
 
