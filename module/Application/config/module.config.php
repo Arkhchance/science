@@ -41,9 +41,11 @@ return [
     'view_helpers' => [
         'factories' => [
             Helper\Menu::class => Helper\Factory\MenuFactory::class,
+            Helper\SidePannel::class => Helper\Factory\SidePannelFactory::class,
         ],
         'aliases' => [
             'mainMenu' => Helper\Menu::class,
+            'sidePannel' => Helper\SidePannel::class,
         ],
     ],
     'view_manager' => [

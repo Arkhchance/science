@@ -146,6 +146,10 @@ return [
                 // * = allow  @ = auth user only
                 ['actions' => ['index'], 'allow' => '*'],
             ],
+            Controller\ManageController::class => [
+                // * = allow  @ = auth user only
+                ['actions' => ['add'], 'allow' => '@'],
+            ],
         ]
     ],
 ];

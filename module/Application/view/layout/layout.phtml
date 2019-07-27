@@ -13,29 +13,38 @@
         <!-- Le styles -->
         <?= $this->headLink()->prependStylesheet($this->basePath('css/bootstrap.min.css'))
                 ->prependStylesheet($this->basePath('css/main.css'))
+                ->prependStylesheet('https://cdn.jsdelivr.net/npm/fork-awesome@1.1.7/css/fork-awesome.min.css');
         ?>
 
         <!-- Scripts -->
         <?= $this->headScript()
+            ->prependFile($this->basePath('js/main.js'))
             ->prependFile($this->basePath('js/bootstrap.min.js'))
             ->prependFile($this->basePath('js/jquery.min.js'))
             ->prependFile($this->basePath('js/popper.min.js'))
         ?>
     </head>
     <body class="bgperso">
-        <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-            <a class="navbar-brand" href="<?= $this->url('home') ?>"><img src="<?= $this->basePath('img/stats.png') ?>" height="28" alt="stats"/></a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#contentcollapse" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <?= $this->mainMenu()->render(); ?>
-        </nav>
-        <div class="container-fluid">
-            <?= $this->content ?>
-            <hr>
-            <footer>
-                <p>&copy; 2019 - <?= date('Y') ?> by Arkhchance. All rights reserved.</p>
-            </footer>
+        <div class="wrapper">
+            <?= $this->sidePannel()->render(); ?>
+            <div id="container">
+                <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                    <div class="container-fluid">
+                        <a class="navbar-brand" href="<?= $this->url('home') ?>"><img src="<?= $this->basePath('img/stats.png') ?>" height="28" alt="stats"/></a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#contentcollapse" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <?= $this->mainMenu()->render(); ?>
+                    </div>
+                </nav>
+                <div class="container-fluid">
+                    <?= $this->content ?>
+                    <hr>
+                    <footer>
+                        <p>&copy; 2019 - <?= date('Y') ?> by Arkhchance. All rights reserved.</p>
+                    </footer>
+                </div>
+            </div>
         </div>
         <?= $this->inlineScript() ?>
     </body>

@@ -13,10 +13,12 @@ class Menu extends AbstractHelper
      * @var array
      */
     protected $items = [];
+    protected $authService; 
 
-    public function __construct($items=[])
+    public function __construct($items=[],$authService)
     {
         $this->items = $items;
+        $this->authService = $authService;
     }
 
 
@@ -33,6 +35,13 @@ class Menu extends AbstractHelper
         }
 
         $result  = '<div class="collapse navbar-collapse" id="contentcollapse">';
+
+        if($this->authService->hasIdentity()) {
+            $result .= '<button type="button" id="sidebarCollapse" class="btn btn-info">';
+            $result .= '<i class="fa fa-backward" aria-hidden="true"></i>';
+            $result .= '';
+            $result .= '</button>';
+        }
 
         //left
         $result .= '<ul class="navbar-nav mr-auto">';

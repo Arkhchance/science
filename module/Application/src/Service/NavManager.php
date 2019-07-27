@@ -59,12 +59,6 @@ class NavManager
 
         } else {
             $items[] = [
-                'dir' => 'left',
-                'id' => 'identity',
-                'label' => 'manage',
-                'link'  => $url('manage')
-            ];
-            $items[] = [
                 'dir' => 'right',
                 'id' => 'logout',
                 'label' => 'Logout',
