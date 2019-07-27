@@ -2,6 +2,7 @@
 namespace Science\Service;
 
 use Science\Entity\User;
+use Science\Entity\Regkey;
 use Zend\Math\Rand;
 use Zend\Mail;
 use Zend\Mail\Transport\Smtp as SmtpTransport;
@@ -64,6 +65,14 @@ class UserManager
          if($this->checkUserExists($data['email'])) {
              return false;
          }
+         $regkey = $this->entityManager->getRepository(Regkey::class)
+                        ->findOneBykey($data['regkey']);
+
+        if($regkey === null)
+            return false;
+        else
+            $this->entityManager->remove($regkey);
+
 
          $user = new User();
          $user->setEmail($data['email']);
@@ -127,7 +136,7 @@ class UserManager
 
         // Produce HTML of password reset email
         $bodyHtml = $this->viewRenderer->render(
-                'user/email/reset-password-email',
+                'email/reset-password-email',
                 [
                     'passwordResetUrl' => $passwordResetUrl,
                 ]);
@@ -171,7 +180,7 @@ class UserManager
 
         $match = password_verify($passwordResetToken.$this->config['pepper'], $tokenHash);
 
-        if (!$match)) {
+        if (!$match) {
             return false; // mismatch
         }
 

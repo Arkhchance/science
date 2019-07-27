@@ -88,7 +88,7 @@ return [
             \Zend\Authentication\AuthenticationService::class => Service\Factory\AuthenticationServiceFactory::class,
             Service\AuthAdapter::class => Service\Factory\AuthAdapterFactory::class,
             Service\AuthManager::class => Service\Factory\AuthManagerFactory::class,
-            //Service\UserManager::class => Service\Factory\UserManagerFactory::class,
+            Service\UserManager::class => Service\Factory\UserManagerFactory::class,
         ],
     ],
 

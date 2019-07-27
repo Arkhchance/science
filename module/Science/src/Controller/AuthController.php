@@ -7,6 +7,9 @@ use Zend\View\Model\ViewModel;
 use Zend\Authentication\Result;
 use Zend\Uri\Uri;
 use Science\Form\Auth\LoginForm;
+use Science\Form\Auth\RegisterForm;
+use Science\Form\Auth\PasswordResetForm;
+use Science\Form\Auth\SetPasswordForm;
 use Science\Entity\User;
 
 /**
@@ -26,19 +29,108 @@ class AuthController extends AbstractActionController
      */
     private $authManager;
 
+    private $userManager;
 
     /**
      * Constructor.
      */
-    public function __construct($entityManager, $authManager)
+    public function __construct($entityManager, $authManager,$userManager)
     {
         $this->entityManager = $entityManager;
         $this->authManager = $authManager;
+        $this->userManager = $userManager;
+    }
+
+    public function setPasswordAction()
+    {
+        $email = $this->params()->fromQuery('email', null);
+        $token = $this->params()->fromQuery('token', null);
+
+        if($token===null ||
+           !$this->userManager->validatePasswordResetToken($email, $token)) {
+            //return $this->redirect()->toRoute('home');
+        }
+        // Create form
+        $form = new SetPasswordForm;
+
+        // Check if user has submitted the form
+        if ($this->getRequest()->isPost()) {
+
+            // Fill in the form with POST data
+            $data = $this->params()->fromPost();
+
+            $form->setData($data);
+
+            // Validate form
+            if($form->isValid()) {
+
+                $data = $form->getData();
+
+                // Set new password for the user.
+                $this->userManager->setNewPasswordByToken($email, $token, $data['new_password']);
+                return $this->redirect()->toRoute('login');
+            }
+        }
+
+        return ['form' => $form];
     }
 
     public function registerAction()
     {
+        $form = new RegisterForm($this->entityManager);
+        $request = $this->getRequest();
 
+        if (!$request->isPost()) {
+            return ['form' => $form];
+        }
+
+        $form->setData($request->getPost());
+
+        if (!$form->isValid()) {
+            return ['form' => $form];
+        }
+
+        $data = $form->getData();
+
+        $this->userManager->newUser($data);
+        return $this->redirect()->toRoute('login');
+    }
+
+    public function resetPasswordAction()
+    {
+        // Create form
+        $form = new PasswordResetForm($this->entityManager);
+
+        // Check if user has submitted the form
+        if ($this->getRequest()->isPost()) {
+
+            // Fill in the form with POST data
+            $data = $this->params()->fromPost();
+
+            $form->setData($data);
+
+            // Validate form
+            if($form->isValid()) {
+
+                // Look for the user with such email.
+
+                $user = $this->entityManager->getRepository(User::class)
+                        ->findOneByEmail($data['email']);
+
+                //email does not exist
+                if($user === null)
+                    return ['form' => $form,'error' => true];
+
+                $this->userManager->generatePasswordResetToken($user);
+
+                return [
+                    'form' => $form,
+                    'send' => true,
+                ];
+            }
+        }
+
+        return ['form' => $form];
     }
 
     /**
@@ -121,6 +213,6 @@ class AuthController extends AbstractActionController
     {
         $this->authManager->logout();
 
-        return $this->redirect()->toRoute('login');
+        return $this->redirect()->toRoute('home');
     }
 }

@@ -4,7 +4,10 @@ namespace Science\Form\Auth;
 use Zend\Form\Form;
 use Zend\Form\Fieldset;
 use Zend\InputFilter\InputFilter;
-
+use Zend\Validator\StringLength;
+use Zend\Validator\EmailAddress;
+use Zend\Validator\InArray;
+use Zend\Filter\StringTrim;
 /**
  * This form is used to collect user's login, password and 'Remember Me' flag.
  */
@@ -98,11 +101,11 @@ class LoginForm extends Form
                 'name'     => 'email',
                 'required' => true,
                 'filters'  => [
-                    ['name' => 'StringTrim'],
+                    ['name' => StringTrim::class],
                 ],
                 'validators' => [
                     [
-                        'name' => 'EmailAddress',
+                        'name' => EmailAddress::class,
                         'options' => [
                             'allow' => \Zend\Validator\Hostname::ALLOW_DNS,
                             'useMxCheck' => false,
@@ -119,7 +122,7 @@ class LoginForm extends Form
                 ],
                 'validators' => [
                     [
-                        'name'    => 'StringLength',
+                        'name'    => StringLength::class,
                         'options' => [
                             'min' => 6,
                             'max' => 1024
@@ -136,7 +139,7 @@ class LoginForm extends Form
                 ],
                 'validators' => [
                     [
-                        'name'    => 'InArray',
+                        'name'    => InArray::class,
                         'options' => [
                             'haystack' => [0, 1],
                         ]
@@ -149,11 +152,11 @@ class LoginForm extends Form
                 'name'     => 'redirect_url',
                 'required' => false,
                 'filters'  => [
-                    ['name'=>'StringTrim']
+                    ['name' => StringTrim::class]
                 ],
                 'validators' => [
                     [
-                        'name'    => 'StringLength',
+                        'name'    => StringLength::class,
                         'options' => [
                             'min' => 0,
                             'max' => 2048

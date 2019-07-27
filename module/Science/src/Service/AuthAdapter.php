@@ -76,15 +76,6 @@ class AuthAdapter implements AdapterInterface
                 ['Invalid credentials.']);
         }
 
-        // If the user with such email exists, we need to check if it is active or retired.
-        // Do not allow retired users to log in.
-        if ($user->getStatus()==User::STATUS_RETIRED) {
-            return new Result(
-                Result::FAILURE,
-                null,
-                ['User is retired.']);
-        }
-
         $pepper = $this->config['pepper'];
         $pass = $this->password.$pepper;
 

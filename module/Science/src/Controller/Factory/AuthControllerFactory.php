@@ -5,7 +5,7 @@ use Interop\Container\ContainerInterface;
 use Science\Controller\AuthController;
 use Zend\ServiceManager\Factory\FactoryInterface;
 use Science\Service\AuthManager;
-
+use Science\Service\UserManager; 
 
 /**
  * This is the factory for AuthController. Its purpose is to instantiate the controller
@@ -17,7 +17,8 @@ class AuthControllerFactory implements FactoryInterface
     {
         $entityManager = $container->get('doctrine.entitymanager.orm_default');
         $authManager = $container->get(AuthManager::class);
+        $userManager = $container->get(UserManager::class);
 
-        return new AuthController($entityManager, $authManager);
+        return new AuthController($entityManager, $authManager,$userManager);
     }
 }

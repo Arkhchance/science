@@ -19,6 +19,6 @@ class UserManagerFactory
         $viewRenderer = $container->get('ViewRenderer');
         $config = $container->get('Config');
         $config = $config['science'];
-        return new UserManager($entityManager, $config,$viewRenderer);
+        return new UserManager($entityManager, $viewRenderer,$config);
     }
 }
