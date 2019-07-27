@@ -1,0 +1,49 @@
+<?php
+
+$title = 'langues';
+$this->headTitle($title);
+
+$this->headLink()->appendStylesheet($this->basePath('css/manage.css'));
+
+$form->get('submit')->setAttributes(['class'=>'btn btn-lg btn-primary btn-block']);
+
+$form->get('langue')->setAttributes([
+    'class'=>'form-control',
+    'placeholder'=>'quelle langue ?'
+]);
+$form->get('code')->setAttributes([
+    'class'=>'form-control',
+    'placeholder'=>'code de la langue ex : "fr" "us"',
+]);
+
+$form->prepare();
+?>
+<div class="row justify-content-center">
+    <h1 class="mt-4 mb-5">
+        <?= $title; ?>
+    </h1>
+</div>
+<div class="row justify-content-center">
+    <div class="col-sm-3">
+    </div>
+    <div class="col-sm-3">
+        <?= $this->form()->openTag($form); ?>
+        <div class="form-group">
+            <?= $this->formLabel($form->get('langue')); ?>
+            <?= $this->formElement($form->get('langue')); ?>
+            <?= $this->formElementErrors($form->get('langue')); ?>
+        </div>
+        <div class="form-group">
+            <?= $this->formLabel($form->get('code')); ?>
+            <?= $this->formElement($form->get('code')); ?>
+            <?= $this->formElementErrors($form->get('code')); ?>
+        </div>
+        <?= $this->formElement($form->get('submit')); ?>
+        <?= $this->form()->closeTag(); ?>
+        <button id="delete" type="button" class="btn mt-3 btn-danger btn-lg btn-block">del langue(s)</button>
+    </div>
+</div>
+
+<?php
+$this->inlineScript()->appendFile($this->basePath('js/manage.js'));
+ ?>

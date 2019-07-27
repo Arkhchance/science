@@ -29,7 +29,7 @@ class SidePannel extends AbstractHelper
     {
         $leftpannel = <<< EOF
 
-<nav id="sidebar">
+<nav id="sidebar" class="active">
    <div class="sidebar-header">
        <h3>Menu</h3>
    </div>

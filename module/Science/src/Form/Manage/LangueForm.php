@@ -6,6 +6,7 @@ use Zend\Form\Fieldset;
 use Zend\InputFilter\InputFilter;
 use Zend\Validator\StringLength;
 use Zend\Filter\StringTrim;
+use Zend\Filter\StripTags;
 
 /**
  * This form is used to collect user's login, password and 'Remember Me' flag.
@@ -32,7 +33,6 @@ class LangueForm extends Form
      */
     protected function addElements()
     {
-        // Add "email" field
         $this->add([
             'type'  => 'text',
             'name' => 'langue',
@@ -40,8 +40,6 @@ class LangueForm extends Form
                 'label' => 'langue',
             ],
         ]);
-
-        // Add "password" field
         $this->add([
             'type'  => 'text',
             'name' => 'code',
@@ -49,7 +47,6 @@ class LangueForm extends Form
                 'label' => 'langue code',
             ],
         ]);
-
         // Add the CSRF field
         $this->add([
             'type' => 'csrf',
@@ -60,13 +57,12 @@ class LangueForm extends Form
                 ]
             ],
         ]);
-
         // Add the Submit button
         $this->add([
             'type'  => 'submit',
             'name' => 'submit',
             'attributes' => [
-                'value' => 'Sign in',
+                'value' => 'Nouvelle langue',
                 'id' => 'submit',
             ],
         ]);
@@ -80,73 +76,45 @@ class LangueForm extends Form
         // Create main input filter
         $inputFilter = $this->getInputFilter();
 
-        // Add input for "email" field
         $inputFilter->add([
-                'name'     => 'email',
-                'required' => true,
-                'filters'  => [
-                    ['name' => StringTrim::class],
+            'name'     => 'langue',
+            'required' => true,
+            'filters'  => [
+                [
+                    'name' => StringTrim::class,
+                    'name' => StripTags::class,
                 ],
-                'validators' => [
-                    [
-                        'name' => EmailAddress::class,
-                        'options' => [
-                            'allow' => \Zend\Validator\Hostname::ALLOW_DNS,
-                            'useMxCheck' => false,
-                        ],
+            ],
+            'validators' => [
+                [
+                    'name' => StringLength::class,
+                    'options' => [
+                        'encoding' => 'UTF-8',
+                        'min' => 1,
+                        'max' => 100,
                     ],
                 ],
-            ]);
-
-        // Add input for "password" field
+            ],
+        ]);
         $inputFilter->add([
-                'name'     => 'password',
-                'required' => true,
-                'filters'  => [
+            'name'     => 'code',
+            'required' => true,
+            'filters'  => [
+                [
+                    'name' => StringTrim::class,
+                    'name' => StripTags::class,
                 ],
-                'validators' => [
-                    [
-                        'name'    => StringLength::class,
-                        'options' => [
-                            'min' => 6,
-                            'max' => 1024
-                        ],
+            ],
+            'validators' => [
+                [
+                    'name' => StringLength::class,
+                    'options' => [
+                        'encoding' => 'UTF-8',
+                        'min' => 1,
+                        'max' => 10,
                     ],
                 ],
-            ]);
-
-        // Add input for "remember_me" field
-        $inputFilter->add([
-                'name'     => 'remember_me',
-                'required' => false,
-                'filters'  => [
-                ],
-                'validators' => [
-                    [
-                        'name'    => InArray::class,
-                        'options' => [
-                            'haystack' => [0, 1],
-                        ]
-                    ],
-                ],
-            ]);
-
-        // Add input for "redirect_url" field
-        $inputFilter->add([
-                'name'     => 'redirect_url',
-                'required' => false,
-                'filters'  => [
-                    ['name' => StringTrim::class]
-                ],
-                'validators' => [
-                    [
-                        'name'    => StringLength::class,
-                        'options' => [
-                            'min' => 0,
-                            'max' => 2048
-                        ]
-                    ],
-                ],
-            ]);
+            ],
+        ]);
     }
 }
