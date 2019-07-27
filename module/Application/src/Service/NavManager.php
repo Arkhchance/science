@@ -61,8 +61,8 @@ class NavManager
             $items[] = [
                 'dir' => 'left',
                 'id' => 'identity',
-                'label' => 'Welcome '.$this->authService->getIdentity(),
-                'link'  => $url('home')
+                'label' => 'manage',
+                'link'  => $url('manage')
             ];
             $items[] = [
                 'dir' => 'right',

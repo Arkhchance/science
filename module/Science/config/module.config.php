@@ -24,6 +24,21 @@ return [
                     ],
                 ],
             ],
+            'manage' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route' => '/manage[/:action[/:id]]',
+                    'constraints' => [
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id'   =>  '[0-9]*',
+
+                    ],
+                    'defaults' => [
+                        'controller' => Controller\ManageController::class,
+                        'action'     => 'add',
+                    ],
+                ],
+            ],
             'login' => [
                 'type' => Literal::class,
                 'options' => [
@@ -80,6 +95,7 @@ return [
         'factories' => [
             Controller\AuthController::class => Controller\Factory\AuthControllerFactory::class,
             Controller\ScienceController::class => Controller\Factory\ScienceControllerFactory::class,
+            Controller\ManageController::class => Controller\Factory\ManageControllerFactory::class,
         ],
     ],
 
