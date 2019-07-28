@@ -6,12 +6,13 @@ use Doctrine\ORM\Mapping as ORM;
 use Science\Entity\Domaine;
 use Science\Entity\MainStats;
 use Science\Entity\Langue;
+use Science\Entity\Pays;
 use Science\Entity\Posts;
 
 /**
 * Vulga
 *
-* @ORM\Table(name="vulga", indexes={@ORM\Index(name="langue_link", columns={"langue"})})
+* @ORM\Table(name="vulga")
 * @ORM\Entity
 */
 class Vulga
@@ -81,6 +82,16 @@ class Vulga
     private $langue;
 
     /**
+    * @var \Pays
+    *
+    * @ORM\ManyToOne(targetEntity="\Science\Entity\Pays",inversedBy="vulga")
+    * @ORM\JoinColumns({
+    *   @ORM\JoinColumn(name="pays", referencedColumnName="id")
+    * })
+    */
+    private $pays;
+
+    /**
     * @ORM\ManyToMany(targetEntity="\Science\Entity\Domaine", inversedBy="vulga")
     * @ORM\JoinTable(name="domaine_vulga",
     *      joinColumns={@ORM\JoinColumn(name="vulga", referencedColumnName="id")},
@@ -148,7 +159,7 @@ class Vulga
 
     /**
     * Sets associated langue.
-    * @param \Science\Entity\User $langue
+    * @param \Science\Entity\Langue $langue
     */
     public function setLangue($langue)
     {
@@ -156,6 +167,25 @@ class Vulga
         $langue->addVulga($this);
     }
 
+    /*
+    * Returns associated pays.
+    * @return \Science\Entity\Pays
+    */
+    public function getPays()
+    {
+        return $this->pays;
+    }
+
+    /**
+    * Sets associated Pays.
+    * @param \Science\Entity\Pays $pays
+    */
+    public function setPays($pays)
+    {
+        $this->pays = $pays;
+        $pays->addVulga($this);
+    }
+    
     /**
     * Returns mainstats for this vulga.
     * @return array
