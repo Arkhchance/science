@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 * Domaine
 *
 * @ORM\Table(name="domaine")
-* @ORM\Entity
+* @ORM\Entity(repositoryClass="\Science\Repository\DomaineRepository")
 */
 class Domaine
 {
@@ -69,7 +69,7 @@ class Domaine
 
     public function removeVulga($vulga)
     {
-        if (!$this->vulga->contains($vulga)) 
+        if (!$this->vulga->contains($vulga))
             return;
 
         $this->vulga->removeElement($vulga);
@@ -119,7 +119,7 @@ class Domaine
     */
     public function setDescription($desc)
     {
-        $this->description = $nom;
+        $this->description = $desc;
 
         return $this;
     }

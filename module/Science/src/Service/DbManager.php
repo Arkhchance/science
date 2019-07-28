@@ -3,7 +3,7 @@ namespace Science\Service;
 
 use Science\Entity\Langue;
 use Science\Entity\Pays;
-
+use Science\Entity\Domaine;
 
 /**
  * This service is responsible for adding/editing users
@@ -103,6 +103,44 @@ class DbManager
                 continue; // skip this one don't delete it, it's under use
             }
             $this->entityManager->remove($pays); // delete it
+        }
+        //apply to db
+        $this->entityManager->flush();
+
+        return $result;
+    }
+
+    /**
+    * Partie domaine  add/del no edit
+    */
+
+    public function addDomaine($data)
+    {
+        $domaine = new Domaine();
+
+        $domaine->setNom($data['domaine']);
+        $domaine->setDescription($data['desc']);
+
+        //apply to db
+        $this->entityManager->persist($domaine);
+        $this->entityManager->flush();
+
+        return true;
+    }
+
+    public function delDomaine($domainelist)
+    {
+        $result = true; //total result
+
+        $domaines = $this->entityManager->getRepository(Domaine::class)
+                            ->findById($domainelist);
+
+        foreach ($domaines as $domaine) {
+            if($domaine->getVulga()->count() > 0) {
+                $result = false; // partial delete
+                continue; // skip this one don't delete it, it's under use
+            }
+            $this->entityManager->remove($domaine); // delete it
         }
         //apply to db
         $this->entityManager->flush();

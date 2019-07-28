@@ -4,6 +4,8 @@ namespace Science\Helper;
 use Zend\View\Helper\AbstractHelper;
 use Science\Entity\Langue;
 use Science\Entity\Pays;
+use Science\Entity\Domaine;
+
 /**
  * This view helper class displays select multiples
  */
@@ -52,6 +54,25 @@ class FormDisplay extends AbstractHelper
             $result .= ' => '.$pays->getNom();
 
             $result .= ' => '.$pays->getCode();
+            $result .= '</option>';
+        }
+
+        $result .= '</select>';
+
+        return $result;
+    }
+
+    public function renderDomaine()
+    {
+        $domaines = $this->entityManager->getRepository(Domaine::class)->findAll();
+
+        $result = '<select id="iselect" class="manageselect bg-transparent" name="pays[]" multiple>';
+
+        foreach ($domaines as $domaine) {
+            $result .= '<option value="'.$domaine->getId().'">';
+            $result .= $domaine->getNom();
+            $result .= ' => '.$domaine->getDescription();
+
             $result .= '</option>';
         }
 
