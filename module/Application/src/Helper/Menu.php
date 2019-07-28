@@ -13,7 +13,7 @@ class Menu extends AbstractHelper
      * @var array
      */
     protected $items = [];
-    protected $authService; 
+    protected $authService;
 
     public function __construct($items=[],$authService)
     {
@@ -37,10 +37,10 @@ class Menu extends AbstractHelper
         $result  = '<div class="collapse navbar-collapse" id="contentcollapse">';
 
         if($this->authService->hasIdentity()) {
-            $result .= '<button type="button" id="sidebarCollapse" class="btn btn-info">';
+            $result .= '<a id="sidebarCollapse" href="#">';
             $result .= '<i class="fa fa-backward" aria-hidden="true"></i>';
             $result .= '';
-            $result .= '</button>';
+            $result .= '</a>';
         }
 
         //left
