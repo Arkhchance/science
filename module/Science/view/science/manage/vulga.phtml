@@ -1,0 +1,102 @@
+<?php
+
+$title = 'Vulgarisateur';
+$this->headTitle($title);
+
+$this->headLink()->appendStylesheet($this->basePath('css/manage.css'));
+$this->headLink()->appendStylesheet($this->basePath('css/bootstrap-select.min.css'));
+$this->headScript()->appendFile($this->basePath('js/bootstrap-select.min.js'));
+
+$form->get('submit')->setAttributes(['class'=>'btn btn-lg btn-primary btn-block']);
+
+$edit = false;
+$domaineList = [];
+
+if($vulga != null) {
+    $edit = true;
+    $form->get('id')->setAttributes([
+        'value' => $vulga->getId(),
+    ]);
+
+    foreach ($vulga->getDomaine() as $domaine)
+        $domaineList[] = $domaine->getId();
+}
+
+$nom     = $edit ? $vulga->getNom() : '';
+$pays    = $edit ? $vulga->getPays()->getId() : '';
+$langue  = $edit ? $vulga->getLangue()->getId() : '';
+$sexe    = $edit ? $vulga->getSexe() : '';
+
+$form->get('nom')->setAttributes([
+    'class'=>'form-control',
+    'placeholder'=> 'Science de comptoire',
+    'value' => $nom,
+]);
+$form->get('sexe')->setAttributes(array(
+    'class'=> 'selectpicker form-control',
+    'value' => $sexe,
+));
+$form->get('pays')->setAttributes(array(
+    'class'=> 'selectpicker form-control',
+    'data-live-search'  => 'true',
+    'value' => $pays,
+));
+$form->get('langue')->setAttributes(array(
+    'class'=> 'selectpicker form-control',
+    'data-live-search'  => 'true',
+    'value' => $langue,
+));
+$form->get('domaine')->setAttributes(array(
+    'class'=> 'selectpicker form-control',
+    'data-actions-box' => 'true',
+    'data-live-search'  => 'true',
+    'value' => $domaineList,
+));
+$form->prepare();
+?>
+<div class="row justify-content-center">
+    <h1 class="mt-4 mb-5">
+        <?= $title; ?>
+    </h1>
+</div>
+<div class="row justify-content-center">
+    <div class="col-sm-8">
+        <?= $this->formDisplay()->renderVulga(); ?>
+        <?= $this->paginationControl($this->formDisplay()->pagiVulga,'Sliding','science/partial/paginator',array('route' => 'manage')); ?>
+    </div>
+    <div class="col-sm-4">
+        <?= $this->form()->openTag($form); ?>
+        <div class="form-group">
+            <?= $this->formLabel($form->get('nom')); ?>
+            <?= $this->formElement($form->get('nom')); ?>
+            <?= $this->formElementErrors($form->get('nom')); ?>
+        </div>
+        <div class="form-group">
+            <?= $this->formLabel($form->get('sexe')); ?>
+            <?= $this->formElement($form->get('sexe')); ?>
+            <?= $this->formElementErrors($form->get('sexe')); ?>
+        </div>
+        <div class="form-group">
+            <?= $this->formLabel($form->get('pays')); ?>
+            <?= $this->formElement($form->get('pays')); ?>
+            <?= $this->formElementErrors($form->get('pays')); ?>
+        </div>
+        <div class="form-group">
+            <?= $this->formLabel($form->get('langue')); ?>
+            <?= $this->formElement($form->get('langue')); ?>
+            <?= $this->formElementErrors($form->get('langue')); ?>
+        </div>
+        <div class="form-group">
+            <?= $this->formLabel($form->get('domaine')); ?>
+            <?= $this->formElement($form->get('domaine')); ?>
+            <?= $this->formElementErrors($form->get('domaine')); ?>
+        </div>
+        <?= $this->formElement($form->get('submit')); ?>
+        <?= $this->formElement($form->get('csrf')) ?>
+        <?php if($edit) echo $this->formElement($form->get('id')) ; ?>
+        <?= $this->form()->closeTag(); ?>
+    </div>
+</div>
+<?php
+$this->inlineScript()->appendFile($this->basePath('js/manage.js'));
+ ?>

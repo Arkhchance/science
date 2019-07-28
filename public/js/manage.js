@@ -56,7 +56,7 @@ $(document).ready(function () {
     $(".Pdelete").click(function(event) {
 
         var id = event.target.attributes.dval.value;
-        var type = 'plateforme';
+        var type = event.target.attributes.dtype.value;
 
         var modalvalid = new tingle.modal({
             footer: true,
@@ -93,5 +93,37 @@ $(document).ready(function () {
             modalvalid.close();
         });
         modalvalid.open();
+    });
+
+    function changeState(lid,state) {
+        $.ajax({
+           type: 'POST',
+           url: '/manage/vulgastate',
+           data: { lid:lid , state:state,} ,
+           dataType: 'json',
+           success: function (data) {
+                if(data.SUCCES != "OK"){
+                    //failed return to previous version
+                    if(state == 'priv') {
+                        $("#p"+lid).prop( "checked", true );
+                    } else {
+                        $("#u"+lid).prop( "checked", true );
+                    }
+                }
+           }
+       });
+    }
+
+    //fire if value is ON
+    $(".private").change(function(event){
+        var id = event.target.id;
+        id = id.substring(1);
+        changeState(id,'priv');
+    });
+
+    $(".public").change(function(event){
+        var id = event.target.id;
+        id = id.substring(1);
+        changeState(id,'pub');
     });
 }); //end document.ready()

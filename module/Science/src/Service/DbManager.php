@@ -5,6 +5,7 @@ use Science\Entity\Langue;
 use Science\Entity\Pays;
 use Science\Entity\Domaine;
 use Science\Entity\Plateforme;
+use Science\Entity\Vulga;
 
 /**
  * This service is responsible for adding/editing users
@@ -31,6 +32,33 @@ class DbManager
     {
         $this->entityManager = $entityManager;
         $this->config = $config;
+    }
+
+    public function changeState($key,$state)
+    {
+        $vulga = $this->entityManager->getRepository(Vulga::class)
+                        ->findOneByid($key);
+
+        /* checking if level exist */
+        if($vulga === null)
+            return false;
+
+        switch ($state) {
+            case 'priv':
+                $vulga->setPrivate(Vulga::STATE_PRIVATE);
+                break;
+            case 'pub':
+                $vulga->setPrivate(Vulga::STATE_PUBLIC);
+                break;
+            default:
+                return false;
+                break;
+        }
+
+        $this->entityManager->persist($vulga);
+        $this->entityManager->flush();
+
+        return true;
     }
 
     /**
@@ -205,5 +233,92 @@ class DbManager
         $this->entityManager->flush();
 
         return $result;
+    }
+
+    /**
+    * Partie Vulgarisateur  add/del/edit
+    */
+    private function getData($type,$data)
+    {
+        switch ($type) {
+            case 'langue':
+                $ret = $this->entityManager->getRepository(Langue::class)
+                                ->findOneById($data['langue']);
+                break;
+            case 'pays':
+                $ret = $this->entityManager->getRepository(Pays::class)
+                                ->findOneById($data['pays']);
+                break;
+            case 'domaine':
+                $ret = $this->entityManager->getRepository(Domaine::class)
+                                ->findOneById($data);
+                break;
+            default:
+                $ret = null;
+                break;
+        }
+        return $ret;
+    }
+    public function addVulga($data)
+    {
+
+        $vulga = new Vulga();
+
+        $vulga->setNom($data['nom']);
+        $vulga->setSexe($data['sexe']);
+        $vulga->setLangue($this->getData('langue',$data));
+        $vulga->setPays($this->getData('pays',$data));
+        if(!empty($data['domaine'])) {
+            foreach ($data['domaine'] as $domaine) {
+                $vulga->addDomaine($this->getData('domaine',$domaine));
+            }
+        }
+        //apply to db
+        $this->entityManager->persist($vulga);
+        $this->entityManager->flush();
+
+        return true;
+    }
+
+    private function deleteDomaine($vulga)
+    {
+        foreach ($vulga->getDomaine() as $domaine) {
+            $vulga->removeDomaine($domaine);
+        }
+    }
+    public function editVulga($data)
+    {
+        $vulga = $this->entityManager->getRepository(Vulga::class)
+                            ->findOneById($data['id']);
+        if($vulga === null)
+            return;
+
+        $vulga->setNom($data['nom']);
+        $vulga->setSexe($data['sexe']);
+        $vulga->setLangue($this->getData('langue',$data));
+        $vulga->setPays($this->getData('pays',$data));
+        $this->deleteDomaine($vulga);
+        if(!empty($data['domaine'])) {
+            foreach ($data['domaine'] as $domaine) {
+                $vulga->addDomaine($this->getData('domaine',$domaine));
+            }
+        }
+        //apply to db
+        $this->entityManager->persist($vulga);
+        $this->entityManager->flush();
+
+        return true;
+
+    }
+    public function delVulga($id)
+    {
+        $vulga = $this->entityManager->getRepository(Vulga::class)
+                            ->findOneById($id);
+
+        $this->entityManager->remove($vulga); // delete it
+        //apply to db
+        $this->entityManager->flush();
+
+        return true;
     }
 }

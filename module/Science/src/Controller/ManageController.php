@@ -8,19 +8,50 @@ use Science\Form\Manage\LangueForm;
 use Science\Form\Manage\PaysForm;
 use Science\Form\Manage\DomaineForm;
 use Science\Form\Manage\PlateForm;
+use Science\Form\Manage\VulgaForm;
 use Science\Entity\Plateforme;
+use Science\Entity\Vulga;
 
 class ManageController extends AbstractActionController
 {
-    private $dbManager;
+    private $dbService;
     private $entityManager;
 
-    public function __construct($dbManager,$entityManager)
+    public function __construct($dbService,$entityManager)
     {
-        $this->dbManager = $dbManager;
+        $this->dbService = $dbService;
         $this->entityManager = $entityManager;
     }
 
+    public function vulgastateAction()
+    {
+        $request = $this->getRequest();
+        if ($request->isXmlHttpRequest()) {
+            $view = new JsonModel();
+            $view->setTerminal(true);
+
+
+            $key = $this->params()->fromPost('lid', null);
+            $state = $this->params()->fromPost('state', null);
+            if($key === null || $state === null) {
+                $view->setVariable('SUCCES','Error');
+                return $view;
+            }
+            $success = $this->dbService->changeState($key,$state);
+            if($success) {
+                $view->setVariable('SUCCES','OK');
+                return $view;
+            } else {
+                $view->setVariable('SUCCES','Error');
+                return $view;
+            }
+
+            $view->setVariable('SUCCES','Error');
+            return $view;
+        } else {
+            return $this->redirect()->toRoute('manage',['action'=>'dashboard']);
+        }
+    }
     public function delAction()
     {
         $request = $this->getRequest();
@@ -38,19 +69,19 @@ class ManageController extends AbstractActionController
 
             switch ($toDel) {
                 case 'langue':
-                    $result = $this->dbManager->delLangue($paramList);
+                    $result = $this->dbService->delLangue($paramList);
                     break;
                 case 'pays':
-                    $result = $this->dbManager->delPays($paramList);
+                    $result = $this->dbService->delPays($paramList);
                     break;
                 case 'domaine':
-                    $result = $this->dbManager->delDomaine($paramList);
+                    $result = $this->dbService->delDomaine($paramList);
                     break;
                 case 'plateforme':
-                    $result = $this->dbManager->delPlateforme($paramList);
+                    $result = $this->dbService->delPlateforme($paramList);
                     break;
                 case 'vulga':
-                    $result = $this->dbManager->delVulga($paramList);
+                    $result = $this->dbService->delVulga($paramList);
                     break;
                 default:
                     $view->setVariable('SUCCES','Incorrect Input');
@@ -88,7 +119,7 @@ class ManageController extends AbstractActionController
 
         $data = $form->getData();
 
-        $this->dbManager->addLangue($data);
+        $this->dbService->addLangue($data);
 
         return $this->redirect()->toRoute('manage', ['action' => 'langue']);
     }
@@ -110,7 +141,7 @@ class ManageController extends AbstractActionController
         }
 
         $data = $form->getData();
-        $this->dbManager->addPays($data);
+        $this->dbService->addPays($data);
 
         return $this->redirect()->toRoute('manage', ['action' => 'pays']);
     }
@@ -132,7 +163,7 @@ class ManageController extends AbstractActionController
         }
 
         $data = $form->getData();
-        $this->dbManager->addDomaine($data);
+        $this->dbService->addDomaine($data);
 
         return $this->redirect()->toRoute('manage', ['action' => 'domaine']);
     }
@@ -168,10 +199,48 @@ class ManageController extends AbstractActionController
 
         $data = $form->getData();
         if($id === null)
-            $this->dbManager->addPlateforme($data);
+            $this->dbService->addPlateforme($data);
         else
-            $this->dbManager->editPlateforme($data);
+            $this->dbService->editPlateforme($data);
 
         return $this->redirect()->toRoute('manage', ['action' => 'plateforme']);
+    }
+
+    public function vulgaAction()
+    {
+        $id = $this->params()->fromRoute('id', null);
+
+        if($id === null) {
+            $form = new VulgaForm($this->entityManager);
+            $vulga = null;
+        } else {
+            $vulga = $this->entityManager->getRepository(Vulga::class)
+                            ->findOneById($id);
+            //sanity check
+            if($vulga === null)
+                return $this->redirect()->toRoute('manage');
+
+            $form = new VulgaForm($this->entityManager,true);
+        }
+
+        $request = $this->getRequest();
+
+        if (!$request->isPost()) {
+            return ['form' => $form, 'vulga' => $vulga];
+        }
+
+        $form->setData($request->getPost());
+
+        if (!$form->isValid()) {
+            return ['form' => $form,'vulga' => $vulga];
+        }
+
+        $data = $form->getData();
+        if($id === null)
+            $this->dbService->addVulga($data);
+        else
+            $this->dbService->editVulga($data);
+
+        return $this->redirect()->toRoute('manage', ['action' => 'vulga']);
     }
 }

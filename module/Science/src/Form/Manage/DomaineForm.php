@@ -8,9 +8,6 @@ use Zend\Validator\StringLength;
 use Zend\Filter\StringTrim;
 use Zend\Filter\StripTags;
 
-/**
- * This form is used to collect user's login, password and 'Remember Me' flag.
- */
 class DomaineForm extends Form
 {
     /**

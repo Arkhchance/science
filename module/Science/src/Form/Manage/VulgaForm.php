@@ -10,8 +10,10 @@ use Zend\Filter\StripTags;
 use Zend\Validator\Uri;
 use Zend\Filter\ToInt;
 use DoctrineModule\Validator\ObjectExists as ObjectExistsValidator;
-use Science\Entity\Plateforme;
-
+use Science\Entity\Vulga;
+use Science\Entity\Langue;
+use Science\Entity\Pays;
+use Science\Entity\Domaine;
 
 class VulgaForm extends Form
 {
@@ -26,13 +28,52 @@ class VulgaForm extends Form
         $this->entityManager = $entityManager;
 
         // Define form name
-        parent::__construct('plate-form');
+        parent::__construct('Vulga-form');
 
         // Set POST method for this form
         $this->setAttribute('method', 'post');
 
         $this->addElements();
         $this->addInputFilter();
+    }
+
+    private function getArrayLangue()
+    {
+        $myLangues = [];
+
+        $langues = $this->entityManager->getRepository(Langue::class)->findAll();
+
+        foreach ($langues as $langue) {
+            $myLangues[$langue->getId()] = $langue->getDrapeau()." ".$langue->getNom();
+        }
+
+        return $myLangues;
+    }
+
+    private function getArrayDomaine()
+    {
+        $myDomaines = [];
+
+        $domaines = $this->entityManager->getRepository(Domaine::class)->findAll();
+
+        foreach ($domaines as $domaine) {
+            $myDomaines[$domaine->getId()] = $domaine->getNom();
+        }
+
+        return $myDomaines;
+    }
+
+    private function getArrayPays()
+    {
+        $myPays = [];
+
+        $payss = $this->entityManager->getRepository(Pays::class)->findAll();
+
+        foreach ($payss as $pays) {
+            $myPays[$pays->getId()] = $pays->getDrapeau()." ".$pays->getNom();
+        }
+
+        return $myPays;
     }
 
     /**
@@ -63,7 +104,7 @@ class VulgaForm extends Form
                 'type'  => 'submit',
                 'name' => 'submit',
                 'attributes' => [
-                    'value' => 'Nouvelle plateforme',
+                    'value' => 'Nouveau Vulgarisateur',
                     'id' => 'submit',
                 ],
             ]);
@@ -72,28 +113,42 @@ class VulgaForm extends Form
             'type'  => 'text',
             'name' => 'nom',
             'options' => [
-                'label' => 'Nom de la plateforme',
+                'label' => 'Nom du vulgarisateur.trice',
             ],
         ]);
         $this->add([
-            'type'  => 'text',
-            'name' => 'adresse',
+            'type' => 'select',
+            'name' => 'sexe',
             'options' => [
-                'label' => 'Adresse ',
+                'label' => 'Sexe ?',
+                'value_options' => Vulga::getSexeList(),
             ],
         ]);
         $this->add([
-            'type'  => 'text',
-            'name' => 'pname',
+            'type'  => 'select',
+            'name' => 'langue',
             'options' => [
-                'label' => 'Nom d\'une publication',
+                'label' => 'Langue la plus utilisé',
+                'value_options' => $this->getArrayLangue(),
             ],
         ]);
         $this->add([
-            'type'  => 'text',
-            'name' => 'idregex',
+            'type'  => 'select',
+            'name' => 'pays',
             'options' => [
-                'label' => 'Regex extraction id',
+                'label' => 'Pays du vulgarisateur',
+                'value_options' => $this->getArrayPays(),
+            ],
+        ]);
+        $this->add([
+            'type' => 'select',
+            'name' => 'domaine',
+            'attributes' =>  [
+                'multiple' => true,
+            ],
+            'options' => [
+                'label' => 'Dans quel domaine iel vulgarise',
+                'value_options' => $this->getArrayDomaine(),
             ],
         ]);
         // Add the CSRF field
@@ -129,7 +184,7 @@ class VulgaForm extends Form
                     [
                         'name' => ObjectExistsValidator::class,
                         'options' => [
-                            'object_repository' => $this->entityManager->getRepository(Plateforme::class),
+                            'object_repository' => $this->entityManager->getRepository(Vulga::class),
                             'fields' => 'id',
                             'messages' => [
                                 'noObjectFound' => 'id not found',
@@ -147,68 +202,6 @@ class VulgaForm extends Form
                 [
                     'name' => StringTrim::class,
                     'name' => StripTags::class,
-                ],
-            ],
-            'validators' => [
-                [
-                    'name' => StringLength::class,
-                    'options' => [
-                        'encoding' => 'UTF-8',
-                        'min' => 1,
-                        'max' => 128,
-                    ],
-                ],
-            ],
-        ]);
-        $inputFilter->add([
-            'name'     => 'adresse',
-            'required' => true,
-            'filters'  => [
-                [
-                    'name' => StringTrim::class,
-                    'name' => StripTags::class,
-                ],
-            ],
-            'validators' => [
-                [
-                    'name' => StringLength::class,
-                    'options' => [
-                        'encoding' => 'UTF-8',
-                        'min' => 1,
-                        'max' => 128,
-                    ],
-                ],
-                [
-                    'name' => Uri::class,
-                ],
-            ],
-        ]);
-        $inputFilter->add([
-            'name'     => 'pname',
-            'required' => true,
-            'filters'  => [
-                [
-                    'name' => StringTrim::class,
-                    'name' => StripTags::class,
-                ],
-            ],
-            'validators' => [
-                [
-                    'name' => StringLength::class,
-                    'options' => [
-                        'encoding' => 'UTF-8',
-                        'min' => 1,
-                        'max' => 255,
-                    ],
-                ],
-            ],
-        ]);
-        $inputFilter->add([
-            'name'     => 'idregex',
-            'required' => false,
-            'filters'  => [
-                [
-                    'name' => StringTrim::class,
                 ],
             ],
             'validators' => [

@@ -12,9 +12,6 @@ use Zend\Filter\ToInt;
 use DoctrineModule\Validator\ObjectExists as ObjectExistsValidator;
 use Science\Entity\Plateforme;
 
-/**
- * This form is used to collect user's login, password and 'Remember Me' flag.
- */
 class PlateForm extends Form
 {
     private $edit;

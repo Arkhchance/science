@@ -13,24 +13,25 @@ use Science\Entity\Posts;
 * Vulga
 *
 * @ORM\Table(name="vulga")
-* @ORM\Entity
+* @ORM\Entity(repositoryClass="\Science\Repository\VulgaRepository")
 */
 class Vulga
 {
     // sexe constants.
     const SEXE_FEMME      = 0;
     const SEXE_HOMME      = 1;
-    const SEXE_NON_BINARY = 2;
-    const SEXE_NO_SEXE    = 3;
-    const SEXE_NEUTRAL    = 4;
-    const SEXE_GROUP      = 5;
+    const SEXE_GROUP      = 2;
+    const SEXE_NON_BINARY = 3;
+    const SEXE_NO_SEXE    = 4;
+    const SEXE_NEUTRAL    = 5;
+
 
     // vulga state constants.
     const STATE_PUBLIC  = 0;
     const STATE_PRIVATE = 1;
 
     /**
-    * @ORM\OneToMany(targetEntity="\Science\Entity\MainStats", mappedBy="vulga")
+    * @ORM\OneToMany(targetEntity="\Science\Entity\MainStats", mappedBy="vulga",orphanRemoval=true)
     * @ORM\JoinColumn(name="id", referencedColumnName="vulga")
     */
     protected $mainstats;
@@ -185,7 +186,7 @@ class Vulga
         $this->pays = $pays;
         $pays->addVulga($this);
     }
-    
+
     /**
     * Returns mainstats for this vulga.
     * @return array
