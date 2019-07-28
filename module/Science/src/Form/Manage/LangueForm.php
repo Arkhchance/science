@@ -37,14 +37,21 @@ class LangueForm extends Form
             'type'  => 'text',
             'name' => 'langue',
             'options' => [
-                'label' => 'langue',
+                'label' => 'Langue',
+            ],
+        ]);
+        $this->add([
+            'type'  => 'text',
+            'name' => 'drapeau',
+            'options' => [
+                'label' => 'Drapeau',
             ],
         ]);
         $this->add([
             'type'  => 'text',
             'name' => 'code',
             'options' => [
-                'label' => 'langue code',
+                'label' => 'Code de la langue',
             ],
         ]);
         // Add the CSRF field
@@ -112,6 +119,26 @@ class LangueForm extends Form
                         'encoding' => 'UTF-8',
                         'min' => 1,
                         'max' => 10,
+                    ],
+                ],
+            ],
+        ]);
+        $inputFilter->add([
+            'name'     => 'drapeau',
+            'required' => true,
+            'filters'  => [
+                [
+                    'name' => StringTrim::class,
+                    'name' => StripTags::class,
+                ],
+            ],
+            'validators' => [
+                [
+                    'name' => StringLength::class,
+                    'options' => [
+                        'encoding' => 'UTF-8',
+                        'min' => 1,
+                        'max' => 5,
                     ],
                 ],
             ],

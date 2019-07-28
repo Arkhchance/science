@@ -13,12 +13,14 @@
         <!-- Le styles -->
         <?= $this->headLink()->prependStylesheet($this->basePath('css/bootstrap.min.css'))
                 ->prependStylesheet($this->basePath('css/main.css'))
+                ->prependStylesheet($this->basePath('css/tingle.min.css'))
                 ->prependStylesheet('https://cdn.jsdelivr.net/npm/fork-awesome@1.1.7/css/fork-awesome.min.css');
         ?>
 
         <!-- Scripts -->
         <?= $this->headScript()
             ->prependFile($this->basePath('js/main.js'))
+            ->prependFile($this->basePath('js/tingle.min.js'))
             ->prependFile($this->basePath('js/bootstrap.min.js'))
             ->prependFile($this->basePath('js/jquery.min.js'))
             ->prependFile($this->basePath('js/popper.min.js'))

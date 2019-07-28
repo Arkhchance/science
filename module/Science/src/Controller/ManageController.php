@@ -8,8 +8,49 @@ use Science\Form\Manage\LangueForm;
 
 class ManageController extends AbstractActionController
 {
-    public function __construct()
+    private $dbManager;
+
+    public function __construct($dbManager)
     {
+        $this->dbManager = $dbManager;
+    }
+
+    public function delAction()
+    {
+        $request = $this->getRequest();
+        if ($request->isXmlHttpRequest()) {
+
+            $view = new JsonModel();
+            $view->setTerminal(true);
+            $toDel = $this->params()->fromPost('type', null);
+            $paramList = $this->params()->fromPost('id', null);
+
+            if($paramList == null) {
+                $view->setVariable('SUCCES','Incorrect Input');
+                return $view;
+            }
+
+            switch ($toDel) {
+                case 'langue':
+                    $result = $this->dbManager->delLangue($paramList);
+                    break;
+
+                default:
+                    $view->setVariable('SUCCES','Incorrect Input');
+                    return $view;
+                    break;
+            }
+
+            if($result)  //all is delete
+                $view->setVariable('SUCCES','OK');
+            else
+                $view->setVariable('SUCCES','PARTIAL');
+
+            return $view;
+
+        } else {
+           return $this->redirect()->toRoute('manage', ['action' => 'langue']);
+        }
     }
 
     public function langueAction()
@@ -30,7 +71,7 @@ class ManageController extends AbstractActionController
 
         $data = $form->getData();
 
-        //$this->trickManager->newTrick($data);
+        $this->dbManager->addLangue($data);
 
         return $this->redirect()->toRoute('manage', ['action' => 'langue']);
     }

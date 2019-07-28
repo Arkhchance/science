@@ -93,21 +93,28 @@ return [
     ],
     'controllers' => [
         'factories' => [
-            Controller\AuthController::class => Controller\Factory\AuthControllerFactory::class,
+            Controller\AuthController::class    => Controller\Factory\AuthControllerFactory::class,
             Controller\ScienceController::class => Controller\Factory\ScienceControllerFactory::class,
-            Controller\ManageController::class => Controller\Factory\ManageControllerFactory::class,
+            Controller\ManageController::class  => Controller\Factory\ManageControllerFactory::class,
         ],
     ],
-
     'service_manager' => [
         'factories' => [
             \Zend\Authentication\AuthenticationService::class => Service\Factory\AuthenticationServiceFactory::class,
             Service\AuthAdapter::class => Service\Factory\AuthAdapterFactory::class,
             Service\AuthManager::class => Service\Factory\AuthManagerFactory::class,
             Service\UserManager::class => Service\Factory\UserManagerFactory::class,
+            Service\DbManager::class   => Service\Factory\DbManagerFactory::class,
         ],
     ],
-
+    'view_helpers' => [
+        'factories' => [
+            Helper\FormDisplay::class => Helper\Factory\FormDisplayFactory::class,
+        ],
+        'aliases' => [
+            'formDisplay' => Helper\FormDisplay::class,
+        ],
+    ],
     'view_manager' => [
         'template_path_stack' => [
             'album' => __DIR__ . '/../view',

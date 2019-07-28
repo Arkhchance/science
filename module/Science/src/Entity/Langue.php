@@ -43,6 +43,13 @@ class Langue
     private $code;
 
     /**
+    * @var string
+    *
+    * @ORM\Column(name="drapeau", type="string", length=5, nullable=false)
+    */
+    private $drapeau;
+
+    /**
     * Constructor.
     */
     public function __construct()
@@ -124,6 +131,30 @@ class Langue
     public function addVulga($vulga)
     {
         $this->vulga[] = $vulga;
+    }
+
+    /**
+    * Set drapeau.
+    *
+    * @param string $drapeau
+    *
+    * @return Langue
+    */
+    public function setDrapeau($drapeau)
+    {
+        $this->drapeau = $drapeau;
+
+        return $this;
+    }
+
+    /**
+    * Get drapeau.
+    *
+    * @return string
+    */
+    public function getDrapeau()
+    {
+        return $this->drapeau;
     }
 
 }
