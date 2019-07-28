@@ -45,7 +45,10 @@ class SidePannel extends AbstractHelper
            <a href="/manage/domaine">Domaine</a>
        </li>
        <li>
-           <a href="#">Contact</a>
+           <a href="/manage/plateforme">Plateforme</a>
+       </li>
+       <li>
+           <a href="/manage/vulga">Vulgarisateur</a>
        </li>
    </ul>
 </nav>

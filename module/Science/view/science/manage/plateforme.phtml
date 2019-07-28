@@ -1,0 +1,86 @@
+<?php
+
+$title = 'Plateforme';
+$this->headTitle($title);
+
+$this->headLink()->appendStylesheet($this->basePath('css/manage.css'));
+
+$form->get('submit')->setAttributes(['class'=>'btn btn-lg btn-primary btn-block']);
+
+$edit = false;
+
+if($pf != null) {
+    $edit = true;
+    $form->get('id')->setAttributes([
+        'value' => $pf->getId(),
+    ]);
+}
+
+$nom     = $edit ? $pf->getNom() : '';
+$adresse = $edit ? $pf->getAddress() : '';
+$pname   = $edit ? $pf->getPostName() : '';
+$idregex = $edit ? $pf->getIdExtractPattern() : '';
+
+$form->get('nom')->setAttributes([
+    'class'=>'form-control',
+    'placeholder'=>'Youtube',
+    'value' => $nom,
+]);
+$form->get('adresse')->setAttributes([
+    'class'=>'form-control',
+    'placeholder'=>'http://www.youtube.com',
+    'value' => $adresse,
+]);
+$form->get('pname')->setAttributes([
+    'class'=>'form-control',
+    'placeholder'=>'Vidéos',
+    'value' => $pname,
+]);
+$form->get('idregex')->setAttributes([
+    'class'=>'form-control',
+    'placeholder'=>'regex extract user id',
+    'value' => $idregex,
+]);
+$form->prepare();
+
+?>
+<div class="row justify-content-center">
+    <h1 class="mt-4 mb-5">
+        <?= $title; ?>
+    </h1>
+</div>
+<div class="row justify-content-center">
+    <div class="col-sm-8">
+        <?= $this->formDisplay()->renderPlateforme(); ?>
+    </div>
+    <div class="col-sm-4">
+        <?= $this->form()->openTag($form); ?>
+        <div class="form-group">
+            <?= $this->formLabel($form->get('nom')); ?>
+            <?= $this->formElement($form->get('nom')); ?>
+            <?= $this->formElementErrors($form->get('nom')); ?>
+        </div>
+        <div class="form-group">
+            <?= $this->formLabel($form->get('adresse')); ?>
+            <?= $this->formElement($form->get('adresse')); ?>
+            <?= $this->formElementErrors($form->get('adresse')); ?>
+        </div>
+        <div class="form-group">
+            <?= $this->formLabel($form->get('pname')); ?>
+            <?= $this->formElement($form->get('pname')); ?>
+            <?= $this->formElementErrors($form->get('pname')); ?>
+        </div>
+        <div class="form-group">
+            <?= $this->formLabel($form->get('idregex')); ?>
+            <?= $this->formElement($form->get('idregex')); ?>
+            <?= $this->formElementErrors($form->get('idregex')); ?>
+        </div>
+        <?= $this->formElement($form->get('submit')); ?>
+        <?= $this->formElement($form->get('csrf')) ?>
+        <?php if($edit) echo $this->formElement($form->get('id')) ; ?>
+        <?= $this->form()->closeTag(); ?>
+    </div>
+</div>
+<?php
+$this->inlineScript()->appendFile($this->basePath('js/manage.js'));
+ ?>

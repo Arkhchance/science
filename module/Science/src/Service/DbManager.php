@@ -4,6 +4,7 @@ namespace Science\Service;
 use Science\Entity\Langue;
 use Science\Entity\Pays;
 use Science\Entity\Domaine;
+use Science\Entity\Plateforme;
 
 /**
  * This service is responsible for adding/editing users
@@ -141,6 +142,64 @@ class DbManager
                 continue; // skip this one don't delete it, it's under use
             }
             $this->entityManager->remove($domaine); // delete it
+        }
+        //apply to db
+        $this->entityManager->flush();
+
+        return $result;
+    }
+    /**
+    * Partie Plateforme  add/del/edit
+    */
+
+    public function addPlateforme($data)
+    {
+        $pf = new Plateforme();
+
+        $pf->setNom($data['nom']);
+        $pf->setAddress($data['adresse']);
+        $pf->setPostName($data['pname']);
+        $pf->setIdExtractPattern($data['idregex']);
+
+        //apply to db
+        $this->entityManager->persist($pf);
+        $this->entityManager->flush();
+
+        return true;
+    }
+
+    public function editPlateforme($data)
+    {
+        $pf = $this->entityManager->getRepository(Plateforme::class)
+                            ->findOneById($data['id']);
+        if($pf === null)
+            return;
+
+        $pf->setNom($data['nom']);
+        $pf->setAddress($data['adresse']);
+        $pf->setPostName($data['pname']);
+        $pf->setIdExtractPattern($data['idregex']);
+
+        //apply to db
+        $this->entityManager->persist($pf);
+        $this->entityManager->flush();
+
+        return true;
+
+    }
+    public function delPlateforme($pfList)
+    {
+        $result = true; //total result
+
+        $pfs = $this->entityManager->getRepository(Plateforme::class)
+                            ->findById($pfList);
+
+        foreach ($pfs as $pf) {
+            if($pf->getVulga()->count() > 0) {
+                $result = false; // partial delete
+                continue; // skip this one don't delete it, it's under use
+            }
+            $this->entityManager->remove($pf); // delete it
         }
         //apply to db
         $this->entityManager->flush();
