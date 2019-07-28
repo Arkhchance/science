@@ -23,8 +23,8 @@ if($vulga != null) {
 }
 
 $nom     = $edit ? $vulga->getNom() : '';
-$pays    = $edit ? $vulga->getPays()->getId() : '';
-$langue  = $edit ? $vulga->getLangue()->getId() : '';
+$pays    = $edit ? $vulga->getPays()->getId() : '1';
+$langue  = $edit ? $vulga->getLangue()->getId() : '2';
 $sexe    = $edit ? $vulga->getSexe() : '';
 
 $form->get('nom')->setAttributes([
@@ -61,8 +61,8 @@ $form->prepare();
 </div>
 <div class="row justify-content-center">
     <div class="col-sm-8">
-        <?= $this->formDisplay()->renderVulga(); ?>
-        <?= $this->paginationControl($this->formDisplay()->pagiVulga,'Sliding','science/partial/paginator',array('route' => 'manage')); ?>
+        <?= $this->formDisplay()->renderVulga($page); ?>
+        <?= $this->paginationControl($this->formDisplay()->pagiVulga,'Sliding','science/partial/paginator',['route' => 'manage','action' => 'vulga']); ?>
     </div>
     <div class="col-sm-4">
         <?= $this->form()->openTag($form); ?>

@@ -10,6 +10,7 @@ use Zend\Filter\StripTags;
 use Zend\Validator\Uri;
 use Zend\Filter\ToInt;
 use DoctrineModule\Validator\ObjectExists as ObjectExistsValidator;
+use DoctrineModule\Validator\NoObjectExists as NoObjectExistsValidator;
 use Science\Entity\Vulga;
 use Science\Entity\Langue;
 use Science\Entity\Pays;
@@ -193,27 +194,57 @@ class VulgaForm extends Form
                     ],
                 ],
             ]);
-        }
-
-        $inputFilter->add([
-            'name'     => 'nom',
-            'required' => true,
-            'filters'  => [
-                [
-                    'name' => StringTrim::class,
-                    'name' => StripTags::class,
-                ],
-            ],
-            'validators' => [
-                [
-                    'name' => StringLength::class,
-                    'options' => [
-                        'encoding' => 'UTF-8',
-                        'min' => 1,
-                        'max' => 512,
+            $inputFilter->add([
+                'name'     => 'nom',
+                'required' => true,
+                'filters'  => [
+                    [
+                        'name' => StringTrim::class,
+                        'name' => StripTags::class,
                     ],
                 ],
-            ],
-        ]);
+                'validators' => [
+                    [
+                        'name' => StringLength::class,
+                        'options' => [
+                            'encoding' => 'UTF-8',
+                            'min' => 1,
+                            'max' => 512,
+                        ],
+                    ],
+                ],
+            ]);
+        } else {
+            $inputFilter->add([
+                'name'     => 'nom',
+                'required' => true,
+                'filters'  => [
+                    [
+                        'name' => StringTrim::class,
+                        'name' => StripTags::class,
+                    ],
+                ],
+                'validators' => [
+                    [
+                        'name' => StringLength::class,
+                        'options' => [
+                            'encoding' => 'UTF-8',
+                            'min' => 1,
+                            'max' => 512,
+                        ],
+                    ],
+                    [
+                        'name' => NoObjectExistsValidator::class,
+                        'options' => [
+                            'object_repository' => $this->entityManager->getRepository(Vulga::class),
+                            'fields' => 'nom',
+                            'messages' => [
+                                'ObjectFound' => 'ce nom existe déjà',
+                            ],
+                        ],
+                    ],
+                ],
+            ]);
+        }
     }
 }

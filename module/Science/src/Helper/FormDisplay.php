@@ -48,7 +48,7 @@ class FormDisplay extends AbstractHelper
 
         $adapter = new DoctrineAdapter(new ORMPaginator($vulgas, false));
         $paginator = new Paginator($adapter);
-        $paginator->setDefaultItemCountPerPage(10);
+        $paginator->setDefaultItemCountPerPage(9);
         $paginator->setCurrentPageNumber($page);
         $this->pagiVulga = $paginator;
 

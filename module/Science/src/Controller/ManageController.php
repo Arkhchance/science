@@ -49,7 +49,7 @@ class ManageController extends AbstractActionController
             $view->setVariable('SUCCES','Error');
             return $view;
         } else {
-            return $this->redirect()->toRoute('manage',['action'=>'dashboard']);
+            return $this->redirect()->toRoute('manage');
         }
     }
     public function delAction()
@@ -208,6 +208,7 @@ class ManageController extends AbstractActionController
 
     public function vulgaAction()
     {
+        $page = $this->params()->fromQuery('page', 1);
         $id = $this->params()->fromRoute('id', null);
 
         if($id === null) {
@@ -226,13 +227,13 @@ class ManageController extends AbstractActionController
         $request = $this->getRequest();
 
         if (!$request->isPost()) {
-            return ['form' => $form, 'vulga' => $vulga];
+            return ['form' => $form, 'vulga' => $vulga, 'page' => $page];
         }
 
         $form->setData($request->getPost());
 
         if (!$form->isValid()) {
-            return ['form' => $form,'vulga' => $vulga];
+            return ['form' => $form,'vulga' => $vulga, 'page' => $page];
         }
 
         $data = $form->getData();
