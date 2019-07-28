@@ -2,7 +2,7 @@
 namespace Science\Service;
 
 use Science\Entity\Langue;
-use Science\Entity\Regkey;
+use Science\Entity\Pays;
 
 
 /**
@@ -64,6 +64,45 @@ class DbManager
                 continue; // skip this one don't delete it, it's under use
             }
             $this->entityManager->remove($langue); // delete it
+        }
+        //apply to db
+        $this->entityManager->flush();
+
+        return $result;
+    }
+
+    /**
+    * Partie Pays  add/del no edit
+    */
+
+    public function addPays($data)
+    {
+        $pays = new Pays();
+
+        $pays->setNom($data['pays']);
+        $pays->setCode($data['code']);
+        $pays->setDrapeau($data['drapeau']);
+
+        //apply to db
+        $this->entityManager->persist($pays);
+        $this->entityManager->flush();
+
+        return true;
+    }
+
+    public function delPays($payslist)
+    {
+        $result = true; //total result
+
+        $payss = $this->entityManager->getRepository(Pays::class)
+                            ->findById($payslist);
+
+        foreach ($payss as $pays) {
+            if($pays->getVulga()->count() > 0) {
+                $result = false; // partial delete
+                continue; // skip this one don't delete it, it's under use
+            }
+            $this->entityManager->remove($pays); // delete it
         }
         //apply to db
         $this->entityManager->flush();

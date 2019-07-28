@@ -3,7 +3,7 @@ namespace Science\Helper;
 
 use Zend\View\Helper\AbstractHelper;
 use Science\Entity\Langue;
-
+use Science\Entity\Pays;
 /**
  * This view helper class displays select multiples
  */
@@ -40,4 +40,23 @@ class FormDisplay extends AbstractHelper
         return $result;
     }
 
+    public function renderPays()
+    {
+        $payss = $this->entityManager->getRepository(Pays::class)->findAll();
+
+        $result = '<select id="iselect" class="manageselect bg-transparent" name="pays[]" multiple>';
+
+        foreach ($payss as $pays) {
+            $result .= '<option value="'.$pays->getId().'">';
+            $result .= $pays->getDrapeau();
+            $result .= ' => '.$pays->getNom();
+
+            $result .= ' => '.$pays->getCode();
+            $result .= '</option>';
+        }
+
+        $result .= '</select>';
+
+        return $result;
+    }
 }

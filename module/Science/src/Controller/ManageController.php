@@ -5,6 +5,7 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\View\Model\JsonModel;
 use Science\Form\Manage\LangueForm;
+use Science\Form\Manage\PaysForm;
 
 class ManageController extends AbstractActionController
 {
@@ -34,7 +35,9 @@ class ManageController extends AbstractActionController
                 case 'langue':
                     $result = $this->dbManager->delLangue($paramList);
                     break;
-
+                case 'pays':
+                    $result = $this->dbManager->delPays($paramList);
+                    break;
                 default:
                     $view->setVariable('SUCCES','Incorrect Input');
                     return $view;
@@ -74,5 +77,27 @@ class ManageController extends AbstractActionController
         $this->dbManager->addLangue($data);
 
         return $this->redirect()->toRoute('manage', ['action' => 'langue']);
+    }
+
+    public function paysAction()
+    {
+        $form = new PaysForm();
+
+        $request = $this->getRequest();
+
+        if (!$request->isPost()) {
+            return ['form' => $form];
+        }
+
+        $form->setData($request->getPost());
+
+        if (!$form->isValid()) {
+            return ['form' => $form];
+        }
+
+        $data = $form->getData();
+        $this->dbManager->addPays($data);
+
+        return $this->redirect()->toRoute('manage', ['action' => 'pays']);
     }
 }

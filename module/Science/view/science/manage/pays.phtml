@@ -1,19 +1,19 @@
 <?php
 
-$title = 'langues';
+$title = 'Pays';
 $this->headTitle($title);
 
 $this->headLink()->appendStylesheet($this->basePath('css/manage.css'));
 
 $form->get('submit')->setAttributes(['class'=>'btn btn-lg btn-primary btn-block']);
 
-$form->get('langue')->setAttributes([
+$form->get('pays')->setAttributes([
     'class'=>'form-control',
-    'placeholder'=>'quelle langue ?'
+    'placeholder'=>'quelle pays ?'
 ]);
 $form->get('code')->setAttributes([
     'class'=>'form-control',
-    'placeholder'=>'code de la langue ex : "fr" "us"',
+    'placeholder'=>'code de la pays ex : "fr" "us"',
 ]);
 $form->get('drapeau')->setAttributes([
     'class'=>'form-control',
@@ -28,14 +28,14 @@ $form->prepare();
 </div>
 <div class="row justify-content-center">
     <div class="col-sm-3">
-        <?= $this->formDisplay()->renderLangue(); ?>
+        <?= $this->formDisplay()->renderPays(); ?>
     </div>
     <div class="col-sm-3">
         <?= $this->form()->openTag($form); ?>
         <div class="form-group">
-            <?= $this->formLabel($form->get('langue')); ?>
-            <?= $this->formElement($form->get('langue')); ?>
-            <?= $this->formElementErrors($form->get('langue')); ?>
+            <?= $this->formLabel($form->get('pays')); ?>
+            <?= $this->formElement($form->get('pays')); ?>
+            <?= $this->formElementErrors($form->get('pays')); ?>
         </div>
         <div class="form-group">
             <?= $this->formLabel($form->get('code')); ?>
@@ -50,7 +50,7 @@ $form->prepare();
         <?= $this->formElement($form->get('submit')); ?>
         <?= $this->formElement($form->get('csrf')) ?>
         <?= $this->form()->closeTag(); ?>
-        <button id="delete" type="button" mode="langue" class="btn mt-3 btn-danger btn-lg btn-block">del langue(s)</button>
+        <button id="delete" type="button" mode="pays" class="btn mt-3 btn-danger btn-lg btn-block">del pays(s)</button>
     </div>
 </div>
 <div class="row justify-content-center">

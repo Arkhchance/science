@@ -39,6 +39,9 @@ class SidePannel extends AbstractHelper
            <a href="/manage/langue">Langue</a>
        </li>
        <li>
+           <a href="/manage/pays">Pays</a>
+       </li>
+       <li>
            <a href="/manage/domaine">Domaine</a>
        </li>
        <li>
