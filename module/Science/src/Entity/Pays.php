@@ -9,7 +9,7 @@ use Science\Entity\Vulga;
 * Pays
 *
 * @ORM\Table(name="pays")
-* @ORM\Entity
+* @ORM\Entity(repositoryClass="\Science\Repository\PaysRepository")
 */
 class Pays
 {
