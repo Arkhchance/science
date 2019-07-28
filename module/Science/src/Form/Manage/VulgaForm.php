@@ -239,7 +239,7 @@ class VulgaForm extends Form
                             'object_repository' => $this->entityManager->getRepository(Vulga::class),
                             'fields' => 'nom',
                             'messages' => [
-                                'ObjectFound' => 'ce nom existe déjà',
+                                'objectFound' => 'ce nom existe déjà',
                             ],
                         ],
                     ],
