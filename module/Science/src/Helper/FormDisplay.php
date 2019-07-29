@@ -80,7 +80,8 @@ EOF;
             $result .= '<td>'.$vulga->getPays()->getDrapeau().'</td>';
             $result .= '<td>';
             foreach ($vulga->getDomaine() as $domaine) {
-                $result .= $domaine->getNom()."<br>";
+                $result .= '<div data-toggle="tooltip" data-placement="left" title="'.$domaine->getDescription().'">';
+                $result .= $domaine->getNom()."</div>";
             }
             $result .= '</td>';
             $result .= '<td>';

@@ -20,18 +20,11 @@ class DbManager
     private $entityManager;
 
     /**
-     * Application config.
-     * @var type
-     */
-    private $config;
-
-    /**
      * Constructs the service.
      */
-    public function __construct($entityManager, $config)
+    public function __construct($entityManager)
     {
         $this->entityManager = $entityManager;
-        $this->config = $config;
     }
 
     public function changeState($key,$state)

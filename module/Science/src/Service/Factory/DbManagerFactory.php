@@ -16,9 +16,7 @@ class DbManagerFactory
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         $entityManager = $container->get('doctrine.entitymanager.orm_default');
-        $config = $container->get('Config');
-        $config = $config['science'];
 
-        return new DbManager($entityManager,$config);
+        return new DbManager($entityManager);
     }
 }
