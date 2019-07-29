@@ -15,4 +15,38 @@ class MSRepository extends EntityRepository
                       ->findBy(['plateforme' => $pf->getId(),'vulga' => $vulga->getId()]);
     }
 
+    public function findByOrder($order,$sens){
+        $em = $this->getEntityManager();
+        $queryBuilder = $em->createQueryBuilder();
+
+        $direction = $sens == 'asc' ? "ASC" : "DESC";
+        switch ($order) {
+            case 'abo':
+                $orderBy = 'follower';
+                break;
+            case 'vid':
+                $orderBy = 'posts';
+                break;
+            case 'vue':
+                $orderBy = 'totalVue';
+                break;
+            case 'like':
+                $orderBy = 'totalLike';
+                break;
+            case 'dislike':
+                $orderBy = 'totalDislike';
+                break;
+            case 'com':
+                $orderBy = 'totalComment';
+                break;
+            default:
+                $orderBy = 'id';
+                break;
+        }
+        $queryBuilder->select('s')
+            ->from(MainStats::class, 's')
+            ->orderBy('s.'.$orderBy, $direction);
+
+        return $queryBuilder->getQuery();
+    }
 }

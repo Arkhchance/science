@@ -1,6 +1,63 @@
 <div class="row mt-5 justify-content-center">
     <div class="col">
-        <pre><code><?php print_r($posts); ?> </code></pre>
-        <pre><code> <?php print_r($stats); ?> </code></pre>
+        <table class="table table-striped table-hover table-dark">
+            <thead>
+                <tr>
+                    <th scope="col">
+                        Chaine Youtube
+                        <a href="<?= $this->url('science',['action' => 'index'],['query'=>['order' => 'nom','by' => 'asc']]);?>"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+                        <a href="<?= $this->url('science',['action' => 'index'],['query'=>['order' => 'nom','by' => 'desc']]);?>"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
+                    </th>
+                    <th scope="col">
+                        Abonnés
+                        <a href="<?= $this->url('science',['action' => 'index'],['query'=>['order' => 'abo','by' => 'asc']]);?>"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+                        <a href="<?= $this->url('science',['action' => 'index'],['query'=>['order' => 'abo','by' => 'desc']]);?>"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
+                    </th>
+                    <th scope="col">
+                        Vidéos
+                        <a href="<?= $this->url('science',['action' => 'index'],['query'=>['order' => 'vid','by' => 'asc']]);?>"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+                        <a href="<?= $this->url('science',['action' => 'index'],['query'=>['order' => 'vid','by' => 'desc']]);?>"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
+                    </th>
+                    <th scope="col">
+                        Vues
+                        <a href="<?= $this->url('science',['action' => 'index'],['query'=>['order' => 'vue','by' => 'asc']]);?>"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+                        <a href="<?= $this->url('science',['action' => 'index'],['query'=>['order' => 'vue','by' => 'desc']]);?>"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
+                    </th>
+                    <th scope="col">
+                        Like
+                        <a href="<?= $this->url('science',['action' => 'index'],['query'=>['order' => 'like','by' => 'asc']]);?>"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+                        <a href="<?= $this->url('science',['action' => 'index'],['query'=>['order' => 'like','by' => 'desc']]);?>"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
+                    </th>
+                    <th scope="col">
+                        Dislike
+                        <a href="<?= $this->url('science',['action' => 'index'],['query'=>['order' => 'dislike','by' => 'asc']]);?>"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+                        <a href="<?= $this->url('science',['action' => 'index'],['query'=>['order' => 'dislike','by' => 'desc']]);?>"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
+                    </th>
+                    <th scope="col">
+                        Com
+                        <a href="<?= $this->url('science',['action' => 'index'],['query'=>['order' => 'com','by' => 'asc']]);?>"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+                        <a href="<?= $this->url('science',['action' => 'index'],['query'=>['order' => 'com','by' => 'desc']]);?>"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($stats as $stat): ?>
+                <tr>
+                    <td><a target="_blank" rel="noopener noreferrer" href="<?= $stat->getLink(); ?>"><?= $stat->getVulga()->getNom(); ?></td>
+                    <td><?= number_format($stat->getFollower(), 0, ',', ' '); ?></td>
+                    <td><?= number_format($stat->getPosts(), 0, ',', ' '); ?></td>
+                    <td><?= number_format($stat->getTotalVue(), 0, ',', ' '); ?></td>
+                    <td><?= number_format($stat->getTotalLike(), 0, ',', ' '); ?></td>
+                    <td><?= number_format($stat->getTotalDislike(), 0, ',', ' '); ?></td>
+                    <td><?= number_format($stat->getTotalComment(), 0, ',', ' '); ?></td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+        <?= $this->paginationControl(
+            $stats,
+            'Sliding','science/partial/Mpaginator',
+            ['route' => 'index' ,'type' => $type, 'sens' => $sens]);
+        ?>
     </div>
 </div>

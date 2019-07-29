@@ -8,6 +8,9 @@ use Science\Entity\Vulga;
 use Science\Entity\Plateforme;
 use Science\Entity\Posts;
 use Science\Entity\MainStats;
+use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as DoctrineAdapter;
+use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
+use Zend\Paginator\Paginator;
 
 class ScienceController extends AbstractActionController
 {
@@ -21,22 +24,22 @@ class ScienceController extends AbstractActionController
 
     public function indexAction()
     {
-        //macroscopie
-        $vulga = $this->entityManager->getRepository(Vulga::class)
-                        ->findOneById(23);
+        $page = $this->params()->fromQuery('page', 1);
+        $type = $this->params()->fromQuery('order', 'id');
+        $sens = $this->params()->fromQuery('by', 'asc');
 
-        $pf = $this->entityManager->getRepository(Plateforme::class)
-                        ->findOneByid(3);
+        $query = $this->entityManager->getRepository(MainStats::class)
+            ->findByOrder($type,$sens);
 
-        $posts = $this->entityManager->getRepository(Posts::class)
-                      ->findByOwner($pf,$vulga);
-
-        $stats = $this->entityManager->getRepository(MainStats::class)
-                    ->findByOwner($pf,$vulga);
+        $adapter = new DoctrineAdapter(new ORMPaginator($query, false));
+        $paginator = new Paginator($adapter);
+        $paginator->setDefaultItemCountPerPage(15);
+        $paginator->setCurrentPageNumber($page);
 
         return  [
-            'posts' => $posts,
-            'stats' => $stats
+            'stats' => $paginator,
+            'type' => $type,
+            'sens' => $sens
         ];
     }
 }
