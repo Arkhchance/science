@@ -50,6 +50,9 @@ class SidePannel extends AbstractHelper
        <li>
            <a href="/manage/vulga">Vulgarisateur</a>
        </li>
+       <li>
+           <a href="/manage/link">Link</a>
+       </li>
    </ul>
 </nav>
 EOF;

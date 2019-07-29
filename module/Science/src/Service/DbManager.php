@@ -314,4 +314,41 @@ class DbManager
 
         return true;
     }
+
+    /**
+    * Partie Link--  add/del no edit
+    */
+
+    public function addPlateformeVulga($data)
+    {
+        $vulga = $this->entityManager->getRepository(Vulga::class)
+                            ->findOneById($data['vulga']);
+        $pf = $this->entityManager->getRepository(Plateforme::class)
+                            ->findOneById($data['pf']);
+
+        $vulga->addPlateforme($pf);
+        //apply to db
+        $this->entityManager->persist($vulga);
+        $this->entityManager->flush();
+
+        return true;
+    }
+
+    public function delPlateformeVulga($pfId,$vulgaId)
+    {
+        $result = true; //total result
+
+        $pf = $this->entityManager->getRepository(Plateforme::class)
+                            ->findOneById($pfId);
+        $vulga = $this->entityManager->getRepository(Vulga::class)
+                            ->findOneById($vulgaId);
+        $pf->removeVulga($vulga);
+
+        //apply to db
+        $this->entityManager->persist($pf);
+        $this->entityManager->persist($vulga);
+        $this->entityManager->flush();
+
+        return $result;
+    }
 }

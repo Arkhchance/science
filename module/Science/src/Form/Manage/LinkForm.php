@@ -8,6 +8,7 @@ use Zend\Validator\StringLength;
 use Zend\Filter\StringTrim;
 use Zend\Filter\StripTags;
 use Science\Entity\Vulga;
+use Science\Entity\Plateforme;
 
 class LinkForm extends Form
 {
@@ -85,22 +86,10 @@ class LinkForm extends Form
             ],
         ]);
         $this->add([
-            'type'  => 'select',
-            'name' => 'pays',
+            'type'  => 'text',
+            'name' => 'link',
             'options' => [
-                'label' => 'Pays du vulgarisateur',
-                'value_options' => $this->getArrayPays(),
-            ],
-        ]);
-        $this->add([
-            'type' => 'select',
-            'name' => 'domaine',
-            'attributes' =>  [
-                'multiple' => true,
-            ],
-            'options' => [
-                'label' => 'Dans quel domaine iel vulgarise',
-                'value_options' => $this->getArrayDomaine(),
+                'label' => 'lien de la plateforme',
             ],
         ]);
     }
@@ -112,80 +101,24 @@ class LinkForm extends Form
     {
         // Create main input filter
         $inputFilter = $this->getInputFilter();
-
-        if($this->edit) {
-            $inputFilter->add([
-                'name'     => 'id',
-                'required' => true,
-                'filters'  => [
-                    [
-                        'name' => ToInt::class,
+        $inputFilter->add([
+            'name'     => 'link',
+            'required' => true,
+            'filters'  => [
+                [
+                    'name' => StringTrim::class,
+                ],
+            ],
+            'validators' => [
+                [
+                    'name' => StringLength::class,
+                    'options' => [
+                        'encoding' => 'UTF-8',
+                        'min' => 1,
+                        'max' => 256,
                     ],
                 ],
-                'validators' => [
-                    [
-                        'name' => ObjectExistsValidator::class,
-                        'options' => [
-                            'object_repository' => $this->entityManager->getRepository(Vulga::class),
-                            'fields' => 'id',
-                            'messages' => [
-                                'noObjectFound' => 'id not found',
-                            ],
-                        ],
-                    ],
-                ],
-            ]);
-            $inputFilter->add([
-                'name'     => 'nom',
-                'required' => true,
-                'filters'  => [
-                    [
-                        'name' => StringTrim::class,
-                        'name' => StripTags::class,
-                    ],
-                ],
-                'validators' => [
-                    [
-                        'name' => StringLength::class,
-                        'options' => [
-                            'encoding' => 'UTF-8',
-                            'min' => 1,
-                            'max' => 512,
-                        ],
-                    ],
-                ],
-            ]);
-        } else {
-            $inputFilter->add([
-                'name'     => 'nom',
-                'required' => true,
-                'filters'  => [
-                    [
-                        'name' => StringTrim::class,
-                        'name' => StripTags::class,
-                    ],
-                ],
-                'validators' => [
-                    [
-                        'name' => StringLength::class,
-                        'options' => [
-                            'encoding' => 'UTF-8',
-                            'min' => 1,
-                            'max' => 512,
-                        ],
-                    ],
-                    [
-                        'name' => NoObjectExistsValidator::class,
-                        'options' => [
-                            'object_repository' => $this->entityManager->getRepository(Vulga::class),
-                            'fields' => 'nom',
-                            'messages' => [
-                                'objectFound' => 'ce nom existe déjà',
-                            ],
-                        ],
-                    ],
-                ],
-            ]);
-        }
+            ],
+        ]);
     }
 }

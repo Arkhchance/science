@@ -20,6 +20,7 @@ class FormDisplay extends AbstractHelper
     protected $entityManager;
 
     public $pagiVulga;
+    public $pagiLink;
 
     public function __construct($entityManager)
     {
@@ -41,7 +42,48 @@ class FormDisplay extends AbstractHelper
 
         return $result;
     }
+    public function renderLink($page = 1)
+    {
+        $vulgas = $this->entityManager->getRepository(Vulga::class)->findVulga();
 
+        $adapter = new DoctrineAdapter(new ORMPaginator($vulgas, false));
+        $paginator = new Paginator($adapter);
+        $paginator->setDefaultItemCountPerPage(9);
+        $paginator->setCurrentPageNumber($page);
+        $this->pagiLink = $paginator;
+
+        $result  = '<table class="table table-striped table-bordered">';
+        $result .= <<<EOF
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Nom</th>
+                      <th scope="col">Plateforme</th>
+                    </tr>
+                  </thead>
+EOF;
+        $result .= '<tbody>';
+
+        foreach ($paginator as $vulga) {
+            $result .= '<tr>';
+            $result .= '<th scope="row">'.$vulga->getId().'</th>';
+            $result .= '<td>'.$vulga->getNom().'</td>';
+            $result .= '<td>';
+            foreach ($vulga->getPlateforme() as $pf) {
+                $result .= '<div class="row"><div class="col">';
+                $result .= $pf->getNom()."</div>";
+                $result .= '<div class="col"><button type="button" vulgaid="'.$vulga->getId().'" pfid="'.$pf->getId().'" class="Ldelete btn btn-danger btn-sm">delete</button></div>';
+                $result .= '</div>';
+            }
+            $result .= '</td>';
+            $result .= '</tr>';
+        }
+
+        $result .= '</tbody>';
+        $result .= '</table>';
+
+        return $result;
+    }
     public function renderVulga($page = 1)
     {
         $vulgas = $this->entityManager->getRepository(Vulga::class)->findVulga();

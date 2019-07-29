@@ -9,6 +9,7 @@ use Science\Form\Manage\PaysForm;
 use Science\Form\Manage\DomaineForm;
 use Science\Form\Manage\PlateForm;
 use Science\Form\Manage\VulgaForm;
+use Science\Form\Manage\LinkForm;
 use Science\Entity\Plateforme;
 use Science\Entity\Vulga;
 
@@ -82,6 +83,11 @@ class ManageController extends AbstractActionController
                     break;
                 case 'vulga':
                     $result = $this->dbService->delVulga($paramList);
+                    break;
+                case 'pfvulga':
+                    $pf = $this->params()->fromPost('pfid', null);
+                    $vulga = $this->params()->fromPost('vulgaid', null);
+                    $result = $this->dbService->delPlateformeVulga($pf,$vulga);
                     break;
                 default:
                     $view->setVariable('SUCCES','Incorrect Input');
@@ -243,5 +249,29 @@ class ManageController extends AbstractActionController
             $this->dbService->editVulga($data);
 
         return $this->redirect()->toRoute('manage', ['action' => 'vulga']);
+    }
+
+    public function linkAction()
+    {
+        $page = $this->params()->fromQuery('page', 1);
+
+        $form = new LinkForm($this->entityManager);
+
+        $request = $this->getRequest();
+
+        if (!$request->isPost()) {
+            return ['form' => $form, 'page' => $page];
+        }
+
+        $form->setData($request->getPost());
+
+        if (!$form->isValid()) {
+            return ['form' => $form, 'page' => $page];
+        }
+
+        $data = $form->getData();
+        $this->dbService->addPlateformeVulga($data);
+
+        return $this->redirect()->toRoute('manage', ['action' => 'link']);
     }
 }

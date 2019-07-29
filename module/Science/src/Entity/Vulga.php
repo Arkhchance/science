@@ -37,7 +37,7 @@ class Vulga
     protected $mainstats;
 
     /**
-    * @ORM\OneToMany(targetEntity="\Science\Entity\Posts", mappedBy="vulga")
+    * @ORM\OneToMany(targetEntity="\Science\Entity\Posts", mappedBy="vulga",orphanRemoval=true)
     * @ORM\JoinColumn(name="id", referencedColumnName="vulga")
     */
     protected $posts;
