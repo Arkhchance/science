@@ -17,11 +17,13 @@ class ManageController extends AbstractActionController
 {
     private $dbService;
     private $entityManager;
+    private $apiService;
 
-    public function __construct($dbService,$entityManager)
+    public function __construct($dbService,$entityManager,$apiService)
     {
         $this->dbService = $dbService;
         $this->entityManager = $entityManager;
+        $this->apiService = $apiService;
     }
 
     public function vulgastateAction()
@@ -271,6 +273,11 @@ class ManageController extends AbstractActionController
 
         $data = $form->getData();
         $this->dbService->addPlateformeVulga($data);
+        $result = $this->apiService->addPlateformeStat($data);
+        if(!$result) {
+            $this->dbService->delPlateformeVulga($data['pf'],$data['vulga']);
+            return ['form' => $form, 'page' => $page,'error' => $result];
+        }
 
         return $this->redirect()->toRoute('manage', ['action' => 'link']);
     }

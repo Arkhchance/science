@@ -105,6 +105,8 @@ return [
             Service\AuthManager::class => Service\Factory\AuthManagerFactory::class,
             Service\UserManager::class => Service\Factory\UserManagerFactory::class,
             Service\DbManager::class   => Service\Factory\DbManagerFactory::class,
+            Service\YoutubeManager::class   => Service\Factory\YoutubeManagerFactory::class,
+            Service\ApiManager::class  => Service\Factory\ApiManagerFactory::class,
         ],
     ],
     'view_helpers' => [

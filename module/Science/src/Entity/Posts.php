@@ -9,7 +9,7 @@ use Science\Entity\Vulga;
 * Posts
 *
 * @ORM\Table(name="posts", indexes={@ORM\Index(name="plateforme_post", columns={"plateforme"})})
-* @ORM\Entity
+* @ORM\Entity(repositoryClass="\Science\Repository\PostsRepository")
 */
 class Posts
 {
@@ -21,6 +21,13 @@ class Posts
     * @ORM\GeneratedValue(strategy="IDENTITY")
     */
     private $id;
+
+    /**
+    * @var string
+    *
+    * @ORM\Column(name="post_id", type="string", length=255, nullable=false)
+    */
+    private $postid;
 
     /**
     * @var int
@@ -111,6 +118,30 @@ class Posts
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+    * Set postid.
+    *
+    * @param string $postid
+    *
+    * @return Posts
+    */
+    public function setPostId($postid)
+    {
+        $this->postid = $postid;
+
+        return $this;
+    }
+
+    /**
+    * Get postid.
+    *
+    * @return string
+    */
+    public function getPostId()
+    {
+        return $this->postid;
     }
 
     /**

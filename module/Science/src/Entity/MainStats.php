@@ -9,7 +9,7 @@ use Science\Entity\Plateforme;
 * MainStats
 *
 * @ORM\Table(name="main_stats", indexes={@ORM\Index(name="vulga_link", columns={"vulga"}), @ORM\Index(name="plateforme_link", columns={"plateforme"})})
-* @ORM\Entity
+* @ORM\Entity(repositoryClass="\Science\Repository\MSRepository")
 */
 class MainStats
 {
@@ -32,9 +32,9 @@ class MainStats
     /**
     * @var \DateTime
     *
-    * @ORM\Column(name="date", type="datetime", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
+    * @ORM\Column(name="date", type="datetime", nullable=true,)
     */
-    private $date = 'CURRENT_TIMESTAMP';
+    private $date;
 
     /**
     * @var string
@@ -53,7 +53,7 @@ class MainStats
     /**
     * @var int
     *
-    * @ORM\Column(name="posts", type="integer", nullable=false)
+    * @ORM\Column(name="nb_posts", type="integer", nullable=false)
     */
     private $posts;
 
@@ -67,9 +67,23 @@ class MainStats
     /**
     * @var int
     *
-    * @ORM\Column(name="total_dislike", type="integer", nullable=false)
+    * @ORM\Column(name="total_dislike", type="integer", nullable=true)
     */
     private $totalDislike;
+
+    /**
+    * @var int
+    *
+    * @ORM\Column(name="total_vue", type="integer", nullable=true)
+    */
+    private $totalVue;
+
+    /**
+    * @var int
+    *
+    * @ORM\Column(name="total_comment", type="integer", nullable=true)
+    */
+    private $totalComment;
 
     /**
     * @var \Plateforme
@@ -305,5 +319,53 @@ class MainStats
     public function getTotalDislike()
     {
         return $this->totalDislike;
+    }
+
+    /**
+    * Set totalVue.
+    *
+    * @param string $totalVue
+    *
+    * @return MainStats
+    */
+    public function setTotalVue($totalVue)
+    {
+        $this->totalVue = $totalVue;
+
+        return $this;
+    }
+
+    /**
+    * Get totalDislike.
+    *
+    * @return string
+    */
+    public function getTotalVue()
+    {
+        return $this->totalVue;
+    }
+
+    /**
+    * Set totalComment.
+    *
+    * @param string $totalComment
+    *
+    * @return MainStats
+    */
+    public function setTotalComment($totalComment)
+    {
+        $this->totalComment = $totalComment;
+
+        return $this;
+    }
+
+    /**
+    * Get totalDislike.
+    *
+    * @return string
+    */
+    public function getTotalComment()
+    {
+        return $this->totalComment;
     }
 }

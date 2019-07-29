@@ -5,7 +5,7 @@ use Science\Controller\ManageController;
 use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\Factory\FactoryInterface;
 use Science\Service\DbManager;
-
+use Science\Service\ApiManager;
 /**
  * This is the factory for ScienceController. Its purpose is to instantiate the controller
  * and inject dependencies into its constructor.
@@ -16,6 +16,7 @@ class ManageControllerFactory implements FactoryInterface
     {
         $dbManager = $container->get(DbManager::class);
         $entityManager = $container->get('doctrine.entitymanager.orm_default');
-        return new ManageController($dbManager,$entityManager);
+        $apiService = $container->get(ApiManager::class);
+        return new ManageController($dbManager,$entityManager,$apiService);
     }
 }
