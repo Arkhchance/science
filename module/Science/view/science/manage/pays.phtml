@@ -48,7 +48,6 @@ $form->prepare();
             <?= $this->formElementErrors($form->get('drapeau')); ?>
         </div>
         <?= $this->formElement($form->get('submit')); ?>
-        <?= $this->formElement($form->get('csrf')) ?>
         <?= $this->form()->closeTag(); ?>
         <button id="delete" type="button" mode="pays" class="btn mt-3 btn-danger btn-lg btn-block">del pays(s)</button>
     </div>

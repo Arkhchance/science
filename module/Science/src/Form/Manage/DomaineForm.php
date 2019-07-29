@@ -44,16 +44,6 @@ class DomaineForm extends Form
                 'label' => 'Description',
             ],
         ]);
-        // Add the CSRF field
-        $this->add([
-            'type' => 'csrf',
-            'name' => 'csrf',
-            'options' => [
-                'csrf_options' => [
-                'timeout' => 600
-                ]
-            ],
-        ]);
         // Add the Submit button
         $this->add([
             'type'  => 'submit',

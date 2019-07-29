@@ -152,16 +152,6 @@ class VulgaForm extends Form
                 'value_options' => $this->getArrayDomaine(),
             ],
         ]);
-        // Add the CSRF field
-        $this->add([
-            'type' => 'csrf',
-            'name' => 'csrf',
-            'options' => [
-                'csrf_options' => [
-                'timeout' => 600
-                ]
-            ],
-        ]);
     }
 
     /**

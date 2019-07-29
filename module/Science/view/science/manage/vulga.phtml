@@ -92,7 +92,6 @@ $form->prepare();
             <?= $this->formElementErrors($form->get('domaine')); ?>
         </div>
         <?= $this->formElement($form->get('submit')); ?>
-        <?= $this->formElement($form->get('csrf')) ?>
         <?php if($edit) echo $this->formElement($form->get('id')) ; ?>
         <?= $this->form()->closeTag(); ?>
     </div>

@@ -2,7 +2,7 @@
 namespace Science\Repository;
 
 use Doctrine\ORM\EntityRepository;
-use Science\Entity\Vulga; 
+use Science\Entity\Vulga;
 
 /**
  * This is the custom repository class for pays entity.
@@ -18,5 +18,10 @@ class VulgaRepository extends EntityRepository
         $queryBuilder->orderBy('v.nom', 'ASC');
 
         return $queryBuilder->getQuery();
+    }
+    
+    public function findAll()
+    {
+        return $this->findBy([], ['nom' => 'ASC']);
     }
 }

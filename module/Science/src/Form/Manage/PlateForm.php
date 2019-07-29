@@ -95,16 +95,6 @@ class PlateForm extends Form
                 'label' => 'Regex extraction id',
             ],
         ]);
-        // Add the CSRF field
-        $this->add([
-            'type' => 'csrf',
-            'name' => 'csrf',
-            'options' => [
-                'csrf_options' => [
-                'timeout' => 600
-                ]
-            ],
-        ]);
     }
 
     /**

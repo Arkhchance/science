@@ -7,29 +7,20 @@ use Zend\InputFilter\InputFilter;
 use Zend\Validator\StringLength;
 use Zend\Filter\StringTrim;
 use Zend\Filter\StripTags;
-use Zend\Validator\Uri;
-use Zend\Filter\ToInt;
-use DoctrineModule\Validator\ObjectExists as ObjectExistsValidator;
-use DoctrineModule\Validator\NoObjectExists as NoObjectExistsValidator;
 use Science\Entity\Vulga;
-use Science\Entity\Langue;
-use Science\Entity\Pays;
-use Science\Entity\Domaine;
 
-class VulgaForm extends Form
+class LinkForm extends Form
 {
-    private $edit;
     private $entityManager;
     /**
      * Constructor.
      */
-    public function __construct($entityManager = null, $edit = false)
+    public function __construct($entityManager = null)
     {
-        $this->edit = $edit;
         $this->entityManager = $entityManager;
 
         // Define form name
-        parent::__construct('Vulga-form');
+        parent::__construct('link-form');
 
         // Set POST method for this form
         $this->setAttribute('method', 'post');
@@ -38,43 +29,28 @@ class VulgaForm extends Form
         $this->addInputFilter();
     }
 
-    private function getArrayLangue()
+    private function getArrayVulga()
     {
-        $myLangues = [];
+        $myVulgas = [];
+        $vulgas = $this->entityManager->getRepository(Vulga::class)->findAll();
 
-        $langues = $this->entityManager->getRepository(Langue::class)->findAll();
-
-        foreach ($langues as $langue) {
-            $myLangues[$langue->getId()] = $langue->getDrapeau()." ".$langue->getNom();
+        foreach ($vulgas as $vulga) {
+            $myVulgas[$vulga->getId()] = $vulga->getNom();
         }
 
-        return $myLangues;
+        return $myVulgas;
     }
 
-    private function getArrayDomaine()
+    private function getArrayPlateforme()
     {
-        $myDomaines = [];
+        $myPfs = [];
+        $pfs = $this->entityManager->getRepository(Plateforme::class)->findAll();
 
-        $domaines = $this->entityManager->getRepository(Domaine::class)->findAll();
-
-        foreach ($domaines as $domaine) {
-            $myDomaines[$domaine->getId()] = $domaine->getNom();
+        foreach ($pfs as $pf) {
+            $myPfs[$pf->getId()] = $pf->getNom();
         }
 
-        return $myDomaines;
-    }
-
-    private function getArrayPays()
-    {
-        $myPays = [];
-
-        $payss = $this->entityManager->getRepository(Pays::class)->findAll();
-
-        foreach ($payss as $pays) {
-            $myPays[$pays->getId()] = $pays->getDrapeau()." ".$pays->getNom();
-        }
-
-        return $myPays;
+        return $myPfs;
     }
 
     /**
@@ -82,55 +58,30 @@ class VulgaForm extends Form
      */
     protected function addElements()
     {
-        if($this->edit) {
-            $this->add([
-                'type'  => 'hidden',
-                'name' => 'id',
-                'options' => [
-                    'label' => 'id',
-                ],
-            ]);
-            // Add the Submit button
-            $this->add([
-                'type'  => 'submit',
-                'name' => 'submit',
-                'attributes' => [
-                    'value' => 'Envoyer les modifs',
-                    'id' => 'submit',
-                ],
-            ]);
-        } else {
-            // Add the Submit button
-            $this->add([
-                'type'  => 'submit',
-                'name' => 'submit',
-                'attributes' => [
-                    'value' => 'Nouveau Vulgarisateur',
-                    'id' => 'submit',
-                ],
-            ]);
-        }
+
+        // Add the Submit button
         $this->add([
-            'type'  => 'text',
-            'name' => 'nom',
-            'options' => [
-                'label' => 'Nom du vulgarisateur.trice',
+            'type'  => 'submit',
+            'name' => 'submit',
+            'attributes' => [
+                'value' => 'Nouveau lien de plateforme',
+                'id' => 'submit',
             ],
         ]);
         $this->add([
             'type' => 'select',
-            'name' => 'sexe',
+            'name' => 'vulga',
             'options' => [
-                'label' => 'Sexe ?',
-                'value_options' => Vulga::getSexeList(),
+                'label' => 'Vulgarisateur',
+                'value_options' => $this->getArrayVulga(),
             ],
         ]);
         $this->add([
             'type'  => 'select',
-            'name' => 'langue',
+            'name' => 'pf',
             'options' => [
-                'label' => 'Langue la plus utilisé',
-                'value_options' => $this->getArrayLangue(),
+                'label' => 'Plateforme',
+                'value_options' => $this->getArrayPlateforme(),
             ],
         ]);
         $this->add([
@@ -150,16 +101,6 @@ class VulgaForm extends Form
             'options' => [
                 'label' => 'Dans quel domaine iel vulgarise',
                 'value_options' => $this->getArrayDomaine(),
-            ],
-        ]);
-        // Add the CSRF field
-        $this->add([
-            'type' => 'csrf',
-            'name' => 'csrf',
-            'options' => [
-                'csrf_options' => [
-                'timeout' => 600
-                ]
             ],
         ]);
     }
