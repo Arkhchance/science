@@ -26,7 +26,7 @@ if($vulga != null) {
 $nom     = $edit ? $vulga->getNom() : '';
 $pays    = $edit ? $vulga->getPays()->getId() : '1';
 $langue  = $edit ? $vulga->getLangue()->getId() : '2';
-$sexe    = $edit ? $vulga->getSexe() : '';
+$sexe    = $edit ? $vulga->getSexe() : '1';
 
 $form->get('nom')->setAttributes([
     'class'=>'form-control',
