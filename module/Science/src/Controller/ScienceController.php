@@ -29,15 +29,15 @@ class ScienceController extends AbstractActionController
         $sens = $this->params()->fromQuery('by', 'asc');
 
         $query = $this->entityManager->getRepository(MainStats::class)
-            ->findByOrder($type,$sens);
-
+            ->findByOrder($type,$sens)->getResult();
+        /*
         $adapter = new DoctrineAdapter(new ORMPaginator($query, false));
         $paginator = new Paginator($adapter);
-        $paginator->setDefaultItemCountPerPage(15);
+        $paginator->setDefaultItemCountPerPage(35);
         $paginator->setCurrentPageNumber($page);
-
+        */
         return  [
-            'stats' => $paginator,
+            'stats' => $query,
             'type' => $type,
             'sens' => $sens
         ];

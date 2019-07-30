@@ -279,6 +279,6 @@ class ManageController extends AbstractActionController
             return ['form' => $form, 'page' => $page,'error' => $result];
         }
 
-        return $this->redirect()->toRoute('manage', ['action' => 'link']);
+        return $this->redirect()->toRoute('manage', ['action' => 'link'],['query'=>['page'=>$page]]);
     }
 }
