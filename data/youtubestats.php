@@ -10,7 +10,7 @@ $subscriber = $argv[4];
 
 $rand = rand();
 mkdir("./data/$rand");
-$vidLink = 'https://www.youtube.com/watch?v=';
+$vidLink = 'http://www.youtube.com/watch?v=';
 $cmdVideo = "cd ./data/$rand && youtube-dl --skip-download --write-info-json ";
 
 $ids = shell_exec("youtube-dl --get-id $id");
@@ -27,7 +27,7 @@ foreach ($idList as $videoId) {
     if($videoId == "")
         continue;
 
-    exec("$cmdVideo $videoId");
+    exec($cmdVideo." ".$vidLink.$videoId);
     $file = shell_exec("ls ./data/$rand/*.json");
     $file = trim($file, "\n");
     $strJsonFileContents = file_get_contents($file);
