@@ -22,7 +22,7 @@ $viewCount = 0;
 $videoData = [];
 $totalLike = 0;
 $totalDislike = 0;
-
+sleep(1); // too avoid flooding youtube 
 foreach ($idList as $videoId) {
     if($videoId == "")
         continue;
@@ -47,6 +47,7 @@ foreach ($idList as $videoId) {
     $videoCount++;
 
     unlink($file);
+    sleep(1); // too avoid flooding youtube
 }
 
 rmdir("./data/$rand");
