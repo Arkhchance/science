@@ -7,9 +7,9 @@ use Science\Entity\Plateforme;
 
 /**
 * MainStats
-*
-* @ORM\Table(name="main_stats", indexes={@ORM\Index(name="vulga_link", columns={"vulga"}), @ORM\Index(name="plateforme_link", columns={"plateforme"})})
 * @ORM\Entity(repositoryClass="\Science\Repository\MSRepository")
+* @ORM\Table(name="main_stats", indexes={@ORM\Index(name="vulga_link", columns={"vulga"}), @ORM\Index(name="plateforme_link", columns={"plateforme"})})
+*
 */
 class MainStats
 {

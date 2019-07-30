@@ -42,4 +42,12 @@ class ScienceController extends AbstractActionController
             'sens' => $sens
         ];
     }
+    public function testAction()
+    {
+        $id = 'https://www.youtube.com/channel/UCfO4BQD5_S1272GVmuXmTxA';
+
+        $ids = shell_exec("youtube-dl --get-id $id");
+
+        return ['ids' => $ids];
+    }
 }

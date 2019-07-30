@@ -98,6 +98,11 @@ class YoutubeManager
         return $video;
     }
 
+    /* Warnign this method generate a lot of api request !
+    * it is not recommended for big channel as it will eat
+    * all of of the api quota for the day
+    * /!\ BEWARE /!\
+    */ 
     private function extractVideosIdFromChannel($channelId)
     {
         $videosId = [];
@@ -121,7 +126,7 @@ class YoutubeManager
                 $videosId[] = $items->getId()->getVideoId();
             }
             if($lastTurn)
-                $stay = false; 
+                $stay = false;
             if($result->getNextPageToken() == null)
                 $lastTurn = true;
         }
