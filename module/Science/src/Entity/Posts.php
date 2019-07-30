@@ -39,14 +39,14 @@ class Posts
     /**
     * @var string
     *
-    * @ORM\Column(name="Titre", type="string", length=255, nullable=false)
+    * @ORM\Column(name="titre", type="string", length=255, nullable=false)
     */
     private $titre;
 
     /**
     * @var string|null
     *
-    * @ORM\Column(name="Description", type="text", length=65535, nullable=true)
+    * @ORM\Column(name="description", type="text", length=65535, nullable=true)
     */
     private $description;
 
@@ -70,6 +70,13 @@ class Posts
     * @ORM\Column(name="comments", type="integer", nullable=false)
     */
     private $comments;
+
+    /**
+    * @var int
+    *
+    * @ORM\Column(name="duree", type="integer", nullable=true)
+    */
+    private $duree;
 
     /**
     * @var \Plateforme
@@ -305,4 +312,29 @@ class Posts
         $this->plateforme = $plateforme;
         $plateforme->addPosts($this);
     }
+
+    /**
+    * Set duree.
+    *
+    * @param int $duree
+    *
+    * @return Posts
+    */
+    public function setDuree($duree)
+    {
+        $this->duree = $duree;
+
+        return $this;
+    }
+
+    /**
+    * Get duree.
+    *
+    * @return int
+    */
+    public function getDuree()
+    {
+        return $this->duree;
+    }
+
 }

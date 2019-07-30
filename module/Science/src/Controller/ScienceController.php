@@ -46,7 +46,7 @@ class ScienceController extends AbstractActionController
     {
         $id = 'https://www.youtube.com/channel/UCfO4BQD5_S1272GVmuXmTxA';
 
-        $ids = shell_exec("youtube-dl --get-id $id");
+        $ids = $id;
 
         return ['ids' => $ids];
     }

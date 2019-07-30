@@ -24,6 +24,14 @@ class ApiManager
         $this->youtubeService = $youtubeService;
     }
 
+    private function useYoutubeAlternate($data,$channelId,$pfId,$vulgaId)
+    {
+        $follower = $data['follower'];
+        $command = "./data/youtubestats.php $channelId $pfId $vulgaId $follower";
+        $exec = 'bash -c "exec nohup setsid '.$command.' > /dev/null 2>&1 &"';
+        exec($exec);
+    }
+
     public function addPlateformeStat($data)
     {
 
@@ -40,15 +48,19 @@ class ApiManager
         switch ($pf->getNom()) {
             case 'Youtube':
                 $stats = $this->youtubeService->getChannelStats($linkId);
-                $this->youtubeService->addVideoChannel($linkId,$pf,$vulga);
-                $this->addYoutubeStats($stats,$pf,$vulga,$linkId);
+                if($data['api'] == 1) {
+                    $this->youtubeService->addVideoChannel($linkId,$pf,$vulga);
+                    $this->addYoutubeStats($stats,$pf,$vulga,$linkId);
+                } else {
+                    $this->useYoutubeAlternate($stats,$linkId,$pf->getId(),$vulga->getId());
+                }
                 break;
 
             default:
                 // code...
                 break;
         }
-        return true; 
+        return true;
     }
 
     private function addYoutubeStats($initStats,$pf,$vulga,$channelId)

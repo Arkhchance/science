@@ -92,6 +92,19 @@ class LinkForm extends Form
                 'label' => 'lien de la plateforme',
             ],
         ]);
+        $this->add([
+            'type' => 'checkbox',
+            'name' => 'api',
+            'options' => [
+                'use_hidden_element' => true,
+                'label' => 'Utilise l\'api ?',
+                'checked_value' => "1",
+                'unchecked_value' => "0",
+            ],
+            'attributes' => [
+                 'value' => "0",
+            ],
+        ]);
     }
 
     /**
