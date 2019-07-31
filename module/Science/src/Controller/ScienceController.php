@@ -16,10 +16,12 @@ class ScienceController extends AbstractActionController
 {
 
     private $entityManager;
+    private $dataService;
 
-    public function __construct($entityManager)
+    public function __construct($entityManager,$dataService)
     {
         $this->entityManager = $entityManager;
+        $this->dataService = $dataService;
     }
 
     public function indexAction()
@@ -49,5 +51,15 @@ class ScienceController extends AbstractActionController
         $ids = $id;
 
         return ['ids' => $ids];
+    }
+
+    public function statsAction()
+    {
+        $order = $this->params()->fromQuery('order', 'nom');
+        $sens = $this->params()->fromQuery('by', 'asc');
+
+        $datas = $this->dataService->prepareStats($order,$sens);
+
+        return ['datas' => $datas];
     }
 }

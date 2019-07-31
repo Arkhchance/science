@@ -1,0 +1,96 @@
+<?php
+function convertHours($time,$trail) {
+    if($time > 60) {
+        $time /= 60;
+        $unit = "heures";
+    } else {
+        $unit = "minutes";
+    }
+    return number_format($time, $trail, ',', ' ')." ".$unit;
+}
+?>
+<div class="row mt-5 justify-content-center">
+    <div class="col">
+        <table class="table table-striped table-hover table-dark">
+            <thead>
+                <tr>
+                    <th scope="col">
+                        Chaine Youtube
+                        <a href="<?= $this->url('science',['action' => 'stats'],['query'=>['order' => 'nom','by' => 'asc']]);?>"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+                        <a href="<?= $this->url('science',['action' => 'stats'],['query'=>['order' => 'nom','by' => 'desc']]);?>"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
+                    </th>
+                    <th scope="col">
+                        Abonnés
+                        <a href="<?= $this->url('science',['action' => 'stats'],['query'=>['order' => 'abo','by' => 'asc']]);?>"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+                        <a href="<?= $this->url('science',['action' => 'stats'],['query'=>['order' => 'abo','by' => 'desc']]);?>"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
+                    </th>
+                    <th scope="col">
+                        Vidéos
+                        <a href="<?= $this->url('science',['action' => 'stats'],['query'=>['order' => 'vid','by' => 'asc']]);?>"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+                        <a href="<?= $this->url('science',['action' => 'stats'],['query'=>['order' => 'vid','by' => 'desc']]);?>"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
+                    </th>
+                    <th scope="col">
+                        Vues
+                        <a href="<?= $this->url('science',['action' => 'stats'],['query'=>['order' => 'vue','by' => 'asc']]);?>"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+                        <a href="<?= $this->url('science',['action' => 'stats'],['query'=>['order' => 'vue','by' => 'desc']]);?>"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
+                    </th>
+                    <th scope="col">
+                        Vues moyenne / vidéo
+                        <a href="<?= $this->url('science',['action' => 'stats'],['query'=>['order' => 'vue_v','by' => 'asc']]);?>"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+                        <a href="<?= $this->url('science',['action' => 'stats'],['query'=>['order' => 'vue_v','by' => 'desc']]);?>"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
+                    </th>
+                    <th scope="col">
+                        Like - Dislike
+                    </th>
+                    <th scope="col">
+                        Like par Dislike
+                        <a href="<?= $this->url('science',['action' => 'stats'],['query'=>['order' => 'likeDis','by' => 'asc']]);?>"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+                        <a href="<?= $this->url('science',['action' => 'stats'],['query'=>['order' => 'likeDis','by' => 'desc']]);?>"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
+                    </th>
+                    <th scope="col">
+                        Like moyen / vidéo
+                        <a href="<?= $this->url('science',['action' => 'stats'],['query'=>['order' => 'like_v','by' => 'asc']]);?>"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+                        <a href="<?= $this->url('science',['action' => 'stats'],['query'=>['order' => 'like_v','by' => 'desc']]);?>"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
+                    </th>
+                    <th scope="col">
+                        dislike moyen / vidéo
+                        <a href="<?= $this->url('science',['action' => 'stats'],['query'=>['order' => 'dis_v','by' => 'asc']]);?>"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+                        <a href="<?= $this->url('science',['action' => 'stats'],['query'=>['order' => 'dis_v','by' => 'desc']]);?>"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
+                    </th>
+                    <th scope="col">
+                        Minutes de vidéos total
+                        <a href="<?= $this->url('science',['action' => 'stats'],['query'=>['order' => 'minutes','by' => 'asc']]);?>"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+                        <a href="<?= $this->url('science',['action' => 'stats'],['query'=>['order' => 'minutes','by' => 'desc']]);?>"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
+                    </th>
+                    <th scope="col">
+                        durée moyenne d'une vidéo
+                        <a href="<?= $this->url('science',['action' => 'stats'],['query'=>['order' => 'min_v','by' => 'asc']]);?>"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+                        <a href="<?= $this->url('science',['action' => 'stats'],['query'=>['order' => 'min_v','by' => 'desc']]);?>"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($datas as $data): ?>
+                <tr>
+                    <td><?= $data['name']; ?></td>
+                    <td><?= number_format($data['abo'], 0, ',', ' '); ?></td>
+                    <td><?= number_format($data['vid'], 0, ',', ' '); ?></td>
+                    <td><?= number_format($data['vue'], 0, ',', ' '); ?></td>
+                    <td><?= number_format($data['vue_v'], 3, ',', ' '); ?></td>
+                    <td><?= number_format($data['like'], 0, ',', ' '); ?> - <?= number_format($data['dislike'], 0, ',', ' '); ?></td>
+                    <td><?= number_format($data['likeDis'], 3, ',', ' '); ?></td>
+                    <td><?= number_format($data['like_v'], 3, ',', ' '); ?></td>
+                    <td><?= number_format($data['dis_v'], 3, ',', ' '); ?></td>
+                    <td><?= convertHours($data['minutes'],0);  ?></td>
+                    <td><?= convertHours($data['min_v'], 3); ?></td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+        <?php /* echo $this->paginationControl(
+            $stats,
+            'Sliding','science/partial/Mpaginator',
+            ['route' => 'science' ,'type' => $type, 'sens' => $sens]); */
+        ?>
+    </div>
+</div>

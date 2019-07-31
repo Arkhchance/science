@@ -22,15 +22,16 @@ $viewCount = 0;
 $videoData = [];
 $totalLike = 0;
 $totalDislike = 0;
-sleep(1); // too avoid flooding youtube 
+sleep(1); // too avoid flooding youtube
 foreach ($idList as $videoId) {
     if($videoId == "")
         continue;
 
     exec($cmdVideo." ".$vidLink.$videoId);
-    $file = shell_exec("ls ./data/$rand/*.json");
-    $file = trim($file, "\n");
-    $strJsonFileContents = file_get_contents($file);
+    shell_exec("mv data/$rand/* data/$rand/data.json");
+    sleep(1); // too avoid flooding youtube
+
+    $strJsonFileContents = file_get_contents("/data/$rand/data.json");
     $array = json_decode($strJsonFileContents, true);
 
     $videoData[$videoCount]['dislike'] = $array['dislike_count'];
@@ -46,8 +47,8 @@ foreach ($idList as $videoId) {
     $totalDislike += $videoData[$videoCount]['dislike'];
     $videoCount++;
 
-    unlink($file);
-    sleep(1); // too avoid flooding youtube
+    unlink("data/$rand/data.json");
+
 }
 
 rmdir("./data/$rand");

@@ -42,7 +42,12 @@ class NavManager
             'label' => 'Home',
             'link'  => $url('home')
         ];
-
+        $items[] = [
+            'dir' => 'left',
+            'id' => 'stats',
+            'label' => 'stats',
+            'link'  => $url('science',['action'=>'stats'])
+        ];
         if (!$this->authService->hasIdentity()) {
             $items[] = [
                 'dir' => 'right',

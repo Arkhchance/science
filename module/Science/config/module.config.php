@@ -107,6 +107,7 @@ return [
             Service\DbManager::class   => Service\Factory\DbManagerFactory::class,
             Service\YoutubeManager::class   => Service\Factory\YoutubeManagerFactory::class,
             Service\ApiManager::class  => Service\Factory\ApiManagerFactory::class,
+            Service\DataManager::class => Service\Factory\DataManagerFactory::class,
         ],
     ],
     'view_helpers' => [
