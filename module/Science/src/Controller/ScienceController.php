@@ -44,13 +44,11 @@ class ScienceController extends AbstractActionController
             'sens' => $sens
         ];
     }
-    public function testAction()
+    public function chartAction()
     {
-        $id = 'https://www.youtube.com/channel/UCfO4BQD5_S1272GVmuXmTxA';
+        $datas = $this->dataService->prepareStats();
 
-        $ids = $id;
-
-        return ['ids' => $ids];
+        return ['datas' => $datas];
     }
 
     public function statsAction()

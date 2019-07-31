@@ -48,6 +48,12 @@ class NavManager
             'label' => 'stats',
             'link'  => $url('science',['action'=>'stats'])
         ];
+        $items[] = [
+            'dir' => 'left',
+            'id' => 'chart',
+            'label' => 'chart',
+            'link'  => $url('science',['action'=>'chart'])
+        ];
         if (!$this->authService->hasIdentity()) {
             $items[] = [
                 'dir' => 'right',
