@@ -22,46 +22,61 @@ $viewCount = 0;
 $videoData = [];
 $totalLike = 0;
 $totalDislike = 0;
-sleep(1); // too avoid flooding youtube
+sleep(1); // to avoid flooding youtube
 
 foreach ($idList as $videoId) {
     if($videoId == "")
         continue;
 
     exec($cmdVideo." ".$vidLink.$videoId);
-    shell_exec("mv data/$rand/* data/$rand/data.json");
-    sleep(1); // too avoid flooding youtube
+    $files = scandir("data/$rand");
+    sleep(1); // to avoid flooding youtube
+    foreach ($files as $file) {
+        if($file == "." || $file == "..")
+            continue;
+        $strJsonFileContents = file_get_contents("data/$rand/$file");
+        $array = json_decode($strJsonFileContents, true);
 
-    $strJsonFileContents = file_get_contents("data/$rand/data.json");
-    $array = json_decode($strJsonFileContents, true);
+        $videoData[$videoCount]['dislike'] = $array['dislike_count'];
+        $videoData[$videoCount]['like']    = $array['like_count'];
+        $videoData[$videoCount]['vue']     = $array['view_count'];
+        $videoData[$videoCount]['titre']   = $array['title'];
+        $videoData[$videoCount]['desc']    = $array['description'];
+        $videoData[$videoCount]['duree']   = $array['duration'];
+        $videoData[$videoCount]['id']      = $videoId;
 
-    $videoData[$videoCount]['dislike'] = $array['dislike_count'];
-    $videoData[$videoCount]['like']    = $array['like_count'];
-    $videoData[$videoCount]['vue']     = $array['view_count'];
-    $videoData[$videoCount]['titre']   = $array['title'];
-    $videoData[$videoCount]['desc']    = $array['description'];
-    $videoData[$videoCount]['duree']   = $array['duration'];
-    $videoData[$videoCount]['id']      = $videoId;
+        $viewCount += $array['view_count'];
+        $totalLike += $videoData[$videoCount]['like'];
+        $totalDislike += $videoData[$videoCount]['dislike'];
+        $videoCount++;
 
-    $viewCount += $array['view_count'];
-    $totalLike += $videoData[$videoCount]['like'];
-    $totalDislike += $videoData[$videoCount]['dislike'];
-    $videoCount++;
-
-    unlink("data/$rand/data.json");
-
+        unlink("data/$rand/$file");
+    }
 }
 
 rmdir("./data/$rand");
 
-$sql = 'INSERT INTO `posts` (`post_id`, `plateforme`, `vulga`, `vue`, `titre`, `description`, `nb_like`, `nb_dislike`, `duree`) ';
-$sql .= 'VALUES (?,?,?,?,?,?,?,?,?)';
+$sqlInsert = 'INSERT INTO `posts` (`post_id`, `plateforme`, `vulga`, `vue`, `titre`, `description`, `nb_like`, `nb_dislike`, `duree`) ';
+$sqlInsert .= 'VALUES (?,?,?,?,?,?,?,?,?)';
+
+$sqlUpdate = 'UPDATE `posts` SET `plateforme` = ?, `vulga` = ?, `vue` = ?, `titre` = ?, `description` = ?, `nb_like` = ?, `nb_dislike` = ?, `duree` = ? ';
+$sqlUpdate .= ' WHERE `post_id` = ?';
+
+$sqlSearch = 'SELECT 1 FROM `posts` WHERE `post_id`=?';
 
 $bdd = connect_db();
-$req = $bdd->prepare($sql);
+$reqInsert = $bdd->prepare($sqlInsert);
+$reqUpdate = $bdd->prepare($sqlUpdate);
+$reqSearch = $bdd->prepare($sqlSearch);
 
 foreach ($videoData as $data) {
-    $req->execute([$data['id'],$pf,$vulga,$data['vue'],$data['titre'],$data['desc'],$data['like'],$data['dislike'],$data['duree']]);
+    $reqSearch->execute([$data['id']]);
+    $userExists = $reqSearch->fetchColumn();
+
+    if($userExists)
+        $reqUpdate->execute([$pf,$vulga,$data['vue'],$data['titre'],$data['desc'],$data['like'],$data['dislike'],$data['duree'],$data['id']]);
+    else
+        $reqInsert->execute([$data['id'],$pf,$vulga,$data['vue'],$data['titre'],$data['desc'],$data['like'],$data['dislike'],$data['duree']]);
 }
 
 
