@@ -59,6 +59,7 @@ class FormDisplay extends AbstractHelper
                       <th scope="col">#</th>
                       <th scope="col">Nom</th>
                       <th scope="col">Plateforme</th>
+                      <th scope="col">Selection</th>
                     </tr>
                   </thead>
 EOF;
@@ -76,6 +77,7 @@ EOF;
                 $result .= '</div>';
             }
             $result .= '</td>';
+            $result .= '<td><button type="button" vulgaid="'.$vulga->getId().'" class="Lselect btn btn-info btn-sm">select</button></td>';
             $result .= '</tr>';
         }
 

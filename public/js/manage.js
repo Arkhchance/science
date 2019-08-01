@@ -168,4 +168,9 @@ $(document).ready(function () {
         id = id.substring(1);
         changeState(id,'pub');
     });
+    $(".Lselect").click(function(event) {
+        var vulgaId = event.target.attributes.vulgaid.value;
+        $("#vulga").val(vulgaId);
+        $("#vulga").selectpicker('render');
+    });
 }); //end document.ready()
