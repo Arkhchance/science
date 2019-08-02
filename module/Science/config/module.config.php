@@ -113,9 +113,11 @@ return [
     'view_helpers' => [
         'factories' => [
             Helper\FormDisplay::class => Helper\Factory\FormDisplayFactory::class,
+            Helper\NumberHelper::class => InvokableFactory::class,
         ],
         'aliases' => [
             'formDisplay' => Helper\FormDisplay::class,
+            'formatData' => Helper\NumberHelper::class,
         ],
     ],
     'view_manager' => [

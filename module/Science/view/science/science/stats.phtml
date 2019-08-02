@@ -1,14 +1,3 @@
-<?php
-function convertHours($time,$trail) {
-    if($time > 60) {
-        $time /= 60;
-        $unit = "heures";
-    } else {
-        $unit = "minutes";
-    }
-    return number_format($time, $trail, ',', ' ')." ".$unit;
-}
-?>
 <div class="row mt-5 justify-content-center">
     <div class="col">
         <table class="table table-striped table-hover table-dark">
@@ -67,22 +56,28 @@ function convertHours($time,$trail) {
                         <a href="<?= $this->url('science',['action' => 'stats'],['query'=>['order' => 'min_v','by' => 'asc']]);?>"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
                         <a href="<?= $this->url('science',['action' => 'stats'],['query'=>['order' => 'min_v','by' => 'desc']]);?>"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
                     </th>
+                    <th scope="col">
+                        watch time
+                        <a href="<?= $this->url('science',['action' => 'stats'],['query'=>['order' => 'watch','by' => 'asc']]);?>"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+                        <a href="<?= $this->url('science',['action' => 'stats'],['query'=>['order' => 'watch','by' => 'desc']]);?>"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
+                    </th>
                 </tr>
             </thead>
             <tbody>
             <?php foreach ($datas as $data): ?>
                 <tr>
                     <td><?= $data['name']; ?></td>
-                    <td><?= number_format($data['abo'], 0, ',', ' '); ?></td>
-                    <td><?= number_format($data['vid'], 0, ',', ' '); ?></td>
-                    <td><?= number_format($data['vue'], 0, ',', ' '); ?></td>
-                    <td><?= number_format($data['vue_v'], 3, ',', ' '); ?></td>
-                    <td><?= number_format($data['like'], 0, ',', ' '); ?> - <?= number_format($data['dislike'], 0, ',', ' '); ?></td>
-                    <td><?= number_format($data['likeDis'], 3, ',', ' '); ?></td>
-                    <td><?= number_format($data['like_v'], 3, ',', ' '); ?></td>
-                    <td><?= number_format($data['dis_v'], 3, ',', ' '); ?></td>
-                    <td><?= convertHours($data['minutes'],0);  ?></td>
-                    <td><?= convertHours($data['min_v'], 3); ?></td>
+                    <td><?= $this->formatData()->format($data['abo']); ?></td>
+                    <td><?= $this->formatData()->format($data['vid']); ?></td>
+                    <td><?= $this->formatData()->format($data['vue']); ?></td>
+                    <td><?= $this->formatData()->format($data['vue_v'], 3); ?></td>
+                    <td><?= $this->formatData()->format($data['like']); ?> - <?= $this->formatData()->format($data['dislike']); ?></td>
+                    <td><?= $this->formatData()->format($data['likeDis'], 3); ?></td>
+                    <td><?= $this->formatData()->format($data['like_v'], 3); ?></td>
+                    <td><?= $this->formatData()->format($data['dis_v'], 3); ?></td>
+                    <td><?= $this->formatData()->timeConverter($data['minutes']);  ?></td>
+                    <td><?= $this->formatData()->timeConverter($data['min_v']); ?></td>
+                    <td><?= $this->formatData()->timeConverter($data['watch']);  ?></td>
                 </tr>
             <?php endforeach; ?>
             </tbody>

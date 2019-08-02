@@ -47,9 +47,11 @@ class DataManager
             }
 
             $totalDuration = 0;
+            $watchTime = 0;
             if($totalPost > 0) {
                 foreach ($vulga->getPosts() as $post) {
                     $totalDuration += $post->getDuree();
+                    $watchTime += $post->getDuree() * $post->getVue();
                 }
             }
             //convert duration in minutes
@@ -71,6 +73,7 @@ class DataManager
             $data[$cpt]['dis_v']   = $totalDislike / $totalPost;
             $data[$cpt]['minutes'] = $totalDuration;
             $data[$cpt]['min_v']   = $totalDuration / $totalPost;
+            $data[$cpt]['watch']   = $watchTime;
 
             $cpt++;
         }
@@ -88,6 +91,7 @@ class DataManager
             case 'like_v':
             case 'dis_v':
             case 'minutes':
+            case 'watch':
             case 'min_v':
                 usort($data, function($a, $b) use ($sort) {
                     if($a[$sort] == $b[$sort])
