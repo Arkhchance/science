@@ -50,8 +50,13 @@ class ScienceController extends AbstractActionController
 
         return ['datas' => $datas];
     }
-
     public function statsAction()
+    {
+        $datas = $this->dataService->prepareStats();
+        return ['datas' => $datas];
+    }
+
+    public function vulgastatsAction()
     {
         $order = $this->params()->fromQuery('order', 'nom');
         $sens = $this->params()->fromQuery('by', 'asc');

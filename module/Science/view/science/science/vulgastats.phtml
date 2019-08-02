@@ -1,0 +1,93 @@
+<?php
+
+$title = 'stats par vulgarisateur';
+$this->headTitle($title);
+?>
+<div class="row mt-5 justify-content-center">
+    <div class="col">
+        <div class="table-responsive">
+            <table class="table table-hover table-dark stattable">
+                <thead>
+                    <tr>
+                        <th scope="col">
+                            Chaine Youtube
+                            <a href="<?= $this->url('science',['action' => 'vulgastats'],['query'=>['order' => 'nom','by' => 'asc']]);?>"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+                            <a href="<?= $this->url('science',['action' => 'vulgastats'],['query'=>['order' => 'nom','by' => 'desc']]);?>"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
+                        </th>
+                        <th scope="col">
+                            Abonnés
+                            <a href="<?= $this->url('science',['action' => 'vulgastats'],['query'=>['order' => 'abo','by' => 'asc']]);?>"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+                            <a href="<?= $this->url('science',['action' => 'vulgastats'],['query'=>['order' => 'abo','by' => 'desc']]);?>"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
+                        </th>
+                        <th scope="col">
+                            Vidéos
+                            <a href="<?= $this->url('science',['action' => 'vulgastats'],['query'=>['order' => 'vid','by' => 'asc']]);?>"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+                            <a href="<?= $this->url('science',['action' => 'vulgastats'],['query'=>['order' => 'vid','by' => 'desc']]);?>"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
+                        </th>
+                        <th scope="col">
+                            Vues
+                            <a href="<?= $this->url('science',['action' => 'vulgastats'],['query'=>['order' => 'vue','by' => 'asc']]);?>"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+                            <a href="<?= $this->url('science',['action' => 'vulgastats'],['query'=>['order' => 'vue','by' => 'desc']]);?>"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
+                        </th>
+                        <th scope="col">
+                            Vues moyenne / vidéo
+                            <a href="<?= $this->url('science',['action' => 'vulgastats'],['query'=>['order' => 'vue_v','by' => 'asc']]);?>"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+                            <a href="<?= $this->url('science',['action' => 'vulgastats'],['query'=>['order' => 'vue_v','by' => 'desc']]);?>"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
+                        </th>
+                        <th scope="col">
+                            Like - Dislike
+                        </th>
+                        <th scope="col">
+                            Like par Dislike
+                            <a href="<?= $this->url('science',['action' => 'vulgastats'],['query'=>['order' => 'likeDis','by' => 'asc']]);?>"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+                            <a href="<?= $this->url('science',['action' => 'vulgastats'],['query'=>['order' => 'likeDis','by' => 'desc']]);?>"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
+                        </th>
+                        <th scope="col">
+                            Like moyen / vidéo
+                            <a href="<?= $this->url('science',['action' => 'vulgastats'],['query'=>['order' => 'like_v','by' => 'asc']]);?>"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+                            <a href="<?= $this->url('science',['action' => 'vulgastats'],['query'=>['order' => 'like_v','by' => 'desc']]);?>"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
+                        </th>
+                        <th scope="col">
+                            Dislike moyen / vidéo
+                            <a href="<?= $this->url('science',['action' => 'vulgastats'],['query'=>['order' => 'dis_v','by' => 'asc']]);?>"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+                            <a href="<?= $this->url('science',['action' => 'vulgastats'],['query'=>['order' => 'dis_v','by' => 'desc']]);?>"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
+                        </th>
+                        <th scope="col">
+                            Temps de vidéos total
+                            <a href="<?= $this->url('science',['action' => 'vulgastats'],['query'=>['order' => 'minutes','by' => 'asc']]);?>"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+                            <a href="<?= $this->url('science',['action' => 'vulgastats'],['query'=>['order' => 'minutes','by' => 'desc']]);?>"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
+                        </th>
+                        <th scope="col">
+                            Durée moyenne d'une vidéo
+                            <a href="<?= $this->url('science',['action' => 'vulgastats'],['query'=>['order' => 'min_v','by' => 'asc']]);?>"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+                            <a href="<?= $this->url('science',['action' => 'vulgastats'],['query'=>['order' => 'min_v','by' => 'desc']]);?>"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
+                        </th>
+                        <th scope="col">
+                            watch time
+                            <a href="<?= $this->url('science',['action' => 'vulgastats'],['query'=>['order' => 'watch','by' => 'asc']]);?>"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+                            <a href="<?= $this->url('science',['action' => 'vulgastats'],['query'=>['order' => 'watch','by' => 'desc']]);?>"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                <?php foreach ($datas as $data): ?>
+                    <tr>
+                        <td><?= $data['name']; ?></td>
+                        <td><?= $this->formatData()->format($data['abo']); ?></td>
+                        <td><?= $this->formatData()->format($data['vid']); ?></td>
+                        <td><?= $this->formatData()->format($data['vue']); ?></td>
+                        <td><?= $this->formatData()->format($data['vue_v'], 3); ?></td>
+                        <td><?= $this->formatData()->format($data['like']); ?> - <?= $this->formatData()->format($data['dislike']); ?></td>
+                        <td><?= $this->formatData()->format($data['likeDis'], 3); ?></td>
+                        <td><?= $this->formatData()->format($data['like_v'], 3); ?></td>
+                        <td><?= $this->formatData()->format($data['dis_v'], 3); ?></td>
+                        <td><?= $this->formatData()->timeConverter($data['minutes']);  ?></td>
+                        <td><?= $this->formatData()->timeConverter($data['min_v']); ?></td>
+                        <td><?= $this->formatData()->timeConverter($data['watch']);  ?></td>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

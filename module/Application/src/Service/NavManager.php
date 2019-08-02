@@ -43,10 +43,19 @@ class NavManager
             'link'  => $url('home')
         ];
         $items[] = [
-            'dir' => 'left',
-            'id' => 'stats',
-            'label' => 'stats',
-            'link'  => $url('science',['action'=>'stats'])
+            'dir' => 'dropdown',
+            'id' => 'dropdown',
+            'label' => 'Stats',
+            'items' => [
+                [
+                    'label' => 'Stats global',
+                    'link'  => $url('science',['action'=>'stats']),
+                ],
+                [
+                    'label' => 'Stats par vulgarisateur',
+                    'link'  => $url('science',['action'=>'vulgastats']),
+                ]
+            ]
         ];
         $items[] = [
             'dir' => 'left',

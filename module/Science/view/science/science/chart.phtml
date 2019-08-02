@@ -1,4 +1,8 @@
 <?php
+
+$title = 'Charts';
+$this->headTitle($title);
+
 $this->headLink()->appendStylesheet($this->basePath('css/Chart.css'));
 $this->headScript()->appendFile($this->basePath('js/Chart.bundle.min.js'));
 function echoData($array,$key,$quote) {

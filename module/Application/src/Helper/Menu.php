@@ -30,8 +30,10 @@ class Menu extends AbstractHelper
         foreach ($this->items as $item) {
             if($item['dir'] == 'left')
                 $left .= $this->renderItemLeft($item);
-             else
+            elseif($item['dir'] == 'right')
                 $right .= $this->renderItemRight($item);
+            else
+                $left .= $this->renderDropDown($item);
         }
 
         $result  = '<div class="collapse navbar-collapse" id="contentcollapse">';
@@ -75,6 +77,19 @@ class Menu extends AbstractHelper
     {
         $result = '<li class="nav-item">';
         $result .= '<a class="nav-link" href="'.$item['link'].'">'.$item['label'].'</a>';
+        $result .= '</li>';
+        return $result;
+    }
+    protected function renderDropDown($items)
+    {
+        $result = '<li class="nav-item dropdown">';
+        $result .= '<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
+        $result .= $items['label'].'</a>';
+        $result .= '<div class="dropdown-menu" aria-labelledby="navbarDropdown">';
+        foreach ($items['items'] as $item)
+            $result .= '<a class="dropdown-item" href="'.$item['link'].'">'.$item['label'].'</a>';
+
+        $result .= '</div>';
         $result .= '</li>';
         return $result;
     }
