@@ -8,9 +8,6 @@ use Science\Entity\Vulga;
 use Science\Entity\Plateforme;
 use Science\Entity\Posts;
 use Science\Entity\MainStats;
-use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as DoctrineAdapter;
-use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
-use Zend\Paginator\Paginator;
 
 class ScienceController extends AbstractActionController
 {
@@ -32,27 +29,24 @@ class ScienceController extends AbstractActionController
 
         $query = $this->entityManager->getRepository(MainStats::class)
             ->findByOrder($type,$sens)->getResult();
-        /*
-        $adapter = new DoctrineAdapter(new ORMPaginator($query, false));
-        $paginator = new Paginator($adapter);
-        $paginator->setDefaultItemCountPerPage(35);
-        $paginator->setCurrentPageNumber($page);
-        */
+
         return  [
             'stats' => $query,
             'type' => $type,
             'sens' => $sens
         ];
     }
+
     public function chartAction()
     {
         $datas = $this->dataService->prepareStats();
 
         return ['datas' => $datas];
     }
+
     public function statsAction()
     {
-        $datas = $this->dataService->prepareStats();
+        $datas = $this->dataService->prepareVulgaStats();
         return ['datas' => $datas];
     }
 
@@ -61,7 +55,17 @@ class ScienceController extends AbstractActionController
         $order = $this->params()->fromQuery('order', 'nom');
         $sens = $this->params()->fromQuery('by', 'asc');
 
-        $datas = $this->dataService->prepareStats($order,$sens);
+        $datas = $this->dataService->prepareVulgaStats($order,$sens);
+
+        return ['datas' => $datas];
+    }
+
+    public function domainestatsAction()
+    {
+        $order = $this->params()->fromQuery('order', 'vid');
+        $sens = $this->params()->fromQuery('by', 'asc');
+
+        $datas = $this->dataService->prepareDomaineStats($order,$sens);
 
         return ['datas' => $datas];
     }

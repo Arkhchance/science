@@ -43,6 +43,12 @@ class NavManager
             'link'  => $url('home')
         ];
         $items[] = [
+            'dir' => 'left',
+            'id' => 'chart',
+            'label' => 'chart',
+            'link'  => $url('science',['action'=>'chart'])
+        ];
+        $items[] = [
             'dir' => 'dropdown',
             'id' => 'dropdown',
             'label' => 'Stats',
@@ -54,14 +60,12 @@ class NavManager
                 [
                     'label' => 'Stats par vulgarisateur',
                     'link'  => $url('science',['action'=>'vulgastats']),
+                ],
+                [
+                    'label' => 'Stats par catégorie',
+                    'link'  => $url('science',['action'=>'domainestats']),
                 ]
             ]
-        ];
-        $items[] = [
-            'dir' => 'left',
-            'id' => 'chart',
-            'label' => 'chart',
-            'link'  => $url('science',['action'=>'chart'])
         ];
         if (!$this->authService->hasIdentity()) {
             $items[] = [

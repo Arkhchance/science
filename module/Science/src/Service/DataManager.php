@@ -1,12 +1,9 @@
 <?php
 namespace Science\Service;
 
-use Science\Entity\Langue;
-use Science\Entity\Pays;
 use Science\Entity\Domaine;
 use Science\Entity\Plateforme;
 use Science\Entity\Vulga;
-
 
 class DataManager
 {
@@ -24,7 +21,60 @@ class DataManager
         $this->entityManager = $entityManager;
     }
 
-    public function prepareStats($sort = "nom",$order = "asc")
+    public function prepareDomaineStats($sort,$order = "asc")
+    {
+        $domaines = $this->entityManager->getRepository(Domaine::class)->findAll();
+
+        $data = [];
+        $cpt = 0;
+        foreach ($domaines as $domaine) {
+            $vulgaCount = $domaine->getVulga()->count();
+            if($vulgaCount == 0)
+                continue;
+
+            $domaineName   = $domaine->getNom();
+            $follower      = 0;
+            $totalVue      = 0;
+            $totalLike     = 0;
+            $totalVideo    = 0;
+            $totalDislike  = 0;
+            $totalDuration = 0;
+            $watchTime     = 0;
+            $name          = [];
+
+            foreach ($domaine->getVulga() as $vulga) {
+                $follower += $vulga->getMainstats()->last()->getFollower();
+                $totalVue += $vulga->getMainstats()->last()->getTotalVue();
+                $totalLike += $vulga->getMainstats()->last()->getTotalLike();
+                $totalDislike += $vulga->getMainstats()->last()->getTotalDislike();
+                $name[] = $vulga->getNom();
+
+                foreach ($vulga->getPosts() as $post) {
+                    $totalDuration += $post->getDuree();
+                    $watchTime += $post->getDuree() * $post->getVue();
+                    $totalVideo++;
+                }
+            }
+            //convert duration in minutes
+            $totalDuration /= 60;
+
+            $data[$cpt]['domaine'] = $domaineName;
+            $data[$cpt]['name'] = $name;
+            $data[$cpt]['abo'] = $follower;
+            $data[$cpt]['vue'] = $totalVue;
+            $data[$cpt]['vid'] = $totalVideo;
+            $data[$cpt]['like'] = $follower;
+            $data[$cpt]['dislike'] = $totalDislike;
+            $data[$cpt]['minutes'] = $totalDuration;
+            $data[$cpt]['watch'] = $watchTime;
+            $data[$cpt]['min_v'] = $totalDuration / $totalVideo;
+            $cpt++;
+        }
+
+        return $this->sortArray($data,$sort,$order);
+    }
+
+    public function prepareVulgaStats($sort = "nom",$order = "asc")
     {
         //get all vulga
         $vulgas = $this->entityManager->getRepository(Vulga::class)->findAll();
@@ -77,9 +127,17 @@ class DataManager
 
             $cpt++;
         }
+
+        return $this->sortArray($data,$sort,$order);
+    }
+
+    private function sortArray($array,$sort,$order)
+    {
         switch ($sort) {
             case 'nom':
-                usort($data,[$this,'compareName']);
+                usort($array,function($a, $b) {
+                    return strnatcmp($a['name'], $b['name']);
+                });
                 break;
             case 'abo':
             case 'vue':
@@ -93,7 +151,7 @@ class DataManager
             case 'minutes':
             case 'watch':
             case 'min_v':
-                usort($data, function($a, $b) use ($sort) {
+                usort($array, function($a, $b) use ($sort) {
                     if($a[$sort] == $b[$sort])
                         return 0;
                     return ($a[$sort] < $b[$sort]) ? -1 : 1;
@@ -105,14 +163,8 @@ class DataManager
         }
 
         if($order == "desc")
-            $data = array_reverse($data);
-
-        return $data;
-    }
-
-    //comp function
-    private function compareName($a,$b)
-    {
-        return strnatcmp($a['name'], $b['name']);
+            return array_reverse($array);
+        else
+            return $array;
     }
 }

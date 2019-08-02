@@ -30,7 +30,7 @@ foreach ($datas as $data) {
 }
 ?>
 <div class="row mt-5 justify-content-center">
-    <div class="col text-center">
+    <div class="col-2">
         <p>
             Il y a <?= $cpt ?> chaînes enregistrées. <br>
             Chaque chaîne à en moyenne :
@@ -41,7 +41,20 @@ foreach ($datas as $data) {
                 <li> <?= $this->formatData()->format($totalLike/$cpt,2); ?> Like </li>
                 <li> <?= $this->formatData()->format($totalDislike/$cpt,2); ?> Dislike </li>
                 <li> <?= $this->formatData()->timeConverter($totalDuration/$cpt); ?> de vidéos </li>
-                <li> <?= $this->formatData()->timeConverter($totalAbo/$cpt); ?> de watch time </li>
+                <li> <?= $this->formatData()->timeConverter($totalWatch/$cpt); ?> de watch time </li>
+            </ul>
+        </p>
+    </div>
+    <div class="col-2">
+        <p>
+            Il y a en tout :
+            <ul>
+                <li> <?= $this->formatData()->format($totalVideo); ?> Vidéos </li>
+                <li> <?= $this->formatData()->format($totalVue); ?> Vues </li>
+                <li> <?= $this->formatData()->format($totalLike); ?> Like </li>
+                <li> <?= $this->formatData()->format($totalDislike); ?> Dislike </li>
+                <li> <?= $this->formatData()->timeConverter($totalDuration); ?> de vidéos </li>
+                <li> <?= $this->formatData()->timeConverter($totalWatch); ?> de watch time </li>
             </ul>
         </p>
     </div>

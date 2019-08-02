@@ -1,0 +1,75 @@
+<?php
+
+$title = 'stats par domaine';
+$this->headTitle($title);
+?>
+<div class="row mt-5 justify-content-center">
+    <div class="col">
+        <div class="table-responsive">
+            <table class="table table-hover table-dark stattable">
+                <thead>
+                    <tr>
+                        <th scope="col">
+                            Domaine de vulgarisation
+                        </th>
+                        <th scope="col">
+                            Abonnés
+                            <a href="<?= $this->url('science',['action' => 'domainestats'],['query'=>['order' => 'abo','by' => 'asc']]);?>"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+                            <a href="<?= $this->url('science',['action' => 'domainestats'],['query'=>['order' => 'abo','by' => 'desc']]);?>"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
+                        </th>
+                        <th scope="col">
+                            Vidéos
+                            <a href="<?= $this->url('science',['action' => 'domainestats'],['query'=>['order' => 'vid','by' => 'asc']]);?>"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+                            <a href="<?= $this->url('science',['action' => 'domainestats'],['query'=>['order' => 'vid','by' => 'desc']]);?>"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
+                        </th>
+                        <th scope="col">
+                            Vues
+                            <a href="<?= $this->url('science',['action' => 'domainestats'],['query'=>['order' => 'vue','by' => 'asc']]);?>"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+                            <a href="<?= $this->url('science',['action' => 'domainestats'],['query'=>['order' => 'vue','by' => 'desc']]);?>"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
+                        </th>
+                        <th scope="col">
+                            Like
+                            <a href="<?= $this->url('science',['action' => 'domainestats'],['query'=>['order' => 'like','by' => 'asc']]);?>"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+                            <a href="<?= $this->url('science',['action' => 'domainestats'],['query'=>['order' => 'like','by' => 'desc']]);?>"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
+                        </th>
+                        <th scope="col">
+                            Dislike
+                            <a href="<?= $this->url('science',['action' => 'domainestats'],['query'=>['order' => 'dislike','by' => 'asc']]);?>"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+                            <a href="<?= $this->url('science',['action' => 'domainestats'],['query'=>['order' => 'dislike','by' => 'desc']]);?>"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
+                        </th>
+                        <th scope="col">
+                            Temps de vidéos total
+                            <a href="<?= $this->url('science',['action' => 'domainestats'],['query'=>['order' => 'minutes','by' => 'asc']]);?>"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+                            <a href="<?= $this->url('science',['action' => 'domainestats'],['query'=>['order' => 'minutes','by' => 'desc']]);?>"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
+                        </th>
+                        <th scope="col">
+                            Durée moyenne d'une vidéo
+                            <a href="<?= $this->url('science',['action' => 'domainestats'],['query'=>['order' => 'min_v','by' => 'asc']]);?>"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+                            <a href="<?= $this->url('science',['action' => 'domainestats'],['query'=>['order' => 'min_v','by' => 'desc']]);?>"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
+                        </th>
+                        <th scope="col">
+                            watch time
+                            <a href="<?= $this->url('science',['action' => 'domainestats'],['query'=>['order' => 'watch','by' => 'asc']]);?>"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+                            <a href="<?= $this->url('science',['action' => 'domainestats'],['query'=>['order' => 'watch','by' => 'desc']]);?>"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                <?php foreach ($datas as $data): ?>
+                    <tr>
+                        <td><div data-toggle="tooltip" data-placement="left" title="<?php foreach ($data['name'] as $name) echo " $name ";?>"><?= $data['domaine']; ?></div></td>
+                        <td><?= $this->formatData()->format($data['abo']); ?></td>
+                        <td><?= $this->formatData()->format($data['vid']); ?></td>
+                        <td><?= $this->formatData()->format($data['vue']); ?></td>
+                        <td><?= $this->formatData()->format($data['like']); ?></td>
+                        <td> <?= $this->formatData()->format($data['dislike']); ?></td>
+                        <td><?= $this->formatData()->timeConverter($data['minutes']);  ?></td>
+                        <td><?= $this->formatData()->timeConverter($data['min_v']); ?></td>
+                        <td><?= $this->formatData()->timeConverter($data['watch']);  ?></td>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
