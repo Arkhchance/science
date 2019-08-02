@@ -98,15 +98,15 @@ class YoutubeManager
         return $video;
     }
 
-    /* Warnign this method generate a lot of api request !
+    /* Warning this method generate a lot of api request !
     * it is not recommended for big channel as it will eat
     * all of of the api quota for the day
     * /!\ BEWARE /!\
-    */ 
+    */
     private function extractVideosIdFromChannel($channelId)
     {
         $videosId = [];
-        $queryParams = ['channelId' => $channelId];
+        $queryParams = ['channelId' => $channelId, 'maxResults' => 50];
         $result = $this->service->search->listSearch('snippet', $queryParams);
 
         // get first result
@@ -119,7 +119,7 @@ class YoutubeManager
         $lastTurn = false;
 
         while($stay) {
-            $queryParams = ['channelId' => $channelId,'pageToken'=> $result->getNextPageToken()];
+            $queryParams = ['channelId' => $channelId,'maxResults' => 50,'pageToken'=> $result->getNextPageToken()];
             $result = $this->service->search->listSearch('snippet', $queryParams);
 
             foreach ($result->getItems() as $items) {
