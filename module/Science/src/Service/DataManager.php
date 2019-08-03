@@ -57,9 +57,10 @@ class DataManager
             }
             //convert duration in minutes
             $totalDuration /= 60;
+            $watchTime /= 60;
 
             $data[$cpt]['domaine'] = $domaineName;
-            $data[$cpt]['name'] = $name;
+            $data[$cpt]['nom'] = $name;
             $data[$cpt]['abo'] = $follower;
             $data[$cpt]['vue'] = $totalVue;
             $data[$cpt]['vid'] = $totalVideo;
@@ -104,14 +105,15 @@ class DataManager
                     $watchTime += $post->getDuree() * $post->getVue();
                 }
             }
-            //convert duration in minutes
+            //convert duration & watch time in minutes
             $totalDuration /= 60;
+            $watchTime /= 60;
 
             //prevent 0 division
             $totalPost = $totalPost != 0 ? $totalPost : 1;
             $totalDislike = $totalDislike != 0 ? $totalDislike : 1;
 
-            $data[$cpt]['name']    = $vulga->getNom();
+            $data[$cpt]['nom']    = $vulga->getNom();
             $data[$cpt]['abo']     = $follower;
             $data[$cpt]['vid']     = $totalPost;
             $data[$cpt]['vue']     = $totalVue;
@@ -136,7 +138,7 @@ class DataManager
         switch ($sort) {
             case 'nom':
                 usort($array,function($a, $b) {
-                    return strnatcmp($a['name'], $b['name']);
+                    return strnatcmp($a['nom'], $b['nom']);
                 });
                 break;
             case 'abo':
@@ -166,5 +168,108 @@ class DataManager
             return array_reverse($array);
         else
             return $array;
+    }
+
+    public function prepareVulgaGraph()
+    {
+        $vulgas = $this->entityManager->getRepository(Vulga::class)->findAll();
+
+        $data = [];
+        $abo = [];
+        $vue = [];
+        $like = [];
+        $dislike = [];
+        $cpt = 0;
+
+        foreach ($vulgas as $vulga) {
+            if($vulga->getMainstats()->count() < 1)
+                continue;
+
+
+            $abo[$cpt]['nom']  = $vulga->getNom();
+            $vue[$cpt]['nom']  = $vulga->getNom();
+            $like[$cpt]['nom'] = $vulga->getNom();
+            $dislike[$cpt]['nom'] = $vulga->getNom();
+
+            $abo[$cpt]['abo']   = $vulga->getMainstats()->last()->getFollower();
+            $vue[$cpt]['vue']   = $vulga->getMainstats()->last()->getTotalVue();
+            $like[$cpt]['like'] = $vulga->getMainstats()->last()->getTotalLike();
+            $dislike[$cpt]['dislike'] = $vulga->getMainstats()->last()->getTotalDislike();
+
+            $cpt++;
+        }
+
+        $data['Abonnements'] = $this->sortArray($abo,'abo','desc');
+        $data['Vues'] = $this->sortArray($vue,'vue','desc');
+        $data['Like'] = $this->sortArray($like,'like','desc');
+        $data['Dislike'] = $this->sortArray($dislike,'dislike','desc');
+
+        return $data;
+    }
+
+    public function prepareDomaineGraph()
+    {
+        $domaines = $this->entityManager->getRepository(Domaine::class)->findAll();
+
+        $data = [];
+        $abo = [];
+        $vue = [];
+        $like = [];
+        $dislike = [];
+        $duration = [];
+        $watchTime = [];
+        $video = [];
+        $cpt = 0;
+
+        foreach ($domaines as $domaine) {
+            if($domaine->getVulga()->count() < 1)
+                continue;
+
+            $abo[$cpt]['nom']  = $domaine->getNom();
+            $vue[$cpt]['nom']  = $domaine->getNom();
+            $like[$cpt]['nom'] = $domaine->getNom();
+            $dislike[$cpt]['nom'] = $domaine->getNom();
+            $duration[$cpt]['nom'] = $domaine->getNom();
+            $watchTime[$cpt]['nom'] = $domaine->getNom();
+            $video[$cpt]['nom'] = $domaine->getNom();
+
+            $abo[$cpt]['abo'] = 0;
+            $vue[$cpt]['vue'] = 0;
+            $like[$cpt]['like'] = 0;
+            $dislike[$cpt]['dislike'] = 0;
+            $duration[$cpt]['minutes'] = 0;
+            $watchTime[$cpt]['watch'] = 0;
+            $video[$cpt]['vid'] = 0;
+
+            foreach ($domaine->getVulga() as $vulga) {
+
+                $abo[$cpt]['abo']   += $vulga->getMainstats()->last()->getFollower();
+                $vue[$cpt]['vue']   += $vulga->getMainstats()->last()->getTotalVue();
+                $like[$cpt]['like'] += $vulga->getMainstats()->last()->getTotalLike();
+                $dislike[$cpt]['dislike'] += $vulga->getMainstats()->last()->getTotalDislike();
+
+                foreach ($vulga->getPosts() as $post) {
+                    $duration[$cpt]['minutes'] += $post->getDuree();
+                    $watchTime[$cpt]['watch'] += $post->getDuree() * $post->getVue();
+                    $video[$cpt]['vid']++;
+                }
+            }
+
+            //convert to hour
+            $watchTime[$cpt]['watch'] /= (60*60);
+            $duration[$cpt]['minutes'] /= (60*60);
+
+            $cpt++;
+        }
+
+        $data['Abonnements'] = $this->sortArray($abo,'abo','desc');
+        $data['Vues'] = $this->sortArray($vue,'vue','desc');
+        $data['Like'] = $this->sortArray($like,'like','desc');
+        $data['Dislike'] = $this->sortArray($dislike,'dislike','desc');
+        $data['Watch_Time_en_heure'] = $this->sortArray($watchTime,'watch','desc');
+        $data['Duree_en_heure'] = $this->sortArray($duration,'minutes','desc');
+        $data['Videos'] = $this->sortArray($video,'vid','desc');
+
+        return $data;
     }
 }

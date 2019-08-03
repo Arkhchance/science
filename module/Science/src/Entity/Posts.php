@@ -67,13 +67,6 @@ class Posts
     /**
     * @var int
     *
-    * @ORM\Column(name="comments", type="integer", nullable=false)
-    */
-    private $comments;
-
-    /**
-    * @var int
-    *
     * @ORM\Column(name="duree", type="integer", nullable=true)
     */
     private $duree;
@@ -271,29 +264,6 @@ class Posts
         return $this->nbDislike;
     }
 
-    /**
-    * Set comments.
-    *
-    * @param int $comments
-    *
-    * @return Posts
-    */
-    public function setComments($comments)
-    {
-        $this->comments = $comments;
-
-        return $this;
-    }
-
-    /**
-    * Get comments.
-    *
-    * @return int
-    */
-    public function getComments()
-    {
-        return $this->comments;
-    }
     /*
     * Returns associated plateforme.
     * @return \Science\Entity\Plateforme

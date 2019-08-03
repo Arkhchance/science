@@ -3,10 +3,6 @@ namespace Science\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
-use Zend\View\Model\JsonModel;
-use Science\Entity\Vulga;
-use Science\Entity\Plateforme;
-use Science\Entity\Posts;
 use Science\Entity\MainStats;
 
 class ScienceController extends AbstractActionController
@@ -29,15 +25,18 @@ class ScienceController extends AbstractActionController
         $query = $this->entityManager->getRepository(MainStats::class)
             ->findByOrder($type,$sens)->getResult();
 
-        return  [
-            'stats' => $query,
-        ];
+        return  ['stats' => $query];
     }
 
-    public function chartAction()
+    public function graphsAction()
     {
-        $datas = $this->dataService->prepareStats();
+        $datas = $this->dataService->prepareVulgaGraph();
+        return ['datas' => $datas];
+    }
 
+    public function catgraphAction()
+    {
+        $datas = $this->dataService->prepareDomaineGraph();
         return ['datas' => $datas];
     }
 
@@ -53,7 +52,6 @@ class ScienceController extends AbstractActionController
         $sens = $this->params()->fromQuery('by', 'asc');
 
         $datas = $this->dataService->prepareVulgaStats($order,$sens);
-
         return ['datas' => $datas];
     }
 
@@ -63,7 +61,6 @@ class ScienceController extends AbstractActionController
         $sens = $this->params()->fromQuery('by', 'asc');
 
         $datas = $this->dataService->prepareDomaineStats($order,$sens);
-
         return ['datas' => $datas];
     }
 }

@@ -1,0 +1,56 @@
+<?php
+
+$title = 'Graphs domaine';
+$this->headTitle($title);
+
+$this->headLink()->appendStylesheet($this->basePath('css/Chart.css'));
+$this->headScript()->appendFile($this->basePath('js/Chart.bundle.min.js'));
+
+$cpt= 0;
+?>
+<div class="row m-1 justify-content-center">
+    <?php foreach($datas as $key => $data): ?>
+        <div class="col-5">
+            <canvas id="myChart<?= $key ?>"></canvas>
+        </div>
+        <?php if($cpt%2!=0) echo '<div class="w-100"></div>'; $cpt++; ?>
+    <?php endforeach; ?>
+</div>
+<?php
+$this->inlineScript()->captureStart();
+foreach($datas as $key => $data):
+?>
+var ch<?= $key; ?> = document.getElementById('myChart<?= $key ?>');
+var myChart<?= $key ?>= new Chart(ch<?= $key; ?>, {
+    type: 'bar',
+    data: {
+        labels: [
+        <?php foreach ($data as $value) echo "'".$this->escapeHtml($value['nom'])."',"; ?>
+        ],
+        datasets: [{
+            label: '# de <?= str_replace("_"," ",$key); ?>',
+            data: [
+                <?php foreach ($data as $value) {
+                    $mykey = array_keys($value);
+                    echo addslashes($value[$mykey[1]]).",";
+                } ?>
+            ],
+            hoverBackgroundColor:"#FF1493",
+            fillColor: "rgba(220,220,220,0.5)",
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
+<?php
+endforeach;
+$this->inlineScript()->captureEnd();
+?>

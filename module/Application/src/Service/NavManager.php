@@ -67,6 +67,31 @@ class NavManager
                 ]
             ]
         ];
+        $items[] = [
+            'dir' => 'dropdown',
+            'id' => 'dropdown',
+            'label' => 'Graphs',
+            'items' => [
+                [
+                    'label' => 'Graphs par vulgarisateur',
+                    'link'  => $url('science',['action'=>'graphs']),
+                ],
+                [
+                    'label' => 'Graphs par catégorie',
+                    'link'  => $url('science',['action'=>'catgraph']),
+                ],
+                [
+                    'label' => 'Stats par catégorie',
+                    'link'  => $url('science',['action'=>'domainestats']),
+                ]
+            ]
+        ];
+        $items[] = [
+            'dir' => 'left',
+            'id' => 'about',
+            'label' => 'A propos',
+            'link'  => $url('divers',['action'=>'apropos'])
+        ];
         if (!$this->authService->hasIdentity()) {
             $items[] = [
                 'dir' => 'right',
@@ -82,12 +107,6 @@ class NavManager
             ];
 
         } else {
-            $items[] = [
-                'dir' => 'left',
-                'id' => 'test',
-                'label' => 'Test',
-                'link'  => $url('science',['action'=>'test'])
-            ];
             $items[] = [
                 'dir' => 'right',
                 'id' => 'Langue',

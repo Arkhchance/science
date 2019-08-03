@@ -79,13 +79,6 @@ class MainStats
     private $totalVue;
 
     /**
-    * @var int
-    *
-    * @ORM\Column(name="total_comment", type="integer", nullable=true)
-    */
-    private $totalComment;
-
-    /**
     * @var \Plateforme
     *
     * @ORM\ManyToOne(targetEntity="\Science\Entity\Plateforme",inversedBy="mainstats")
@@ -343,29 +336,5 @@ class MainStats
     public function getTotalVue()
     {
         return $this->totalVue;
-    }
-
-    /**
-    * Set totalComment.
-    *
-    * @param string $totalComment
-    *
-    * @return MainStats
-    */
-    public function setTotalComment($totalComment)
-    {
-        $this->totalComment = $totalComment;
-
-        return $this;
-    }
-
-    /**
-    * Get totalDislike.
-    *
-    * @return string
-    */
-    public function getTotalComment()
-    {
-        return $this->totalComment;
     }
 }

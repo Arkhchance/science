@@ -56,7 +56,7 @@ $this->headTitle($title);
             <tbody>
             <?php foreach ($datas as $data): ?>
                 <tr>
-                    <td><div data-toggle="tooltip" data-placement="left" title="<?php foreach ($data['name'] as $name) echo " $name ";?>"><?= $data['domaine']; ?></div></td>
+                    <td><div data-toggle="tooltip" data-placement="left" title="<?php foreach ($data['nom'] as $name) echo " $name ";?>"><?= $data['domaine']; ?></div></td>
                     <td><?= $this->formatData()->format($data['abo']); ?></td>
                     <td><?= $this->formatData()->format($data['vid']); ?></td>
                     <td><?= $this->formatData()->format($data['vue']); ?></td>
