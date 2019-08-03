@@ -90,6 +90,42 @@ class NavManager
             ];
             $items[] = [
                 'dir' => 'right',
+                'id' => 'Langue',
+                'label' => 'Langue',
+                'link'  => $url('manage',['action'=>'langue'])
+            ];
+            $items[] = [
+                'dir' => 'right',
+                'id' => 'Pays',
+                'label' => 'Pays',
+                'link'  => $url('manage',['action'=>'pays'])
+            ];
+            $items[] = [
+                'dir' => 'right',
+                'id' => 'Domaine',
+                'label' => 'Domaine',
+                'link'  => $url('manage',['action'=>'domaine'])
+            ];
+            $items[] = [
+                'dir' => 'right',
+                'id' => 'Plateforme',
+                'label' => 'Plateforme',
+                'link'  => $url('manage',['action'=>'plateforme'])
+            ];
+            $items[] = [
+                'dir' => 'right',
+                'id' => 'Vulgarisateur',
+                'label' => 'Vulgarisateur',
+                'link'  => $url('manage',['action'=>'vulga'])
+            ];
+            $items[] = [
+                'dir' => 'right',
+                'id' => 'Link',
+                'label' => 'Link',
+                'link'  => $url('manage',['action'=>'link'])
+            ];
+            $items[] = [
+                'dir' => 'right',
                 'id' => 'logout',
                 'label' => 'Logout',
                 'link'  => $url('logout')

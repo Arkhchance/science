@@ -15,10 +15,9 @@ class MenuFactory implements FactoryInterface
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         $navManager = $container->get(NavManager::class);
-        $authService = $container->get(\Zend\Authentication\AuthenticationService::class);
         // Get menu items.
         $items = $navManager->getMenuItems();
 
-        return new Menu($items,$authService);
+        return new Menu($items);
     }
 }

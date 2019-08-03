@@ -3,6 +3,7 @@ namespace Science\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Science\Entity\MainStats;
+use Science\Entity\Vulga;
 
 /**
  * This is the custom repository class for pays entity.
@@ -40,12 +41,21 @@ class MSRepository extends EntityRepository
                 $orderBy = 'totalComment';
                 break;
             default:
-                $orderBy = 'id';
+                $orderBy = 'nom';
                 break;
         }
         $queryBuilder->select('s')
             ->from(MainStats::class, 's')
-            ->orderBy('s.'.$orderBy, $direction);
+            ->leftJoin('s.vulga','v')
+            ->where('v.private = ?1')
+            ->setParameter('1', Vulga::STATE_PUBLIC);
+
+        if($orderBy == 'nom')
+            $queryBuilder->orderBy('v.'.$orderBy, $direction);
+        else
+            $queryBuilder->orderBy('s.'.$orderBy, $direction);
+
+
 
         return $queryBuilder->getQuery();
     }

@@ -24,6 +24,7 @@ return [
     'Zend\Form',
     'Zend\Router',
     'Zend\Validator',
+    'ZendDeveloperTools',
     'DoctrineModule',
     'DoctrineORMModule',
     'Application',

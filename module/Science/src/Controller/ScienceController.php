@@ -23,7 +23,6 @@ class ScienceController extends AbstractActionController
 
     public function indexAction()
     {
-        $page = $this->params()->fromQuery('page', 1);
         $type = $this->params()->fromQuery('order', 'id');
         $sens = $this->params()->fromQuery('by', 'asc');
 
@@ -32,8 +31,6 @@ class ScienceController extends AbstractActionController
 
         return  [
             'stats' => $query,
-            'type' => $type,
-            'sens' => $sens
         ];
     }
 

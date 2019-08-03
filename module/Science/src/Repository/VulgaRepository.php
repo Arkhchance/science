@@ -19,9 +19,17 @@ class VulgaRepository extends EntityRepository
 
         return $queryBuilder->getQuery();
     }
-    
+
     public function findAll()
     {
-        return $this->findBy([], ['nom' => 'ASC']);
+        $entityManager = $this->getEntityManager();
+        $queryBuilder = $entityManager->createQueryBuilder();
+
+        $queryBuilder->select('v')
+            ->from(Vulga::class, 'v')
+            ->where('v.private = ?1')
+            ->setParameter('1', Vulga::STATE_PUBLIC);
+
+        return $queryBuilder->getQuery()->getResult();
     }
 }
