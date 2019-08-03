@@ -1,0 +1,113 @@
+<?php
+
+$form->get('submit')->setAttributes(['class'=>'btn btn-lg btn-primary btn-block']);
+
+for($i = 0; $i < $elements; $i++){
+    $form->get('domaine'.$i)->setAttributes(array(
+        'class'=> 'selectpicker form-control',
+        'data-live-search'  => 'true',
+        'id' => 'd'.$i,
+    ));
+    $form->get('sexe'.$i)->setAttributes(array(
+        'class'=> 'selectpicker form-control',
+        'id' => 's'.$i,
+    ));
+    $form->get('vulga'.$i)->setAttributes(array(
+        'class'=> 'selectpicker form-control',
+        'data-live-search'  => 'true',
+        'data-max-options' => "5",
+        'data-width' => '550px',
+        'value' => "0",
+        'id' => 'v'.$i,
+    ));
+}
+
+
+$form->prepare();
+?>
+<?= $this->form()->openTag($form); ?>
+<div class="col">
+    Comparer =>
+    <div class="form-group">
+        <?= $this->formLabel($form->get('domaine0')); ?>
+        <?= $this->formElement($form->get('domaine0')); ?>
+    </div>
+    <div class="form-group">
+        <?= $this->formLabel($form->get('sexe0')); ?>
+        <?= $this->formElement($form->get('sexe0')); ?>
+    </div>
+    <div class="form-group">
+        <?= $this->formLabel($form->get('vulga0')); ?><br>
+        <?= $this->formElement($form->get('vulga0')); ?>
+        <?= $this->formHidden($form->get('elements')); ?>
+    </div>
+</div>
+<?php for($i = 0; $i < $elements; $i++):
+    if($i == 0) continue; ?>
+    <div class="col">
+        VS =>
+        <div class="form-group">
+            <?= $this->formLabel($form->get('domaine'.$i)); ?>
+            <?= $this->formElement($form->get('domaine'.$i)); ?>
+        </div>
+        <div class="form-group">
+            <?= $this->formLabel($form->get('sexe'.$i)); ?>
+            <?= $this->formElement($form->get('sexe'.$i)); ?>
+        </div>
+        <div class="form-group">
+            <?= $this->formLabel($form->get('vulga'.$i)); ?><br>
+            <?= $this->formElement($form->get('vulga'.$i)); ?>
+        </div>
+    </div>
+<?php endfor; ?>
+<?= $this->formElement($form->get('submit')); ?>
+<?= $this->form()->closeTag(); ?>
+<script>
+$(document).ready(function () {
+    function enableDisableSelect(type1,type2,enable)
+    {
+        if(enable) {
+            $(type1).prop('disabled', false);
+            $(type2).prop('disabled', false);
+        } else {
+            $(type1).prop('disabled', true);
+            $(type2).prop('disabled', true);
+        }
+        $(type1).selectpicker('refresh');
+        $(type2).selectpicker('refresh');
+
+    }
+
+    $(".selectpicker").change(function(event){
+        var enable = false;
+        var type1;
+        var type2;
+        var id = $(this).attr('id');
+        var type = id.charAt(0);
+
+        id = id.replace(/\D/g,'');
+        var value = $(this).val();
+
+        if(value == 0)
+            enable = true;
+
+        switch (type) {
+            case "d":
+                type1 = "#s"+id;
+                type2 = "#v"+id;
+                break;
+            case "s":
+                type1 = "#d"+id;
+                type2 = "#v"+id;
+                break;
+            case "v":
+                type1 = "#d"+id;
+                type2 = "#s"+id;
+                break;
+            default:
+                break;
+        }
+        enableDisableSelect(type1,type2,enable);
+    });
+});
+</script>

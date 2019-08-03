@@ -16,11 +16,23 @@ return [
                     'constraints' => [
                         'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
                         'channel'   =>  '[a-zA-Z0-9_-]*',
-
                     ],
                     'defaults' => [
                         'controller' => Controller\ScienceController::class,
                         'action'     => 'index',
+                    ],
+                ],
+            ],
+            'divers' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route' => '/divers[/:action]',
+                    'constraints' => [
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                    ],
+                    'defaults' => [
+                        'controller' => Controller\DiversController::class,
+                        'action'     => 'apropos',
                     ],
                 ],
             ],
@@ -96,6 +108,7 @@ return [
             Controller\AuthController::class    => Controller\Factory\AuthControllerFactory::class,
             Controller\ScienceController::class => Controller\Factory\ScienceControllerFactory::class,
             Controller\ManageController::class  => Controller\Factory\ManageControllerFactory::class,
+            Controller\DiversController::class  => Controller\Factory\DiversControllerFactory::class,
         ],
     ],
     'service_manager' => [

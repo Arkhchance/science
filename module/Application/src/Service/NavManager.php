@@ -43,12 +43,6 @@ class NavManager
             'link'  => $url('home')
         ];
         $items[] = [
-            'dir' => 'left',
-            'id' => 'chart',
-            'label' => 'chart',
-            'link'  => $url('science',['action'=>'chart'])
-        ];
-        $items[] = [
             'dir' => 'dropdown',
             'id' => 'dropdown',
             'label' => 'Stats',
@@ -81,8 +75,8 @@ class NavManager
                     'link'  => $url('science',['action'=>'catgraph']),
                 ],
                 [
-                    'label' => 'Stats par catégorie',
-                    'link'  => $url('science',['action'=>'domainestats']),
+                    'label' => 'Graphs personalisé',
+                    'link'  => $url('science',['action'=>'graphperso']),
                 ]
             ]
         ];

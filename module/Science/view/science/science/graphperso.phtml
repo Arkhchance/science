@@ -1,0 +1,20 @@
+<?php
+
+$title = 'Graphs perso';
+$this->headTitle($title);
+
+$this->headLink()->appendStylesheet($this->basePath('css/bootstrap-select.min.css'));
+$this->headScript()->appendFile($this->basePath('js/bootstrap-select.min.js'));
+$this->headScript()->appendFile($this->basePath('js/comp.js'));
+
+if(!isset($valid)):
+?>
+
+<div class="row m-1 justify-content-center">
+    <div class="col-1 mt-5 text-center">
+        <a href="#" id="ajout">Ajouter un comparatif</a>
+    </div>
+</div>
+<div class="row mt-1 justify-content-center" id="GraphForm">
+</div>
+<?php endif; ?>

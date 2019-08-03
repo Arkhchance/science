@@ -28,7 +28,8 @@ class VulgaRepository extends EntityRepository
         $queryBuilder->select('v')
             ->from(Vulga::class, 'v')
             ->where('v.private = ?1')
-            ->setParameter('1', Vulga::STATE_PUBLIC);
+            ->setParameter('1', Vulga::STATE_PUBLIC)
+            ->orderBy('v.nom', 'ASC');
 
         return $queryBuilder->getQuery()->getResult();
     }

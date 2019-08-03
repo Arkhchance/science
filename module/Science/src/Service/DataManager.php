@@ -154,9 +154,7 @@ class DataManager
             case 'watch':
             case 'min_v':
                 usort($array, function($a, $b) use ($sort) {
-                    if($a[$sort] == $b[$sort])
-                        return 0;
-                    return ($a[$sort] < $b[$sort]) ? -1 : 1;
+                    return $a[$sort] <=> $b[$sort];
                 });
                 break;
             default:

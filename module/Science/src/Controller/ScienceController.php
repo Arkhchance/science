@@ -4,6 +4,7 @@ namespace Science\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Science\Entity\MainStats;
+use Science\Form\Graph\GraphForm;
 
 class ScienceController extends AbstractActionController
 {
@@ -26,6 +27,45 @@ class ScienceController extends AbstractActionController
             ->findByOrder($type,$sens)->getResult();
 
         return  ['stats' => $query];
+    }
+
+    public function getformAction()
+    {
+        $request = $this->getRequest();
+        if ($request->isXmlHttpRequest()) {
+            $view = new ViewModel();
+            $view->setTerminal(true);
+
+            $elements = $this->params()->fromPost('elements', 2);
+
+            $form = new GraphForm($this->entityManager,$elements);
+
+            $htmlView = new ViewModel();
+            $htmlOutput = $htmlView
+                 ->setTerminal(true)
+                 ->setTemplate("science/science/getform")
+                 ->setVariable('elements', $elements)
+                 ->setVariable('form', $form);
+
+            return $htmlOutput;
+
+        } else {
+            return $this->redirect()->toRoute('science', ['action' => 'graphperso']);
+        }
+    }
+
+    public function graphpersoAction()
+    {
+        $request = $this->getRequest();
+        $data = $request->getQuery();
+        $data = $data->toArray();
+        
+        if(isset($data['elements'])) {
+            return ['valid' => true];
+        } else {
+            return;
+        }
+
     }
 
     public function graphsAction()
