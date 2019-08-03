@@ -30,7 +30,6 @@ class GraphForm extends Form
             $this->newElements();
 
         $this->addElements();
-        $this->addInputFilter();
     }
 
     public function getElementCount()
@@ -129,30 +128,5 @@ class GraphForm extends Form
                 'value' => $this->elementCount + 1,
             ],
         ]);
-    }
-
-    /**
-     * This method creates input filter (used for form filtering/validation).
-     */
-    private function addInputFilter()
-    {
-        $myFilter = new OptionalInputFilter();
-        // Create main input filter
-        $inputFilter = $this->getInputFilter();
-        for ($i=0; $i < $this->elementCount; $i++) {
-            $myFilter->add([
-                'name'     => 'sexe'.$i,
-                'required' => true,
-            ]);
-            $myFilter->add([
-                'name'     => 'domaine'.$i,
-                'required' => true,
-            ]);
-            $myFilter->add([
-                'name'     => 'vulga'.$i,
-                'required' => true,
-            ]);
-        }
-        $inputFilter->add($myFilter,'graph-form');
     }
 }
