@@ -33,4 +33,19 @@ class VulgaRepository extends EntityRepository
 
         return $queryBuilder->getQuery()->getResult();
     }
+
+    public function findGenre($genre)
+    {
+        $entityManager = $this->getEntityManager();
+        $queryBuilder = $entityManager->createQueryBuilder();
+
+        $queryBuilder->select('v')
+            ->from(Vulga::class, 'v')
+            ->where('v.private = ?1')
+            ->andWhere('v.sexe = ?2')
+            ->setParameter('1', Vulga::STATE_PUBLIC)
+            ->setParameter('2', $genre);
+
+        return $queryBuilder->getQuery()->getResult();
+    }
 }

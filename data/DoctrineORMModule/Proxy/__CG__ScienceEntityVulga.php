@@ -367,12 +367,12 @@ class Vulga extends \Science\Entity\Vulga implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function getSexeAsString()
+    public function getSexeAsString($sexe = NULL)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getSexeAsString', []);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getSexeAsString', [$sexe]);
 
-        return parent::getSexeAsString();
+        return parent::getSexeAsString($sexe);
     }
 
     /**

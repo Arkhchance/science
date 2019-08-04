@@ -2,13 +2,13 @@
 namespace Science\Service\Factory;
 
 use Interop\Container\ContainerInterface;
-use Science\Service\DataManager;
+use Science\Service\ConstructGraphManager;
 
 /**
- * This is the factory class for DataManager service. The purpose of the factory
+ * This is the factory class for ConstructGraphManager service. The purpose of the factory
  * is to instantiate the service and pass it dependencies (inject dependencies).
  */
-class DataManagerFactory
+class ConstructGraphManagerFactory
 {
     /**
      * This method creates the UserManager service and returns its instance.
@@ -17,6 +17,6 @@ class DataManagerFactory
     {
         $entityManager = $container->get('doctrine.entitymanager.orm_default');
 
-        return new DataManager($entityManager);
+        return new ConstructGraphManager($entityManager);
     }
 }

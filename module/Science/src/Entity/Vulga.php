@@ -311,11 +311,14 @@ class Vulga
     * Returns sexe as string.
     * @return string
     */
-    public function getSexeAsString()
+    public function getSexeAsString($sexe = null)
     {
+        if($sexe === null)
+            $sexe = $this->sexe;
+            
         $list = self::getSexeList();
-        if (isset($list[$this->sexe]))
-            return $list[$this->sexe];
+        if(isset($list[$sexe]))
+            return $list[$sexe];
 
         return 'Unknown';
     }

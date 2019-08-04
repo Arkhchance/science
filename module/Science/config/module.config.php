@@ -120,7 +120,8 @@ return [
             Service\DbManager::class   => Service\Factory\DbManagerFactory::class,
             Service\YoutubeManager::class   => Service\Factory\YoutubeManagerFactory::class,
             Service\ApiManager::class  => Service\Factory\ApiManagerFactory::class,
-            Service\DataManager::class => Service\Factory\DataManagerFactory::class,
+            Service\StatsManager::class => Service\Factory\StatsManagerFactory::class,
+            Service\ConstructGraphManager::class => Service\Factory\ConstructGraphManagerFactory::class,
         ],
     ],
     'view_helpers' => [
@@ -169,11 +170,21 @@ return [
             ],
             Controller\ScienceController::class => [
                 // * = allow  @ = auth user only
-                ['actions' => ['index'], 'allow' => '*'],
+                [
+                    'actions' => [
+                        'index','getform','graphperso','graphs','catgraph',
+                        'stats','vulgastats','domainestats'
+                ],
+                'allow' => '*'
+            ],
             ],
             Controller\ManageController::class => [
                 // * = allow  @ = auth user only
                 ['actions' => ['add'], 'allow' => '@'],
+            ],
+            Controller\DiversController::class => [
+                // * = allow  @ = auth user only
+                ['actions' => ['apropos'], 'allow' => '*'],
             ],
         ]
     ],

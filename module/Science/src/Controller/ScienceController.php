@@ -10,12 +10,14 @@ class ScienceController extends AbstractActionController
 {
 
     private $entityManager;
-    private $dataService;
+    private $statsService;
+    private $graphService;
 
-    public function __construct($entityManager,$dataService)
+    public function __construct($entityManager,$statsService,$graphService)
     {
         $this->entityManager = $entityManager;
-        $this->dataService = $dataService;
+        $this->statsService = $statsService;
+        $this->graphService = $graphService;
     }
 
     public function indexAction()
@@ -59,9 +61,10 @@ class ScienceController extends AbstractActionController
         $request = $this->getRequest();
         $data = $request->getQuery();
         $data = $data->toArray();
-        
+
         if(isset($data['elements'])) {
-            return ['valid' => true];
+            $graphData = $this->graphService->constructGraph($data);
+            return ['valid' => true,'graphData'=>$graphData,'data' => $data];
         } else {
             return;
         }
@@ -70,19 +73,19 @@ class ScienceController extends AbstractActionController
 
     public function graphsAction()
     {
-        $datas = $this->dataService->prepareVulgaGraph();
+        $datas = $this->statsService->prepareVulgaGraph();
         return ['datas' => $datas];
     }
 
     public function catgraphAction()
     {
-        $datas = $this->dataService->prepareDomaineGraph();
+        $datas = $this->statsService->prepareDomaineGraph();
         return ['datas' => $datas];
     }
 
     public function statsAction()
     {
-        $datas = $this->dataService->prepareVulgaStats();
+        $datas = $this->statsService->prepareVulgaStats();
         return ['datas' => $datas];
     }
 
@@ -91,7 +94,7 @@ class ScienceController extends AbstractActionController
         $order = $this->params()->fromQuery('order', 'nom');
         $sens = $this->params()->fromQuery('by', 'asc');
 
-        $datas = $this->dataService->prepareVulgaStats($order,$sens);
+        $datas = $this->statsService->prepareVulgaStats($order,$sens);
         return ['datas' => $datas];
     }
 
@@ -100,7 +103,7 @@ class ScienceController extends AbstractActionController
         $order = $this->params()->fromQuery('order', 'vid');
         $sens = $this->params()->fromQuery('by', 'asc');
 
-        $datas = $this->dataService->prepareDomaineStats($order,$sens);
+        $datas = $this->statsService->prepareDomaineStats($order,$sens);
         return ['datas' => $datas];
     }
 }

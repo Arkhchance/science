@@ -6,13 +6,7 @@ use Zend\View\Helper\AbstractHelper;
 
 class NumberHelper extends AbstractHelper
 {
-
-
-    public function __construct()
-    {
-
-    }
-
+    
     public function format($number,$trailing = 0)
     {
         return number_format($number, $trailing, ',', ' ');
