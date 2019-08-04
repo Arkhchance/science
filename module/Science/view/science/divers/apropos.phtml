@@ -1,0 +1,32 @@
+<?php
+$title = 'A propos';
+$this->headTitle($title);
+
+?>
+<div class="row m-1 justify-content-center">
+    <div class="col-3">
+        <p>
+            Créer avec 🧡💛💚💙💜 par Arkhchance
+        <p>
+            Toute les données sont extraites de <a target="_blank" rel="noopener noreferrer" href="http://youtube.com">YouTube</a>
+        </p>
+        <p>
+            La liste de chaîne viens du travail de <a target="_blank" rel="noopener noreferrer" href="https://stephanedebove.net/fr/">Debove Stephane</a> <a target="_blank" rel="noopener noreferrer" href="https://twitter.com/stdebove">@stdebove</a>
+        </p>
+        <p>
+            Pour les curieux le code source est <a target="_blank" rel="noopener noreferrer" href="https://github.com/Arkhchance/science">ici</a>
+        </p>
+        <p>
+            Vous êtes libre de reprendre les données comme ça vous chante <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+        </p>
+        <p>
+            Vous pouvez me contacter sur Arkhchance_protonmail_com (vous savez par quoi remplacer les _)<br>
+            Ou bien Twitter @Arkhchance ou bien Discord si on partage un serveur en commun
+        </p>
+        <p>
+            Vous voulez être dans la liste ?
+            J'ai fait des érreurs ?
+            Rendez-vous <a href="<?= $this->url('divers',['action' => 'erreur']);?>"><?= $this->escapeHtml(">>>"); ?> ici <?= $this->escapeHtml("<<<"); ?></a> Merci :)
+        </p>
+    </div>
+</div>
