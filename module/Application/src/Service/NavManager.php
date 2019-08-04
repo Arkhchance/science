@@ -86,6 +86,12 @@ class NavManager
             'label' => 'A propos',
             'link'  => $url('divers',['action'=>'apropos'])
         ];
+        $items[] = [
+            'dir' => 'left',
+            'id' => 'erreur',
+            'label' => 'contact',
+            'link'  => $url('divers',['action'=>'erreur'])
+        ];
         if (!$this->authService->hasIdentity()) {
             $items[] = [
                 'dir' => 'right',

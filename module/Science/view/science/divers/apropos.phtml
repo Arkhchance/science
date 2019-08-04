@@ -28,5 +28,10 @@ $this->headTitle($title);
             J'ai fait des érreurs ?
             Rendez-vous <a href="<?= $this->url('divers',['action' => 'erreur']);?>"><?= $this->escapeHtml(">>>"); ?> ici <?= $this->escapeHtml("<<<"); ?></a> Merci :)
         </p>
+        <p>
+            Le watch time est calculé simplement : (vue de la vidéo) x (longueur de la vidéo)
+            or tout le monde est loin de regardé 100% de la vidéo. Cette donnée est à prendre avec
+            grosse précaution.
+        </p>
     </div>
 </div>

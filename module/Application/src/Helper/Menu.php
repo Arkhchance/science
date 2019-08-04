@@ -42,10 +42,12 @@ class Menu extends AbstractHelper
         $result .= '</ul>';
 
         //search
+        /*
         $result .= '<form class="form-inline" action="/search" method="post">';
         $result .= '<input class="form-control mr-sm-2" name="search" type="search" placeholder="Search" aria-label="Search">';
         $result .= '</form>';
-
+        */
+        
         //right
         $result .= '<ul class="nav navbar-nav navbar-right">';
         $result .= $right;

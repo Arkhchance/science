@@ -184,7 +184,7 @@ return [
             ],
             Controller\DiversController::class => [
                 // * = allow  @ = auth user only
-                ['actions' => ['apropos'], 'allow' => '*'],
+                ['actions' => ['apropos','erreur'], 'allow' => '*'],
             ],
         ]
     ],
