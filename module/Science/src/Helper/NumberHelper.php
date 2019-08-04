@@ -6,7 +6,14 @@ use Zend\View\Helper\AbstractHelper;
 
 class NumberHelper extends AbstractHelper
 {
-    
+    public function getRandomColor()
+    {
+        $r = rand(0,255);
+        $g = rand(0,255);
+        $b = rand(0,255);
+
+        return [$r,$g,$b];
+    }
     public function format($number,$trailing = 0)
     {
         return number_format($number, $trailing, ',', ' ');

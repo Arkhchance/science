@@ -22,8 +22,10 @@ class Vulga
     const SEXE_HOMME      = 1;
     const SEXE_GROUP      = 2;
     const SEXE_NON_BINARY = 3;
+    /*
     const SEXE_NO_SEXE    = 4;
-    const SEXE_NEUTRAL    = 5;
+    const SEXE_NEUTRAL    = 5
+    */
 
 
     // vulga state constants.
@@ -300,10 +302,12 @@ class Vulga
         return [
             self::SEXE_FEMME => 'Femme',
             self::SEXE_HOMME => 'Homme',
+            self::SEXE_GROUP => 'Groupement',
             self::SEXE_NON_BINARY => 'Non Binaire',
+            /*
             self::SEXE_NO_SEXE => 'Asexué',
             self::SEXE_NEUTRAL => 'Neutre',
-            self::SEXE_GROUP => 'Groupement',
+            */
         ];
     }
 
@@ -315,7 +319,7 @@ class Vulga
     {
         if($sexe === null)
             $sexe = $this->sexe;
-            
+
         $list = self::getSexeList();
         if(isset($list[$sexe]))
             return $list[$sexe];

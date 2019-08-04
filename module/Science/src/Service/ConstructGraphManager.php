@@ -76,7 +76,7 @@ class ConstructGraphManager
             $data->setLabel($domaine->getNom());
             return $data->getData();
         }
-
+        $cpt = 0;
         foreach ($domaine->getVulga() as $vulga) {
             if(array_key_exists($vulga->getId(),$this->vulgaData)) {
                 $stats = $this->vulgaData[$vulga->getId()];
@@ -87,9 +87,10 @@ class ConstructGraphManager
                 $this->vulgaData[$stats['id']] = $stats;
             }
             $data->addData($stats);
+            $cpt++;
         }
 
-        $data->computeData();
+        $data->computeData($cpt);
         $data->setLabel($domaine->getNom());
         $this->genreData[$domaine->getId()] = $data->getData();
         return $data->getData();
@@ -114,10 +115,13 @@ class ConstructGraphManager
                }
                $data->addData($stats);
            }
+           $data->computeData(count($vulgas));
            $data->setLabel("Tout le monde");
            return $data->getData();
         }
 
+        //keep number of person involved
+        $cpt = 0;
         foreach ($value as $val) {
             //skip if user checked default value
             if($val == 0)
@@ -139,7 +143,10 @@ class ConstructGraphManager
             $data->addData($stats);
 
             $name .= $vulga->getNom()."\n";
+            $cpt++;
         }
+
+        $data->computeData($cpt);
         $data->setLabel($name);
         return $data->getData();
     }
@@ -168,6 +175,7 @@ class ConstructGraphManager
         if($vulgas === null)
             return false;
 
+        $cpt = 0;
         foreach ($vulgas as $vulga) {
             if(array_key_exists($vulga->getId(),$this->vulgaData)) {
                 $stats = $this->vulgaData[$vulga->getId()];
@@ -179,10 +187,11 @@ class ConstructGraphManager
             }
 
             $data->addData($stats);
+            $cpt++;
         }
 
         //all data is gathered, compute stats
-        $data->computeData();
+        $data->computeData($cpt);
 
         $data->setLabel(Vulga::getSexeAsString($value));
 
@@ -217,7 +226,7 @@ class ConstructGraphManager
                 $watchTime += $post->getDuree() * $post->getVue();
             }
         }
-        //convert duration & watch time in minutes
+        //convert duration & watch time in hours
         $totalDuration /= 60;
         $watchTime /= 60;
 

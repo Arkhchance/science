@@ -5,16 +5,13 @@ class DataManager
 {
 
     private $data;
-
+    private $lock = false;
     /**
      * Constructs
      */
     public function __construct()
     {
         $this->data['label']   = "";
-        $this->data['id']      = 0;
-        $this->data['nom']     = "";
-        $this->data['min_v']   = 0;
         $this->data['abo']     = 0;
         $this->data['vid']     = 0;
         $this->data['vue']     = 0;
@@ -22,6 +19,7 @@ class DataManager
         $this->data['dislike'] = 0;
         $this->data['minutes'] = 0;
         $this->data['watch']   = 0;
+        $this->data['min_v']   = 0;
     }
 
     public function addData($data)
@@ -35,8 +33,19 @@ class DataManager
         $this->data['watch']   += $data['watch'] ;
     }
 
-    public function computeData()
+    public function computeData($people = 1)
     {
+        //execute only once
+        if($this->lock)
+            return;
+
+        if($people < 1)
+            $people = 1;
+
+        if($this->data['dislike']!=0)
+            $this->data['likeDis'] = $this->data['like'] / $this->data['dislike'];
+        else
+            $this->data['likeDis'] = 0;
         if($this->data['vid']!=0) {
             $this->data['like_v']  = $this->data['like'] / $this->data['vid'];
             $this->data['dis_v']   = $this->data['dislike'] / $this->data['vid'];
@@ -48,11 +57,24 @@ class DataManager
             $this->data['min_v']  = 0;
             $this->data['vue_v']  = 0;
         }
-        if($this->data['dislike']!=0)
-            $this->data['likeDis'] = $this->data['like'] / $this->data['dislike'];
-        else
-            $this->data['likeDis'] = 0;
 
+        //compute average
+        $this->data['abo']     /= $people;
+        $this->data['vid']     /= $people;
+        $this->data['vue']     /= $people;
+        $this->data['like']    /= $people;
+        $this->data['dislike'] /= $people;
+        $this->data['minutes'] /= $people;
+        $this->data['watch']   /= $people;
+
+
+        //convert to hour
+        $this->data['minutes'] /= 60;
+        //convert to day
+        $this->data['watch'] /= (60*24);
+
+        //do not reexecute
+        $this->lock = true;
     }
 
     public function getData()

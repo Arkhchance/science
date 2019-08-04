@@ -19,7 +19,8 @@ class DomaineRepository extends EntityRepository
             ->from(Domaine::class,'d')
             ->leftJoin('d.vulga','v')
             ->where('v.private = ?1')
-            ->setParameter('1', Vulga::STATE_PUBLIC);
+            ->setParameter('1', Vulga::STATE_PUBLIC)
+            ->orderBy('d.nom', 'ASC');
 
         return $queryBuilder->getQuery()->getResult();
     }

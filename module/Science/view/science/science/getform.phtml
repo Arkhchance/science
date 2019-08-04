@@ -88,8 +88,17 @@ $(document).ready(function () {
         id = id.replace(/\D/g,'');
         var value = $(this).val();
 
-        if(value == 0)
+        if(value == 0) {
             enable = true;
+        } else {
+            //uncheck vulga default value
+            if(type == "v") {
+                $("#v"+id+" option[value='0']").prop("selected", false);
+                $(this).selectpicker('refresh');
+            }
+
+        }
+
 
         switch (type) {
             case "d":

@@ -64,7 +64,7 @@ class StatsManager
             $data[$cpt]['abo'] = $follower;
             $data[$cpt]['vue'] = $totalVue;
             $data[$cpt]['vid'] = $totalVideo;
-            $data[$cpt]['like'] = $follower;
+            $data[$cpt]['like'] = $totalLike;
             $data[$cpt]['dislike'] = $totalDislike;
             $data[$cpt]['minutes'] = $totalDuration;
             $data[$cpt]['watch'] = $watchTime;

@@ -3,10 +3,26 @@
 $title = 'Graphs perso';
 $this->headTitle($title);
 
+$this->headLink()->appendStylesheet($this->basePath('css/Chart.css'));
 $this->headLink()->appendStylesheet($this->basePath('css/bootstrap-select.min.css'));
+$this->headScript()->appendFile($this->basePath('js/Chart.bundle.min.js'));
 $this->headScript()->appendFile($this->basePath('js/bootstrap-select.min.js'));
 $this->headScript()->appendFile($this->basePath('js/comp.js'));
 
+$label = [
+    'Nombre d\'abonnés moyen',
+    'Nombre de vidéos moyenne',
+    'Nombre de vue moyenne',
+    'Nombre de Like moyen',
+    'Nombre de Dislike moyen',
+    'Temps de vidéo total moyen (en heure)',
+    'watch time moyen (en jour)',
+    'Durée moyenne d\'une vidéo (en minutes)',
+    'Nombre de Like pour 1 dislike',
+    'Like moyen par vidéo',
+    'Dislike moyen par vidéo',
+    'Vue moyenne par vidéo'
+];
 if(!isset($valid)):
 ?>
 
@@ -17,12 +33,109 @@ if(!isset($valid)):
 </div>
 <div class="row mt-1 justify-content-center" id="GraphForm">
 </div>
-<?php endif; ?>
-<pre><code>
-    <?php
-        if($graphData === false)
-            echo "false\n"; 
-        print_r($data);
-        print_r($graphData);
-    ?>
-</code></pre>
+<?php else: ?>
+<div class="row m-1 justify-content-center">
+    <div class="col-5">
+        <canvas id="chart0"></canvas>
+    </div>
+    <div class="col-5">
+        <canvas id="chart1"></canvas>
+    </div>
+    <div class="w-100"></div>
+    <div class="col-5">
+        <canvas id="chart2"></canvas>
+    </div>
+    <div class="col-5">
+        <canvas id="chart3"></canvas>
+    </div>
+    <div class="w-100"></div>
+    <div class="col-5">
+        <canvas id="chart4"></canvas>
+    </div>
+    <div class="col-5">
+        <canvas id="chart5"></canvas>
+    </div>
+    <div class="w-100"></div>
+    <div class="col-5">
+        <canvas id="chart6"></canvas>
+    </div>
+    <div class="col-5">
+        <canvas id="chart7"></canvas>
+    </div>
+    <div class="w-100"></div>
+    <div class="col-5">
+        <canvas id="chart8"></canvas>
+    </div>
+    <div class="col-5">
+        <canvas id="chart9"></canvas>
+    </div>
+    <div class="w-100"></div>
+    <div class="col-5">
+        <canvas id="chart10"></canvas>
+    </div>
+    <div class="col-5">
+        <canvas id="chart11"></canvas>
+    </div>
+</div>
+
+<?php
+$cpt = 0;
+$dataGraph = [];
+//convert Array
+foreach ($graphData as $key => $value) {
+    $graphData[$key] = array_values($value);
+}
+
+//generate random color
+$elements = count($graphData);
+$color1 = $color2 = "";
+for($j = 0; $j < $elements; $j++) {
+    $rColor = $this->formatData()->getRandomColor();
+    $color1 .= "'rgba(".$rColor[0].",".$rColor[1].",".$rColor[2].",0.2)',";
+    $color2 .= "'rgba(".$rColor[0].",".$rColor[1].",".$rColor[2].",1)',";
+}
+
+$this->inlineScript()->captureStart();
+
+for($i = 0; $i < (count($graphData[0]) - 1); $i++):
+?>
+    var ch<?= $i; ?> = document.getElementById('chart<?= $i; ?>');
+    var chart<?= $i; ?> = new Chart(ch<?= $i; ?>, {
+        type: 'bar',
+        data: {
+            labels: [<?php foreach($graphData as $value) echo "'".str_replace([",","\n"],["","-"],$this->escapeHtml($value[0]))."',"; ?>],
+            datasets: [{
+                label: '<?= addslashes($label[$i]); ?>',
+                data: [<?php foreach($graphData as $value) echo $value[$i+1].","; ?>],
+                backgroundColor: [
+                    <?= $color1; ?>
+                ],
+                borderColor: [
+                    <?= $color2; ?>
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            tooltips: {
+                callbacks: {
+                    label: function(tooltipItem, data) {
+                          return data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index].toLocaleString('fr');
+                     }
+               }
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+<?php
+endfor;
+$this->inlineScript()->captureEnd();
+endif;
+/*<pre><code><?php print_r($graphData); ?></code></pre>*/
+?>
