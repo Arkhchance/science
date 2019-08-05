@@ -99,13 +99,14 @@ class NavManager
                 'label' => 'Login',
                 'link'  => $url('login')
             ];
+            /* hide it 
             $items[] = [
                 'dir' => 'right',
                 'id' => 'register',
                 'label' => 'Register',
                 'link'  => $url('register')
             ];
-
+            */
         } else {
             $items[] = [
                 'dir' => 'right',
