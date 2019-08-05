@@ -55,12 +55,12 @@ $form->get('domaine')->setAttributes(array(
 ));
 $form->prepare();
 ?>
-<div class="row justify-content-center">
+<div class="row m-1 justify-content-center">
     <h1 class="mt-4 mb-5">
         <?= $title; ?>
     </h1>
 </div>
-<div class="row justify-content-center">
+<div class="row m-1 justify-content-center">
     <div class="col-sm-8">
         <?= $this->formDisplay()->renderVulga($page); ?>
         <?= $this->paginationControl($this->formDisplay()->pagiVulga,'Sliding','science/partial/paginator',['route' => 'manage','action' => 'vulga']); ?>

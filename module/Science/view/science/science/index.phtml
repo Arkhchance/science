@@ -10,45 +10,33 @@ $this->headTitle($title);
                 <tr>
                     <th scope="col">
                         Chaine Youtube
-                        <a href="<?= $this->url('science',['action' => 'index'],['query'=>['order' => 'nom','by' => 'asc']]);?>"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
-                        <a href="<?= $this->url('science',['action' => 'index'],['query'=>['order' => 'nom','by' => 'desc']]);?>"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
-                    </th>
+                                    </th>
                     <th scope="col">
                         Abonnés
-                        <a href="<?= $this->url('science',['action' => 'index'],['query'=>['order' => 'abo','by' => 'asc']]);?>"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
-                        <a href="<?= $this->url('science',['action' => 'index'],['query'=>['order' => 'abo','by' => 'desc']]);?>"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
                     </th>
                     <th scope="col">
                         Vidéos
-                        <a href="<?= $this->url('science',['action' => 'index'],['query'=>['order' => 'vid','by' => 'asc']]);?>"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
-                        <a href="<?= $this->url('science',['action' => 'index'],['query'=>['order' => 'vid','by' => 'desc']]);?>"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
                     </th>
                     <th scope="col">
                         Vues
-                        <a href="<?= $this->url('science',['action' => 'index'],['query'=>['order' => 'vue','by' => 'asc']]);?>"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
-                        <a href="<?= $this->url('science',['action' => 'index'],['query'=>['order' => 'vue','by' => 'desc']]);?>"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
                     </th>
                     <th scope="col">
                         Like
-                        <a href="<?= $this->url('science',['action' => 'index'],['query'=>['order' => 'like','by' => 'asc']]);?>"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
-                        <a href="<?= $this->url('science',['action' => 'index'],['query'=>['order' => 'like','by' => 'desc']]);?>"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
                     </th>
                     <th scope="col">
                         Dislike
-                        <a href="<?= $this->url('science',['action' => 'index'],['query'=>['order' => 'dislike','by' => 'asc']]);?>"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
-                        <a href="<?= $this->url('science',['action' => 'index'],['query'=>['order' => 'dislike','by' => 'desc']]);?>"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
                     </th>
                 </tr>
             </thead>
             <tbody>
             <?php foreach ($stats as $stat): ?>
                 <tr>
-                    <td><a target="_blank" rel="noopener noreferrer" href="<?= $stat->getLink(); ?>"><?= $stat->getVulga()->getNom(); ?></td>
-                    <td><?= $this->formatData()->format($stat->getFollower()); ?></td>
-                    <td><?= $this->formatData()->format($stat->getPosts()); ?></td>
-                    <td><?= $this->formatData()->format($stat->getTotalVue()); ?></td>
-                    <td><?= $this->formatData()->format($stat->getTotalLike()); ?></td>
-                    <td><?= $this->formatData()->format($stat->getTotalDislike()); ?></td>
+                    <td><a target="_blank" rel="noopener noreferrer" href="<?= $stat->getMainstats()->last()->getLink(); ?>"><?= $stat->getNom(); ?></td>
+                    <td><?= $this->formatData()->format($stat->getMainstats()->last()->getFollower()); ?></td>
+                    <td><?= $this->formatData()->format($stat->getMainstats()->last()->getPosts()); ?></td>
+                    <td><?= $this->formatData()->format($stat->getMainstats()->last()->getTotalVue()); ?></td>
+                    <td><?= $this->formatData()->format($stat->getMainstats()->last()->getTotalLike()); ?></td>
+                    <td><?= $this->formatData()->format($stat->getMainstats()->last()->getTotalDislike()); ?></td>
                 </tr>
             <?php endforeach; ?>
             </tbody>

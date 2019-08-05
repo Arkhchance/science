@@ -11,9 +11,9 @@ $subscriber = $argv[4];
 $rand = rand();
 mkdir("./data/$rand");
 $vidLink = 'http://www.youtube.com/watch?v=';
-$cmdVideo = "cd ./data/$rand && youtube-dl --skip-download --write-info-json ";
+$cmdVideo = "cd ./data/$rand && youtube-dl --skip-download --write-info-json --ignore-errors";
 
-$ids = shell_exec("youtube-dl --get-id $id");
+$ids = shell_exec("youtube-dl --get-id --ignore-errors $id");
 
 $idList = explode("\n", $ids);
 
@@ -25,7 +25,7 @@ $totalDislike = 0;
 sleep(1); // to avoid flooding youtube
 
 foreach ($idList as $videoId) {
-    if($videoId == "")
+    if($videoId == "" || strlen($videoId) > 13)
         continue;
 
     exec($cmdVideo." ".$vidLink.$videoId);

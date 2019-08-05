@@ -3,7 +3,7 @@ namespace Science\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
-use Science\Entity\MainStats;
+use Science\Entity\Vulga;
 use Science\Form\Graph\GraphForm;
 
 class ScienceController extends AbstractActionController
@@ -22,11 +22,9 @@ class ScienceController extends AbstractActionController
 
     public function indexAction()
     {
-        $type = $this->params()->fromQuery('order', 'id');
-        $sens = $this->params()->fromQuery('by', 'asc');
 
-        $query = $this->entityManager->getRepository(MainStats::class)
-            ->findByOrder($type,$sens)->getResult();
+        $query = $this->entityManager->getRepository(Vulga::class)
+                      ->findAll();
 
         return  ['stats' => $query];
     }
