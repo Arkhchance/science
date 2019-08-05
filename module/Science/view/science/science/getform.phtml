@@ -45,7 +45,7 @@ $form->prepare();
 <?php for($i = 0; $i < $elements; $i++):
     if($i == 0) continue; ?>
     <div class="col">
-        VS =>
+        <p class="text-danger">VS =></p>
         <div class="form-group">
             <?= $this->formLabel($form->get('domaine'.$i)); ?>
             <?= $this->formElement($form->get('domaine'.$i)); ?>
