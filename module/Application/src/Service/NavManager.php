@@ -89,7 +89,7 @@ class NavManager
         $items[] = [
             'dir' => 'left',
             'id' => 'erreur',
-            'label' => 'contact',
+            'label' => 'Contact',
             'link'  => $url('divers',['action'=>'erreur'])
         ];
         if (!$this->authService->hasIdentity()) {
@@ -99,7 +99,7 @@ class NavManager
                 'label' => 'Login',
                 'link'  => $url('login')
             ];
-            /* hide it 
+            /* hide it
             $items[] = [
                 'dir' => 'right',
                 'id' => 'register',
