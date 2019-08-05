@@ -8,8 +8,25 @@
         <?= $this->headMeta()
             ->appendName('viewport', 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no')
             ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
+            ->appendName('Title','Science yt stats')
+            ->appendName('Description','Des graphs et des stats sur les vulgarisateurs du web');
         ?>
+        <?php //og FB / DISCORD
+            $this->headMeta()->setProperty('og:title', 'Science Stats')
+                             ->setProperty('og:type', 'website')
+                             ->setProperty('og:locale', 'fr_FR')
+                             ->setProperty('og:url', 'https://www.arkhchance.ovh')
+                             ->setProperty('og:image', 'https://www.arkhchance.ovh/img/stats.png')
+                             ->setProperty('og:description', 'Des graphs et des stats sur les vulgarisateurs du web')
+                             ->setProperty('og:image:alt', 'stats');
 
+            //twitter
+            $this->headMeta()->setProperty('twitter:card', 'summary_large_image')
+                             ->setProperty('twitter:url', 'https://www.arkhchance.ovh')
+                             ->setProperty('twitter:image', 'https://www.arkhchance.ovh/img/stats.png')
+                             ->setProperty('twitter:description', 'Des graphs et des stats sur les vulgarisateurs du web')
+                             ->setProperty('twitter:title', 'Science Stats')
+        ?>
         <!-- Le styles -->
         <?= $this->headLink(['rel' => 'shortcut icon', 'type' => 'image/png', 'href' => $this->basePath('img/stats.png')])
                 ->prependStylesheet($this->basePath('css/bootstrap.min.css'))
