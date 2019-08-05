@@ -109,6 +109,12 @@ class NavManager
         } else {
             $items[] = [
                 'dir' => 'right',
+                'id' => 'msg',
+                'label' => 'Messages',
+                'link'  => $url('manage',['action'=>'message'])
+            ];
+            $items[] = [
+                'dir' => 'right',
                 'id' => 'Langue',
                 'label' => 'Langue',
                 'link'  => $url('manage',['action'=>'langue'])

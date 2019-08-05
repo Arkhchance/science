@@ -1,0 +1,43 @@
+<?php
+
+$title = 'Message';
+$this->headTitle($title);
+
+?>
+<div class="row m-1 justify-content-center">
+    <h1 class="mt-4 mb-5">
+        <?= $title; ?>
+    </h1>
+</div>
+<?php foreach ($messages as $msg): ?>
+<div class="row m-1 justify-content-center">
+    <div class="col-sm-6 border">
+        <p>
+            <?= nl2br($this->escapeHtml($msg->getMessage())); ?>
+        </p>
+        <button id="<?= $msg->getId(); ?>" type="button" class="delete btn btn-danger">Delete</button>
+    </div>
+</div>
+<?php
+endforeach;
+
+$this->inlineScript()->captureStart();
+ ?>
+ $(".delete").click(function(event){
+     var val = event.target.id
+     $.ajax({
+        type: 'POST',
+        url: '/manage/message',
+        data: { id: val} ,
+        dataType: 'json',
+        success: function (data) {
+             if(data.SUCCES == "Ok")
+                location.reload(true);
+             else
+                alert("error");
+        }
+    });
+ });
+ <?php
+ $this->inlineScript()->captureEnd();
+ ?>

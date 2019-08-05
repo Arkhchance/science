@@ -2,7 +2,58 @@
 
 $title = 'Contact';
 $this->headTitle($title);
+$note = <<< EOF
+Notez ici tout détail suplémentaire que vous jugez important
+ou bien laissez moi un message. Si vous souhaitez une réponse laisser aussi
+un moyen de vous répondre
+EOF;
 
+$this->headLink()->appendStylesheet($this->basePath('css/bootstrap-select.min.css'));
+$this->headScript()->appendFile($this->basePath('js/bootstrap-select.min.js'));
+$this->headScript()->appendFile($this->basePath('js/contact.js'));
+
+$form->get('submit')->setAttributes(['class'=>'btn btn-lg btn-primary btn-block']);
+
+$form->get('ndomaine')->setAttributes([
+    'class'=>'form-control',
+    'placeholder' => 'écrivez en plusieurs si nécessaire'
+]);
+$form->get('nvulga')->setAttributes([
+    'class'=>'form-control',
+    'placeholder' => 'le lien Youtube'
+]);
+$form->get('sexe')->setAttributes([
+    'class'=>'selectpicker form-control',
+    'id' => 'sexe'
+]);
+$form->get('langue')->setAttributes([
+    'class'=>'selectpicker show-tick form-control',
+    'id' => 'langue'
+]);
+$form->get('pays')->setAttributes([
+    'class'=>'selectpicker show-tick form-control',
+    'id' => 'pays'
+]);
+$form->get('domaine')->setAttributes(array(
+    'class'=> 'selectpicker form-control',
+    'data-actions-box' => 'true',
+    'data-live-search'  => 'true',
+    'id' => 'domaine'
+));
+$form->get('vulga')->setAttributes(array(
+    'class'=> 'selectpicker form-control show-tick',
+    'data-live-search'  => 'true',
+    'id' => 'vulga'
+));
+$form->get('note')->setAttributes([
+    'class'=>'form-control',
+    'placeholder' => $note,
+    'rows' => 8
+]);
+$form->get('captcha')->setAttributes([
+    'class'=>'form-control',
+]);
+$form->prepare();
 ?>
 
 <div class="row m-1 justify-content-center">
@@ -11,3 +62,83 @@ $this->headTitle($title);
         ou bien remplisser le formulaire si vous voulez vous rajouter
     </div>
 </div>
+
+
+<div class="row m-1 justify-content-center">
+    <div class="col-sm-3">
+        <?= $this->form()->openTag($form); ?>
+        <div class="form-group">
+            <?= $this->formLabel($form->get('vulga')); ?>
+            <?= $this->formElement($form->get('vulga')); ?>
+            <?= $this->formElementErrors($form->get('vulga')); ?>
+        </div>
+        <div class="form-group">
+            <?= $this->formLabel($form->get('nvulga')); ?>
+            <?= $this->formElement($form->get('nvulga')); ?>
+            <?= $this->formElementErrors($form->get('nvulga')); ?>
+        </div>
+        <div class="form-group">
+            <?= $this->formLabel($form->get('sexe')); ?>
+            <?= $this->formElement($form->get('sexe')); ?>
+            <?= $this->formElementErrors($form->get('sexe')); ?>
+        </div>
+        <div class="form-group">
+            <?= $this->formLabel($form->get('langue')); ?>
+            <?= $this->formElement($form->get('langue')); ?>
+            <?= $this->formElementErrors($form->get('langue')); ?>
+        </div>
+        <div class="form-group">
+            <?= $this->formLabel($form->get('pays')); ?>
+            <?= $this->formElement($form->get('pays')); ?>
+            <?= $this->formElementErrors($form->get('pays')); ?>
+        </div>
+        <div class="form-group">
+            <?= $this->formLabel($form->get('domaine')); ?>
+            <?= $this->formElement($form->get('domaine')); ?>
+            <?= $this->formElementErrors($form->get('domaine')); ?>
+        </div>
+        <div class="form-group">
+            <?= $this->formLabel($form->get('ndomaine')); ?>
+            <?= $this->formElement($form->get('ndomaine')); ?>
+            <?= $this->formElementErrors($form->get('ndomaine')); ?>
+        </div>
+        <div class="form-group">
+            <?= $this->formLabel($form->get('note')); ?>
+            <?= $this->formElement($form->get('note')); ?>
+            <?= $this->formElementErrors($form->get('note')); ?>
+        </div>
+        <div class="form-group">
+            <?= $this->formLabel($form->get('captcha')); ?>
+            <?= $this->formElement($form->get('captcha')); ?>
+            <?= $this->formElementErrors($form->get('captcha')); ?>
+        </div>
+        <?= $this->formElement($form->get('csrf')) ?>
+        <?= $this->formElement($form->get('submit')); ?>
+        <?= $this->form()->closeTag(); ?>
+    </div>
+    <div class="col-sm-3">
+        <p>
+            Quelque précision :
+            <ul>
+                <li>Votre chaîne doit avoir un lien avec de la vulgarisation (de près ou de loin)</li>
+                <li>Pour le moment je n'accepte pas les chaînes de cours (ex : cours de maths)</li>
+                <li>Si votre pays où votre langue n'est pas dans la liste, laissez-le moi en note</li>
+                <li>Si vous vulgarisez les "Huppe fasciée" la catégorie animaux suffit (ou oiseau à la limite)</li>
+                <li>Ne le prennez pas mal si érreur il y a, elles ne sont pas volontaires ;)</li>
+                <li>Je fais beaucoup de fautes d'orthographe, n'hésitez pas à me corriger 🥰 </li>
+            </ul>
+        </p>
+        <p id="data">
+
+        </p>
+    </div>
+</div>
+<?php
+if(isset($success)):
+$this->inlineScript()->captureStart();
+?>
+alert("C'est envoyer ;)"); 
+<?php
+$this->inlineScript()->captureEnd();
+endif;
+?>

@@ -12,6 +12,7 @@ use Science\Form\Manage\VulgaForm;
 use Science\Form\Manage\LinkForm;
 use Science\Entity\Plateforme;
 use Science\Entity\Vulga;
+use Science\Entity\Messages;
 
 class ManageController extends AbstractActionController
 {
@@ -24,6 +25,39 @@ class ManageController extends AbstractActionController
         $this->dbService = $dbService;
         $this->entityManager = $entityManager;
         $this->apiService = $apiService;
+    }
+
+    public function messageAction()
+    {
+        $request = $this->getRequest();
+        if ($request->isXmlHttpRequest()) {
+            //delete msg
+            $view = new JsonModel();
+            $view->setTerminal(true);
+            $id = $this->params()->fromPost('id', null);
+
+            if($id === null) {
+                $view->setVariable('SUCCES','Error1');
+                return $view;
+            }
+            $msg = $this->entityManager->getRepository(Messages::class)
+                        ->findOneByid($id);
+            if($msg === null) {
+                $view->setVariable('SUCCES','Error2');
+                return $view;
+            }
+            $this->entityManager->remove($msg);
+            $this->entityManager->flush();
+
+            $view->setVariable('SUCCES','Ok');
+            return $view;
+
+        } else {
+            $messages = $this->entityManager->getRepository(Messages::class)->findAll();
+
+            return ['messages' => $messages];
+        }
+
     }
 
     public function vulgastateAction()

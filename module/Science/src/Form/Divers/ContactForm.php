@@ -3,6 +3,10 @@ namespace Science\Form\Divers;
 
 use Zend\Form\Form;
 use Zend\Form\Fieldset;
+use Zend\Captcha;
+use Zend\Filter\StringTrim;
+use Zend\Filter\StripTags;
+use Zend\Validator\StringLength;
 use Science\Entity\Vulga;
 use Science\Entity\Langue;
 use Science\Entity\Pays;
@@ -25,6 +29,7 @@ class ContactForm extends Form
         $this->setAttribute('method', 'post');
 
         $this->addElements();
+        $this->addInputFilter();
     }
 
     private function getArrayVulga()
@@ -58,6 +63,7 @@ class ContactForm extends Form
 
         $domaines = $this->entityManager->getRepository(Domaine::class)->findAll();
 
+        $myDomaines[-1] = "Aucun de la liste";
         foreach ($domaines as $domaine) {
             $myDomaines[$domaine->getId()] = $domaine->getNom();
         }
@@ -93,11 +99,28 @@ class ContactForm extends Form
                 'id' => 'submit',
             ],
         ]);
+        // Add the CSRF field
+        $this->add([
+            'type' => 'csrf',
+            'name' => 'csrf',
+            'options' => [
+                'csrf_options' => [
+                'timeout' => 600
+                ]
+            ],
+        ]);
         $this->add([
             'type'  => 'text',
-            'name' => 'domaine',
+            'name' => 'ndomaine',
             'options' => [
-                'label' => 'Nouvelle chaine youtube',
+                'label' => 'Nouvelle catégorie',
+            ],
+        ]);
+        $this->add([
+            'type'  => 'text',
+            'name' => 'nvulga',
+            'options' => [
+                'label' => 'Nouvelle chaîne',
             ],
         ]);
         $this->add([
@@ -131,7 +154,7 @@ class ContactForm extends Form
                 'multiple' => true,
             ],
             'options' => [
-                'label' => 'Dans quel domaine iel vulgarise',
+                'label' => 'Selectionnez les catégories',
                 'value_options' => $this->getArrayDomaine(),
             ],
         ]);
@@ -139,7 +162,7 @@ class ContactForm extends Form
             'type' => 'select',
             'name' => 'vulga',
             'options' => [
-                'label' => 'Dans quel domaine iel vulgarise',
+                'label' => 'Selectionner une chaîne',
                 'value_options' => $this->getArrayVulga(),
             ],
         ]);
@@ -148,6 +171,52 @@ class ContactForm extends Form
             'name' => 'note',
             'options' => [
                 'label' => 'note :',
+            ],
+        ]);
+        $this->add([
+            'type' => 'Zend\Form\Element\Captcha',
+            'name' => 'captcha',
+            'options' => [
+                'label' => 'Humain ?',
+                'captcha' => new Captcha\Dumb(),
+            ],
+        ]);
+    }
+    private function addInputFilter()
+    {
+        // Create main input filter
+        $inputFilter = $this->getInputFilter();
+
+        $inputFilter->add([
+            'name'     => 'ndomaine',
+            'required' => false,
+            'filters'  => [
+                ['name' => StringTrim::class],
+                ['name' => StripTags::class]
+            ],
+            'validators' => [
+                [
+                    'name'    => StringLength::class,
+                    'options' => [
+                        'max' => 1024
+                    ],
+                ],
+            ],
+        ]);
+        $inputFilter->add([
+            'name'     => 'nvulga',
+            'required' => false,
+            'filters'  => [
+                ['name' => StringTrim::class],
+                ['name' => StripTags::class]
+            ],
+            'validators' => [
+                [
+                    'name'    => StringLength::class,
+                    'options' => [
+                        'max' => 1024
+                    ],
+                ],
             ],
         ]);
     }
