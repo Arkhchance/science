@@ -43,7 +43,7 @@ $form->get('captcha')->setAttributes([
                 <li><?= $this->formatData()->format($lastMS->getFollower()); ?> abonnés</li>
                 <li><?= $this->formatData()->format($lastMS->getPosts()); ?> vidéos</li>
                 <li><?= $this->formatData()->format($lastMS->getTotalLike()); ?> likes</li>
-                <li><?= $this->formatData()->format($lastMS->getTotalLike()); ?> dislikes</li>
+                <li><?= $this->formatData()->format($lastMS->getTotalDislike()); ?> dislikes</li>
                 <li><?= $this->formatData()->format($lastMS->getTotalVue()); ?> vues</li>
             </ul>
         </div>
@@ -102,7 +102,7 @@ $(document).ready(function () {
            url: '/vulgarisateurs/refresh/<?= $vulga->getId(); ?>',
            success: function (data) {
                 alert("C'est noté");
-                $("#refresh").hide(); 
+                $("#refresh").hide();
            }
        });
     });
