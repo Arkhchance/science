@@ -32,18 +32,6 @@ class ContactForm extends Form
         $this->addInputFilter();
     }
 
-    private function getArrayVulga()
-    {
-        $myVulgas = [];
-        $vulgas = $this->entityManager->getRepository(Vulga::class)->findAll();
-
-        foreach ($vulgas as $vulga) {
-            $myVulgas[$vulga->getId()] = $vulga->getNom();
-        }
-
-        return $myVulgas;
-    }
-
     private function getArrayLangue()
     {
         $myLangues = [];
@@ -156,14 +144,6 @@ class ContactForm extends Form
             'options' => [
                 'label' => 'Selectionnez les catégories',
                 'value_options' => $this->getArrayDomaine(),
-            ],
-        ]);
-        $this->add([
-            'type' => 'select',
-            'name' => 'vulga',
-            'options' => [
-                'label' => 'Selectionner une chaîne',
-                'value_options' => $this->getArrayVulga(),
             ],
         ]);
         $this->add([

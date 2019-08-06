@@ -43,14 +43,8 @@ class ContactManager
 
     public function addMessage($data)
     {
-        $vulga = $this->entityManager->getRepository(Vulga::class)
-                      ->findOneByid($data['vulga']);
-
-        if($vulga === null) {
-            $message = "Nvulga ?: >".$data['nvulga']."< Null vulga\n";
-        } else {
-            $message = "Nvulga ?: >".$data['nvulga']."< Vulga ".$vulga->getNom()."\n";
-        }
+        
+        $message = "Nvulga ?: >".$data['nvulga']."< Null vulga\n";
         $message .= "Sexe New : ".Vulga::getSexeAsString($data['sexe'])."\n";
         $message .= "Pays New : ".$data['pays']."\n";
         $message .= "Langue  New : ".$data['langue']."\n";
@@ -77,7 +71,7 @@ class ContactManager
     {
         $vulga = $this->entityManager->getRepository(Vulga::class)
                       ->findOneByid($id);
-                      
+
         if($vulga === null)
           return;
 

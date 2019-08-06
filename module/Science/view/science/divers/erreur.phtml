@@ -40,11 +40,6 @@ $form->get('domaine')->setAttributes(array(
     'data-live-search'  => 'true',
     'id' => 'domaine'
 ));
-$form->get('vulga')->setAttributes(array(
-    'class'=> 'selectpicker form-control show-tick',
-    'data-live-search'  => 'true',
-    'id' => 'vulga'
-));
 $form->get('note')->setAttributes([
     'class'=>'form-control',
     'placeholder' => $note,
@@ -67,11 +62,6 @@ $form->prepare();
 <div class="row m-1 justify-content-center">
     <div class="col-sm-3">
         <?= $this->form()->openTag($form); ?>
-        <div class="form-group">
-            <?= $this->formLabel($form->get('vulga')); ?>
-            <?= $this->formElement($form->get('vulga')); ?>
-            <?= $this->formElementErrors($form->get('vulga')); ?>
-        </div>
         <div class="form-group">
             <?= $this->formLabel($form->get('nvulga')); ?>
             <?= $this->formElement($form->get('nvulga')); ?>
@@ -124,8 +114,6 @@ $form->prepare();
                 <li>Pour le moment je n'accepte pas les chaînes de cours (ex : cours de maths)</li>
                 <li>Si votre pays où votre langue n'est pas dans la liste, laissez-le moi en note</li>
                 <li>Si vous vulgarisez les "Huppe fasciée" la catégorie animaux suffit (ou oiseau à la limite)</li>
-                <li>Ne le prennez pas mal si érreur il y a, elles ne sont pas volontaires ;)</li>
-                <li>Je fais beaucoup de fautes d'orthographe, n'hésitez pas à me corriger 🥰 </li>
             </ul>
         </p>
         <p id="data">
@@ -137,7 +125,7 @@ $form->prepare();
 if(isset($success)):
 $this->inlineScript()->captureStart();
 ?>
-alert("C'est envoyer ;)"); 
+alert("C'est envoyer ;)");
 <?php
 $this->inlineScript()->captureEnd();
 endif;
