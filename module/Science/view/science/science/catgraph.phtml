@@ -4,16 +4,26 @@ $title = 'Graphs domaine';
 $this->headTitle($title);
 
 $this->headLink()->appendStylesheet($this->basePath('css/Chart.css'));
+$this->headLink()->appendStylesheet($this->basePath('css/vulga.css'));
 $this->headScript()->appendFile($this->basePath('js/Chart.bundle.min.js'));
-
+$this->headScript()->appendFile($this->basePath('js/graph.js'));
 $cpt= 0;
 ?>
+<div class="mx-1">
+    <span class="group">';
+        <input type="radio" class="grand" name="graph" id="grand">
+        <label for="grand">Grand</label><br>
+        <input type="radio" class="moyen" name="graph" id="moyen" checked>
+        <label for="moyen">Moyen</label>
+        <input type="radio" class="petit" name="graph" id="petit">
+        <label for="petit">Petit</label>
+    </span>
+</div>
 <div class="row m-1 justify-content-center">
     <?php foreach($datas as $key => $data): ?>
-        <div class="col-5">
+        <div class="change col-6">
             <canvas id="myChart<?= $key ?>"></canvas>
         </div>
-        <?php if($cpt%2!=0) echo '<div class="w-100"></div>'; $cpt++; ?>
     <?php endforeach; ?>
 </div>
 <?php

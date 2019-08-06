@@ -5,9 +5,11 @@ $this->headTitle($title);
 
 $this->headLink()->appendStylesheet($this->basePath('css/Chart.css'));
 $this->headLink()->appendStylesheet($this->basePath('css/bootstrap-select.min.css'));
+$this->headLink()->appendStylesheet($this->basePath('css/vulga.css'));
 $this->headScript()->appendFile($this->basePath('js/Chart.bundle.min.js'));
 $this->headScript()->appendFile($this->basePath('js/bootstrap-select.min.js'));
 $this->headScript()->appendFile($this->basePath('js/comp.js'));
+$this->headScript()->appendFile($this->basePath('js/graph.js'));
 
 $label = [
     'Nombre d\'abonnés moyen',
@@ -25,7 +27,6 @@ $label = [
 ];
 if(!isset($valid)):
 ?>
-
 <div class="row m-1 justify-content-center">
     <div class="col-1 mt-5 text-center">
         <a href="#" id="ajout">Ajouter un comparatif</a>
@@ -34,46 +35,51 @@ if(!isset($valid)):
 <div class="row mt-1 justify-content-center" id="GraphForm">
 </div>
 <?php else: ?>
+<div class="mx-1">
+    <span class="group">';
+        <input type="radio" class="grand" name="graph" id="grand">
+        <label for="grand">Grand</label><br>
+        <input type="radio" class="moyen" name="graph" id="moyen" checked>
+        <label for="moyen">Moyen</label>
+        <input type="radio" class="petit" name="graph" id="petit">
+        <label for="petit">Petit</label>
+    </span>
+</div>
 <div class="row m-1 justify-content-center">
-    <div class="col-5">
+    <div class="change col-6">
         <canvas id="chart0"></canvas>
     </div>
-    <div class="col-5">
+    <div class="change col-6">
         <canvas id="chart1"></canvas>
     </div>
-    <div class="w-100"></div>
-    <div class="col-5">
+    <div class="change col-6">
         <canvas id="chart2"></canvas>
     </div>
-    <div class="col-5">
+    <div class="change col-6">
         <canvas id="chart3"></canvas>
     </div>
-    <div class="w-100"></div>
-    <div class="col-5">
+    <div class="change col-6">
         <canvas id="chart4"></canvas>
     </div>
-    <div class="col-5">
+    <div class="change col-6">
         <canvas id="chart5"></canvas>
     </div>
-    <div class="w-100"></div>
-    <div class="col-5">
+    <div class="change col-6">
         <canvas id="chart6"></canvas>
     </div>
-    <div class="col-5">
+    <div class="change col-6">
         <canvas id="chart7"></canvas>
     </div>
-    <div class="w-100"></div>
-    <div class="col-5">
+    <div class="change col-6">
         <canvas id="chart8"></canvas>
     </div>
-    <div class="col-5">
+    <div class="change col-6">
         <canvas id="chart9"></canvas>
     </div>
-    <div class="w-100"></div>
-    <div class="col-5">
+    <div class="change col-6">
         <canvas id="chart10"></canvas>
     </div>
-    <div class="col-5">
+    <div class="change col-6">
         <canvas id="chart11"></canvas>
     </div>
 </div>

@@ -1,0 +1,20 @@
+$(document).ready(function () {
+    $(".grand").change(function(){
+        $(".change").addClass("col-12");
+        $(".change").removeClass("col-3");
+        $(".change").removeClass("col-6");
+        console.log("grand");
+    });
+    $(".moyen").change(function(){
+        $(".change").addClass("col-6");
+        $(".change").removeClass("col-12");
+        $(".change").removeClass("col-3");
+        console.log("moyen");
+    });
+    $(".petit").change(function(){
+        $(".change").addClass("col-3");
+        $(".change").removeClass("col-12");
+        $(".change").removeClass("col-6");
+        console.log("petit");
+    });
+});
