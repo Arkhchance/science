@@ -41,6 +41,13 @@ var myChart<?= $key ?>= new Chart(ch<?= $key; ?>, {
         }]
     },
     options: {
+        tooltips: {
+            callbacks: {
+                label: function(tooltipItem, data) {
+                      return data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index].toLocaleString('fr');
+                 }
+           }
+        },
         scales: {
             yAxes: [{
                 ticks: {
