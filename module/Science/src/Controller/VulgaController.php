@@ -3,6 +3,7 @@ namespace Science\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+use Zend\View\Model\JsonModel;
 use Science\Entity\Vulga;
 use Science\Entity\Domaine;
 use Science\Form\Vulga\VulgaForm;
@@ -25,6 +26,21 @@ class VulgaController extends AbstractActionController
         return ['vulgas' => $vulgas];
     }
 
+    public function refreshAction()
+    {
+        $request = $this->getRequest();
+        if ($request->isXmlHttpRequest()) {
+
+            $id = $this->params()->fromRoute('id', null);
+            if($id === null) {
+                return new JsonModel(['sucess' => 'Error']);
+            }
+            $this->contactService->addRefresh($id);
+            return new JsonModel(['sucess' => 'Ok']);
+        } else {
+            return $this->redirect()->toRoute('vulgarisateurs', ['action' => 'display']);
+        }
+    }
     public function detailsAction()
     {
         $id = $this->params()->fromRoute('id', null);

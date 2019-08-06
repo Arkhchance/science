@@ -1,5 +1,4 @@
 <?php
-
 $title = $this->escapeHtml($vulga->getNom());
 $this->headTitle($title);
 $this->headLink()->appendStylesheet($this->basePath('css/bootstrap-select.min.css'));
@@ -19,6 +18,15 @@ $form->get('captcha')->setAttributes([
 ]);
 
 ?>
+<style>
+.fa-spin-hover:hover {
+    -webkit-animation: fa-spin 2s infinite linear;
+    -moz-animation: fa-spin 2s infinite linear;
+    -o-animation: fa-spin 2s infinite linear;
+    animation: fa-spin 2s infinite linear;
+    cursor: pointer;
+}
+</style>
 <div class="row m-1 justify-content-center">
     <div class="col-4 mt-5">
         <div class="row">
@@ -59,13 +67,15 @@ $form->get('captcha')->setAttributes([
                 <li>Parlant principalement <?= $vulga->getLangue()->getDrapeau(); ?></li>
             </ul>
         </div>
-        <div class="row mt-5">
+        <div class="row mt-5" id="refresh">
+            <p>Demandez une mise à jour : <i class="fa fa-refresh fa-spin-hover fa-fw"></i></p>
+        </div>
+        <div class="row">
             <p>Une érreur : Dites le moi ! </p>
         </div>
         <div class="row">
             <?= $this->form()->openTag($form); ?>
             <div class="form-group">
-                <?= $this->formLabel($form->get('note')); ?>
                 <?= $this->formElement($form->get('note')); ?>
             </div>
             <div class="form-group">
@@ -80,13 +90,23 @@ $form->get('captcha')->setAttributes([
     </div>
 </div>
 <?php
-if(isset($success)):
 $this->inlineScript()->captureStart();
 ?>
 $(document).ready(function () {
-    alert("C'est envoyer ;)");
+    <?php if(isset($success)): ?>
+        alert("C'est envoyer ;)");
+    <?php endif; ?>
+    $(".fa").click(function(){
+        $.ajax({
+           type: 'GET',
+           url: '/vulgarisateurs/refresh/<?= $vulga->getId(); ?>',
+           success: function (data) {
+                alert("C'est noté");
+                $("#refresh").hide(); 
+           }
+       });
+    });
 });
 <?php
 $this->inlineScript()->captureEnd();
-endif;
 ?>

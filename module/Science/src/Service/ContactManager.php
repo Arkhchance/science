@@ -25,6 +25,22 @@ class ContactManager
         $this->entityManager = $entityManager;
     }
 
+    public function addRefresh($id)
+    {
+        $vulga = $this->entityManager->getRepository(Vulga::class)
+                      ->findOneByid($id);
+        if($vulga === null)
+            return;
+
+        $message = "MAJ demandé pour le Vulga : ".$vulga->getNom()."\n";
+
+        $myMessage = new Messages();
+        $myMessage->setMessage($message);
+
+        $this->entityManager->persist($myMessage);
+        $this->entityManager->flush();
+    }
+
     public function addMessage($data)
     {
         $vulga = $this->entityManager->getRepository(Vulga::class)
@@ -61,10 +77,13 @@ class ContactManager
     {
         $vulga = $this->entityManager->getRepository(Vulga::class)
                       ->findOneByid($id);
+                      
+        if($vulga === null)
+          return;
 
         $message = "Message pour le Vulga : ".$vulga->getNom()."\n";
         $message .= $data['note'];
-        
+
         $myMessage = new Messages();
         $myMessage->setMessage($message);
 
