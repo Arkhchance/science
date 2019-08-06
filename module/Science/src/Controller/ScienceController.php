@@ -4,6 +4,7 @@ namespace Science\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Science\Entity\Vulga;
+use Science\Entity\Domaine;
 use Science\Form\Graph\GraphForm;
 
 class ScienceController extends AbstractActionController
@@ -27,6 +28,14 @@ class ScienceController extends AbstractActionController
                       ->findAll();
 
         return  ['stats' => $query];
+    }
+
+    public function domaineAction()
+    {
+        $domaines = $this->entityManager->getRepository(Domaine::class)
+                      ->findAll();
+
+        return  ['domaines' => $domaines];
     }
 
     public function getformAction()

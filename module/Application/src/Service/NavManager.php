@@ -58,6 +58,10 @@ class NavManager
                 [
                     'label' => 'Stats par catégorie',
                     'link'  => $url('science',['action'=>'domainestats']),
+                ],
+                [
+                    'label' => 'Catégories',
+                    'link'  => $url('science',['action'=>'domaine']),
                 ]
             ]
         ];

@@ -128,11 +128,11 @@ return [
     'view_helpers' => [
         'factories' => [
             Helper\FormDisplay::class => Helper\Factory\FormDisplayFactory::class,
-            Helper\NumberHelper::class => InvokableFactory::class,
+            Helper\FormatHelper::class => Helper\Factory\FormatHelperFactory::class,
         ],
         'aliases' => [
             'formDisplay' => Helper\FormDisplay::class,
-            'formatData' => Helper\NumberHelper::class,
+            'formatData' => Helper\FormatHelper::class,
         ],
     ],
     'view_manager' => [
@@ -174,7 +174,7 @@ return [
                 [
                     'actions' => [
                         'index','getform','graphperso','graphs','catgraph',
-                        'stats','vulgastats','domainestats'
+                        'stats','vulgastats','domainestats','domaine'
                 ],
                 'allow' => '*'
             ],

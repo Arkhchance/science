@@ -4,8 +4,17 @@ namespace Science\Helper;
 use Zend\View\Helper\AbstractHelper;
 
 
-class NumberHelper extends AbstractHelper
+class FormatHelper extends AbstractHelper
 {
+    private $color1 = 'rgb(77, 121, 255)';
+    private $color2 = 'rgb(115, 230, 0)';
+    private $urlHelper;
+
+    public function __construct($urlHelper)
+    {
+        $this->urlHelper = $urlHelper;
+    }
+
     public function getRandomColor()
     {
         $r = rand(0,255);
@@ -14,9 +23,30 @@ class NumberHelper extends AbstractHelper
 
         return [$r,$g,$b];
     }
+
     public function format($number,$trailing = 0)
     {
         return number_format($number, $trailing, ',', ' ');
+    }
+
+    public function displayVulga($vulgas)
+    {
+        $cpt = 0;
+        $result = "";
+
+        foreach ($vulgas as $vulga) {
+            if($cpt%2 == 0)
+                $curcolor = $this->color1;
+            else
+                $curcolor = $this->color2;
+
+            $result .= '<span style="color:'.$curcolor.';">';
+            $result .= htmlspecialchars($vulga->getNom());
+            $result .= '</span> ';
+
+            $cpt++;
+        }
+        return $result;
     }
 
     public function timeConverter($time)
@@ -36,7 +66,7 @@ class NumberHelper extends AbstractHelper
         if(intdiv($time,525600000) > 1) {
             $unit = intdiv($time,525600000) >= 2 ? "millénaires" : "millénaire";
             return $this->format($time/525600000,3)." $unit";
-        }elseif(intdiv($time,52560000) > 1) {
+        } elseif(intdiv($time,52560000) > 1) {
             $unit = intdiv($time,52560000) >= 2 ? "siècles" : "siècle";
             return $this->format($time/52560000,3)." $unit";
         } elseif(intdiv($time,5256000) > 1) {
