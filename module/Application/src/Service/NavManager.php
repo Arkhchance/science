@@ -43,6 +43,18 @@ class NavManager
             'link'  => $url('home')
         ];
         $items[] = [
+            'dir' => 'left',
+            'id' => 'Cat',
+            'label' => 'Catégories',
+            'link'  => $url('science',['action'=>'domaine'])
+        ];
+        $items[] = [
+            'dir' => 'left',
+            'id' => 'Cat',
+            'label' => 'Vulgarisateurs',
+            'link'  => $url('vulgarisateurs')
+        ];
+        $items[] = [
             'dir' => 'dropdown',
             'id' => 'dropdown',
             'label' => 'Stats',
@@ -59,10 +71,6 @@ class NavManager
                     'label' => 'Stats par catégorie',
                     'link'  => $url('science',['action'=>'domainestats']),
                 ],
-                [
-                    'label' => 'Catégories',
-                    'link'  => $url('science',['action'=>'domaine']),
-                ]
             ]
         ];
         $items[] = [

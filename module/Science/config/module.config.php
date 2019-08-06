@@ -12,10 +12,9 @@ return [
             'science' => [
                 'type'    => Segment::class,
                 'options' => [
-                    'route' => '/science[/:action[/:channel]]',
+                    'route' => '/science[/:action]',
                     'constraints' => [
                         'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                        'channel'   =>  '[a-zA-Z0-9_-]*',
                     ],
                     'defaults' => [
                         'controller' => Controller\ScienceController::class,
@@ -33,6 +32,20 @@ return [
                     'defaults' => [
                         'controller' => Controller\DiversController::class,
                         'action'     => 'apropos',
+                    ],
+                ],
+            ],
+            'vulgarisateurs' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route' => '/vulgarisateurs[/:action[/:id]]',
+                    'constraints' => [
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id' => '[0-9]*',
+                    ],
+                    'defaults' => [
+                        'controller' => Controller\VulgaController::class,
+                        'action'     => 'display',
                     ],
                 ],
             ],
@@ -109,6 +122,7 @@ return [
             Controller\ScienceController::class => Controller\Factory\ScienceControllerFactory::class,
             Controller\ManageController::class  => Controller\Factory\ManageControllerFactory::class,
             Controller\DiversController::class  => Controller\Factory\DiversControllerFactory::class,
+            Controller\VulgaController::class  => Controller\Factory\VulgaControllerFactory::class,
         ],
     ],
     'service_manager' => [
@@ -175,9 +189,9 @@ return [
                     'actions' => [
                         'index','getform','graphperso','graphs','catgraph',
                         'stats','vulgastats','domainestats','domaine'
-                ],
+                    ],
                 'allow' => '*'
-            ],
+                ],
             ],
             Controller\ManageController::class => [
                 // * = allow  @ = auth user only
@@ -186,6 +200,10 @@ return [
             Controller\DiversController::class => [
                 // * = allow  @ = auth user only
                 ['actions' => ['apropos','erreur'], 'allow' => '*'],
+            ],
+            Controller\VulgaController::class => [
+                // * = allow  @ = auth user only
+                ['actions' => ['details','display'], 'allow' => '*'],
             ],
         ]
     ],

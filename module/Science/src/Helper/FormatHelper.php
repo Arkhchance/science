@@ -31,6 +31,7 @@ class FormatHelper extends AbstractHelper
 
     public function displayVulga($vulgas)
     {
+        $url = $this->urlHelper;
         $cpt = 0;
         $result = "";
 
@@ -40,9 +41,10 @@ class FormatHelper extends AbstractHelper
             else
                 $curcolor = $this->color2;
 
-            $result .= '<span style="color:'.$curcolor.';">';
+            $urlP = $url('vulgarisateurs',['action' => 'details', 'id' => $vulga->getId()]);
+            $result .= '<a href="'.$urlP.'" style="color:'.$curcolor.';">';
             $result .= htmlspecialchars($vulga->getNom());
-            $result .= '</span> ';
+            $result .= '</a> ';
 
             $cpt++;
         }

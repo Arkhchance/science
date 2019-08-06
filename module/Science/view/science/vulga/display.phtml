@@ -1,0 +1,32 @@
+<?php
+
+$title = 'Vulgarisateurs';
+$this->headTitle($title);
+$this->headLink()->appendStylesheet($this->basePath('css/bootstrap-select.min.css'));
+$this->headScript()->appendFile($this->basePath('js/bootstrap-select.min.js'));
+
+?>
+<div class="row m-1 justify-content-center">
+    <div class="col-3 text-center mt-5">
+        Selectionner un.e vulgarisateur.trice :<br>
+        <select name="vulga" class="selectpicker" data-live-search="true" id="vulga">
+            <?php foreach($vulgas as $vulga): ?>
+                <option value="<?= $vulga->getId(); ?>">
+                    <?= $this->escapeHtml($vulga->getNom()); ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+    </div>
+</div>
+<?php
+$this->inlineScript()->captureStart();
+?>
+$(document).ready(function () {
+    $("#vulga").change(function(){
+        var id = $("#vulga").val();
+        window.location.href = "vulgarisateurs/details/"+id;
+    })
+});
+<?php
+$this->inlineScript()->captureEnd();
+?>

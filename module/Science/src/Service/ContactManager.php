@@ -57,4 +57,18 @@ class ContactManager
         $this->entityManager->flush();
     }
 
+    public function addMessageVulga($data,$id)
+    {
+        $vulga = $this->entityManager->getRepository(Vulga::class)
+                      ->findOneByid($id);
+
+        $message = "Message pour le Vulga : ".$vulga->getNom()."\n";
+        $message .= $data['note'];
+        
+        $myMessage = new Messages();
+        $myMessage->setMessage($message);
+
+        $this->entityManager->persist($myMessage);
+        $this->entityManager->flush();
+    }
 }
