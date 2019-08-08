@@ -8,7 +8,7 @@ $this->headScript()->appendFile($this->basePath('js/bootstrap-select.min.js'));
 ?>
 <div class="row m-1 justify-content-center">
     <div class="col-3 text-center mt-5">
-        Selectionner un.e vulgarisateur.trice :<br>
+        Sélectionnez un.e vulgarisateur.trice :<br>
         <select name="vulga" class="selectpicker" data-live-search="true" id="vulga">
             <?php foreach($vulgas as $vulga): ?>
                 <option value="<?= $vulga->getId(); ?>">
