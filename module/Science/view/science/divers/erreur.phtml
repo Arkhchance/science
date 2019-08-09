@@ -4,7 +4,7 @@ $title = 'Contact';
 $this->headTitle($title);
 $note = <<< EOF
 Notez ici tout détail suplémentaire que vous jugez important
-ou bien laissez moi un message. Si vous souhaitez une réponse laisser aussi
+ou bien laissez-moi un message. Si vous souhaitez une réponse laisser aussi
 un moyen de vous répondre
 EOF;
 
@@ -16,7 +16,7 @@ $form->get('submit')->setAttributes(['class'=>'btn btn-lg btn-primary btn-block'
 
 $form->get('ndomaine')->setAttributes([
     'class'=>'form-control',
-    'placeholder' => 'écrivez en plusieurs si nécessaire'
+    'placeholder' => 'écrivez-en plusieurs si nécessaire'
 ]);
 $form->get('nvulga')->setAttributes([
     'class'=>'form-control',
@@ -53,8 +53,8 @@ $form->prepare();
 
 <div class="row m-1 justify-content-center">
     <div class="col text-center">
-        Choisissez vous dans la liste et vous pourrez changer si j'ai fais une érreur<br>
-        ou bien remplisser le formulaire si vous voulez vous rajouter
+        Choisissez-vous dans la liste et vous pourrez changer si j'ai fait une erreur<br>
+        ou bien remplissez le formulaire si vous voulez vous rajouter
     </div>
 </div>
 
@@ -108,12 +108,12 @@ $form->prepare();
     </div>
     <div class="col-sm-3">
         <p>
-            Quelque précision :
+            Quelques précisions :
             <ul>
                 <li>Votre chaîne doit avoir un lien avec de la vulgarisation (de près ou de loin)</li>
                 <li>Pour le moment je n'accepte pas les chaînes de cours (ex : cours de maths)</li>
-                <li>Si votre pays où votre langue n'est pas dans la liste, laissez-le moi en note</li>
-                <li>Si vous vulgarisez les "Huppe fasciée" la catégorie animaux suffit (ou oiseau à la limite)</li>
+                <li>Si votre pays ou votre langue n'est pas dans la liste, laissez-le moi en note</li>
+                <li>Si vous vulgarisez la "Huppe fasciée" la catégorie animaux suffit (ou oiseau à la limite)</li>
             </ul>
         </p>
         <p id="data">
@@ -125,7 +125,7 @@ $form->prepare();
 if(isset($success)):
 $this->inlineScript()->captureStart();
 ?>
-alert("C'est envoyer ;)");
+alert("C'est envoyé ;)");
 <?php
 $this->inlineScript()->captureEnd();
 endif;

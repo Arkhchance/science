@@ -33,7 +33,7 @@ foreach ($datas as $data) {
     <div class="col-2">
         <p>
             Il y a <?= $cpt ?> chaînes enregistrées. <br>
-            Chaque chaîne à en moyenne :
+            Chaque chaîne a en moyenne :
             <ul>
                 <li> <?= $this->formatData()->format($totalAbo/$cpt,2); ?> Abonnés </li>
                 <li> <?= $this->formatData()->format($totalVideo/$cpt,2); ?> Vidéos </li>
